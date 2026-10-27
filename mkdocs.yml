@@ -50,6 +50,7 @@ nav:
       - Requirements: getting-started/requirements.md
       - Installation: getting-started/installation.md
       - Quick Start: getting-started/quick-start.md
+      - Editor Tools: getting-started/editor-tools.md
   - Architecture:
       - Modules: architecture/modules.md
       - Multiplayer: architecture/multiplayer.md
@@ -60,6 +61,7 @@ nav:
       - Save: modules/save.md
       - Combat: modules/combat.md
       - Gathering: modules/gathering.md
+      - UI: modules/ui.md
   - Guides:
       - Create an item: guides/create-item.md
       - Add a vital: guides/add-vital.md

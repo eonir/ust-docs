@@ -39,3 +39,13 @@ PvP is off by default: enable **Allow Player Damage** on `PlayerDamageReceiver`.
 
 **A tree gives nothing.**
 Check the tool type and the tier: `ResourceNode.LocalHitResult` tells the player *WrongTool* or *TierTooLow*.
+
+**A tree placed in the scene comes back after a reload.**
+Add `ResourceNodesSaver` to the scene.
+
+**A spawner logs a warning about a node that regrows in place.**
+Nodes created by a spawner should use **Despawn**: the spawner replaces them elsewhere. Use **Regrow** for nodes placed
+by hand.
+
+**The item feed shows nothing.**
+It lists items added by `PlayerInventory.ServerAdd`. Starting kits and loaded saves are silent on purpose.
