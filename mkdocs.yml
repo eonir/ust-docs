@@ -1,0 +1,67 @@
+site_name: UST Documentation
+site_description: Multiplayer survival template for Unity 6
+site_url: https://eonir.github.io/ust-docs/
+repo_url: https://github.com/eonir/ust-docs
+edit_uri: ""
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Requirements: getting-started/requirements.md
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+  - Architecture:
+      - Modules: architecture/modules.md
+      - Multiplayer: architecture/multiplayer.md
+  - Modules:
+      - Player: modules/player.md
+      - Vitals: modules/vitals.md
+      - Inventory: modules/inventory.md
+      - Save: modules/save.md
+  - Guides:
+      - Create an item: guides/create-item.md
+      - Add a vital: guides/add-vital.md
+      - Create an item trait: guides/create-item-trait.md
+      - Use Steam ids for saves: guides/steam-identity.md
+  - FAQ: faq.md
+  - Credits: credits.md
