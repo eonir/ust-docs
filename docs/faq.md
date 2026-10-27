@@ -25,3 +25,17 @@ different id per player.
 
 **A new player does not get the starting kit.**
 The kit is only given to players without a save. Delete the player file from the save folder to test it again.
+
+**A client logs "NetworkPrefab could not be found".**
+A prefab spawned at runtime is not in the NetworkManager prefab list. Run *Tools > UST > Validate Network Prefabs*,
+then restart the Multiplayer Play Mode players.
+
+**My swing does nothing.**
+The item needs a **Melee Swing** trait, `PlayerItemUser` needs the Attack action, and the target needs an
+`IItemHitReceiver` on its network object (`ResourceNode`, `PlayerDamageReceiver`...).
+
+**I cannot hurt other players.**
+PvP is off by default: enable **Allow Player Damage** on `PlayerDamageReceiver`.
+
+**A tree gives nothing.**
+Check the tool type and the tier: `ResourceNode.LocalHitResult` tells the player *WrongTool* or *TierTooLow*.

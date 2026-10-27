@@ -12,7 +12,9 @@ directly, so you can remove one without breaking the others.
 | `UST.Vitals` | Core | Vitals, death, respawn |
 | `UST.Inventory` | Core | Items, containers, hotbar, world items, loot bags |
 | `UST.Save` | Core | Save manager, player identity |
-| `UST.Net` | Core | Network helpers |
+| `UST.Net` | Core | Network helpers, debug session menu |
+| `UST.Weapons` | Core, Inventory, Player, Vitals | Melee weapon damage, PvP |
+| `UST.Gathering` | Core, Inventory, Player | Tools, resource nodes, object spawners |
 | `UST.Editor` | all | Inspectors and tools, editor only |
 | `UST.Demo` | all | Demo scene scripts |
 
@@ -29,6 +31,9 @@ directly, so you can remove one without breaking the others.
 | `IWorldSaveable` | `WorldItemsSaver` | `SaveManager` |
 | `IPlayerDataSource` | `PlayerSaveIdentity` | `PlayerStartingKit` knows if the player is new |
 | `IPlayerIdentityProvider` | `LocalPlayerIdentity` or yours | `SaveManager` |
+| `IItemHitReceiver` | `ResourceNode`, `PlayerDamageReceiver` | `PlayerItemUser` calls it on the server after a validated hit |
+| `UIInputFocus` | Your UI | `PlayerItemUser` ignores attacks while a UI is open |
+| `SpawnerManagedObject` | Added by `ObjectSpawner` | `WorldItemsSaver` skips objects a spawner saves itself |
 
 Every link is optional. Without `VitalStaminaSource`, stamina is unlimited. Without the Save module, the starting kit
 is given on every join. Without `PlayerLife`, nobody dies.

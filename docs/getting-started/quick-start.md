@@ -22,6 +22,7 @@
 | Jump | Space |
 | Crouch | C |
 | Interact / pick up | E |
+| Attack / gather | Left mouse button |
 | Hotbar | Mouse wheel, 1 to 0 |
 | Inventory (debug) | Tab |
 | Drop selected item (debug) | G |

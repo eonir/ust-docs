@@ -58,10 +58,13 @@ nav:
       - Vitals: modules/vitals.md
       - Inventory: modules/inventory.md
       - Save: modules/save.md
+      - Combat: modules/combat.md
+      - Gathering: modules/gathering.md
   - Guides:
       - Create an item: guides/create-item.md
       - Add a vital: guides/add-vital.md
       - Create an item trait: guides/create-item-trait.md
+      - Create a resource node: guides/create-resource-node.md
       - Use Steam ids for saves: guides/steam-identity.md
   - FAQ: faq.md
   - Credits: credits.md

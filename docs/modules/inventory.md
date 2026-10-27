@@ -24,6 +24,7 @@ On the player root:
 | `PlayerInventory` | Both containers, optional weight limit |
 | `HotbarInput` | Mouse wheel and number keys |
 | `PlayerHeldItem` | Shows the selected item in the hand |
+| `PlayerItemUser` | Swings the held item with the attack input |
 | `PlayerDeathDrop` | Optional, drops items in a loot bag on death |
 | `PlayerStartingKit` | Optional, starting and respawn kits |
 | `InventoryDebugHUD` | Debug only |
@@ -35,6 +36,26 @@ On the player root:
   inspector.
 
 Never derive a behaviour from a category: an axe tagged *Tool* only must still be able to hit.
+
+## Traits included
+
+| Trait | Module | Role |
+|---|---|---|
+| Visual > Held Visual | Inventory | Model shown in the hand, with position, rotation and scale offsets |
+| Combat > Melee Swing | Inventory | Range, radius, cooldown, impact delay, stamina cost, animation trigger |
+| Combat > Melee Weapon | Weapons | Damage dealt to characters |
+| Gathering > Tool | Gathering | Tool type, tier, yield, damage to nodes, wear |
+
+An axe that both chops and fights has **Melee Swing**, **Tool** and **Melee Weapon**.
+
+## Item in the hand
+
+`PlayerHeldItem` shows the model of the selected hotbar item on every peer. The model is local, only the selection is
+synchronized. It finds the right hand bone of a humanoid Animator, or uses the **Hand Socket** you assign. It
+compensates the scale of rigs exported in centimetres.
+
+!!! warning
+    The held visual must be the **model prefab**, never the world prefab: it must not contain a `NetworkObject`.
 
 ## Weight
 

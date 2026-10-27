@@ -12,6 +12,8 @@ networked with Netcode for GameObjects, so you can focus on your own game.
 | **Life** | Death, respawn, spawn points |
 | **Inventory** | Slot inventory, hotbar, optional weight limit, items on the ground, loot bag on death, starting kits |
 | **Save** | World and player saves in JSON, autosave, pluggable player identity (Steam, Unity Authentication...) |
+| **Combat** | Melee swings validated by the server, weapon damage, optional PvP |
+| **Gathering** | Tools with tiers, resource nodes, area spawners that respawn objects at random places |
 
 ## Design principles
 
