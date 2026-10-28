@@ -18,6 +18,7 @@ The root of the player prefab holds:
 | `CameraJuice` + `CinemachineImpulseSource` | Camera feedback: speed field of view, landing shake, hit shake. |
 | `PlayerInteractor` | Pick up and interact. |
 | `PlayerNetworkSetup` | Owner only components and camera binding. |
+| `PlayerCursorLock` | Locks and hides the mouse cursor while playing. |
 
 The child holding the `Animator` also holds:
 
@@ -64,7 +65,9 @@ Missing actions are simply ignored. The reader enables its actions itself, so no
 | Walking Speed | 1.4 | m/s |
 | Running Speed | 2.6 | m/s while sprinting |
 | Rotation Speed | 10 | How fast the body turns towards the movement direction |
-| Align Player Rotation Speed | 15 | How fast the body turns towards the camera while aiming |
+| Align Player Rotation Speed | 15 | How fast the body turns towards the camera while aiming, strafing or attacking |
+| Strafe Max Speed | 1.6 | Max speed sideways while facing the camera. Walking and running are capped to it. |
+| Backward Max Speed | 1.2 | Max speed backwards while facing the camera |
 | Jump Force | 5 | Initial vertical speed of a jump |
 | Jump Cooldown | 0.2 | Seconds before the next jump |
 
@@ -77,7 +80,11 @@ Missing actions are simply ignored. The reader enables its actions itself, so no
 | Section | Field | Default | Meaning |
 |---|---|---|---|
 | | Gravity | | Downward acceleration while airborne |
-| Move | Locomotion Smooth Time | 0.2 | Smoothing of the animator Velocity parameter |
+| Move | Locomotion Smooth Time | 0.2 | Smoothing of the animator Velocity, MoveX and MoveY parameters |
+| Move | Strafe Movement | On | The character faces the camera while moving and walks sideways and backwards. Off: it turns towards the movement. |
+| Aim | Face Aim Point | On | While aiming or attacking, faces the point under the crosshair rather than the camera direction |
+| Aim | Aim Layers, Aim Distance | Everything, 100 | Where the crosshair point is searched |
+| Aim | Aim Yaw Offset | 0 | Extra degrees for aim animations that do not point straight ahead |
 | Crouch | Crouch Height Ratio | 0.62 | Crouched capsule height, as a fraction of the standing height |
 | Crouch | Headroom Layers | Everything | Layers that prevent standing up |
 | Ground | Ground Stick Distance | 0.5 | How far below the feet the ground is still followed, so stairs do not read as falls |
@@ -101,11 +108,17 @@ a sitting animation or a stun.
 ## Animator
 
 *Tools > UST > Create Player Animator Controller* creates a controller with every parameter UST uses, the IK pass
-enabled and two empty states, **Locomotion** and **Crouch**.
+enabled, two empty states, **Locomotion** and **Crouch**, and the **UpperBody** layer described below.
+*Tools > UST > Add Upper Body Layer To Selected Controller* adds the missing parameters and the layer to an existing
+controller.
 
 | Parameter | Type | Set by | Value |
 |---|---|---|---|
 | `Velocity` | Float | PlayerController | 0 idle, 0.5 walk, 1 run |
+| `MoveX`, `MoveY` | Float | PlayerController | Movement relative to the body, from -1 to 1: 0.5 walking, 1 running |
+| `HoldType` | Int | PlayerHeldItem | Hold type of the held item, 0 with empty hands |
+| `Aiming` | Bool | PlayerRangedWeapon | Aiming, or weapon raised after a hip shot |
+| `Fire`, `Reload` | Trigger | PlayerRangedWeapon | Shot fired, reload started (names set per weapon) |
 | `Grounded` | Bool | PlayerController | On the ground |
 | `Crouching` | Bool | PlayerController | Crouched |
 | `Jump` | Trigger | PlayerController | Jump started |
@@ -114,13 +127,37 @@ enabled and two empty states, **Locomotion** and **Crouch**.
 
 Suggested states:
 
-- **Locomotion**: 1D blend tree on `Velocity` with idle at 0, walk at 0.5, run at 1.
+- **Locomotion**: 2D Freeform Directional blend tree on `MoveX` and `MoveY`: idle at (0, 0), walks at 0.5 and runs
+  at 1 in each direction (forward on Y, backward on -Y, sides on X). Without strafe animations, use a 1D blend tree on
+  `Velocity` and turn **Strafe Movement** off.
 - **Crouch**: crouched blend tree on `Velocity`, entered with `Crouching = true`.
 - **Jump** then **Fall** while `Grounded = false`, back to Locomotion or Crouch when `Grounded = true`.
 
 !!! warning "Root motion"
     Disable **Apply Root Motion** on the Animator. The controller moves the character itself and root motion would
     fight it.
+
+### Upper body and hold types
+
+The **UpperBody** layer plays the animations of the held item over the locomotion: the legs keep walking while the
+arms hold a rifle. It uses an Avatar Mask created next to the controller, with the body, head and arms.
+
+Each hold type has its states, linked by `HoldType`, `Aiming`, `Reload` and `Attack`:
+
+| Hold type | States |
+|---|---|
+| 0 empty hands | **Empty**: the layer does nothing, the locomotion animates the whole body |
+| 1 one-handed | **Hold One Handed**, **Attack One Handed** |
+| 2 rifle | **Hold Rifle**, **Aim Rifle**, **Reload Rifle** |
+| 3 pistol | **Hold Pistol**, **Aim Pistol**, **Reload Pistol** |
+
+**Hold** states are 1D blend trees on `Velocity`: the hold animation at rest on the first line, the hold animation
+while running on the second. One animation on both lines is fine. Set the **Hold Type** of each item in its Held
+Visual trait.
+
+!!! tip "One pose is enough"
+    A single static pose per weapon type works: the legs come from the locomotion, and the aim parts align the weapon
+    with the crosshair.
 
 ## Camera
 
@@ -134,6 +171,12 @@ Leave its **Tracking Target** empty. When the local player spawns, `PlayerNetwor
 to its **Camera Target**, for example a child at shoulder height) and assigns the main camera to `PlayerController`.
 
 To invert the vertical axis, set a negative **Gain** on the vertical axis of the input axis controller.
+
+### Mouse cursor
+
+`PlayerCursorLock` locks and hides the cursor for the local player once spawned. The cursor is freed while a UI is
+open, after pressing **Release Key** (Escape) and when the window loses focus. A click in the game locks it again.
+**Free While Dead** frees it during death, for a death screen with buttons.
 
 `CameraUILock`, on the Cinemachine camera, stops the orbit while a UI is open, so moving the mouse over the inventory
 does not turn the camera. *Create Game UI* adds it automatically.

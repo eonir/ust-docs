@@ -4,7 +4,8 @@
 
 | Menu | What it does |
 |---|---|
-| *Tools > UST > Create Player Animator Controller* | Creates an Animator Controller with every parameter the scripts use, the IK pass enabled and the Locomotion and Crouch states |
+| *Tools > UST > Create Player Animator Controller* | Creates an Animator Controller with every parameter the scripts use, the IK pass enabled, the Locomotion and Crouch states and the UpperBody layer |
+| *Tools > UST > Add Upper Body Layer To Selected Controller* | Adds the missing parameters, an upper body Avatar Mask and the UpperBody layer to the selected controller |
 | *Tools > UST > Create Default Vitals* | Creates Health, Hunger, Thirst, Stamina and a profile using them, with sensible default values |
 | *Tools > UST > Validate Network Prefabs* | Lists the network prefabs missing from the NetworkManager and adds them in one click |
 | *Tools > UST > UI > Create Game UI* | Creates the whole game UI, see [UI](../modules/ui.md) |
@@ -51,7 +52,7 @@ Run it after adding items, spawners or prefabs, and restart the Multiplayer Play
 | Inventory Container | In Play Mode, the live content of each slot and the total weight |
 | World Item | In Play Mode, the live stack |
 | Save Manager | Save path, **Open Save Folder**, **Delete This Slot**, **Save Now** |
-| Player Held Item | In Play Mode, **Select Held Model** and **Save Placement To Item**, see [Item in the hand](../modules/inventory.md#item-in-the-hand) |
+| Player Held Item | In Play Mode, **Select Held Model**, **Save Placement To Item**, **Select Grip** and **Save Grip To Item**, see [Item in the hand](../modules/inventory.md#item-in-the-hand) |
 
 UI sprites placed in `Assets/UST/UI/Sprites` are imported as sprites automatically, with a 9-slice border taken from a
 `_b12` suffix in their name.

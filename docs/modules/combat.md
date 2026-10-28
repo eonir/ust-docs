@@ -91,10 +91,119 @@ public class Barrel : NetworkBehaviour, IItemHitReceiver
 }
 ```
 
-`ItemHit` contains the attacker, its client id, the item, the hit point and the direction. `hit.ByPlayer` tells
-whether the attacker is a player.
+`ItemHit` contains the attacker, its client id, the item, the hit point, the direction, the **damage** and the
+**kind** of hit (`Melee` or `Projectile`). `hit.ByPlayer` tells whether the attacker is a player. A damage of 0 means
+the receiver reads it from the item, as melee hits do.
+
+Resource nodes only react to melee hits: shooting a tree does not gather it.
+
+## Ranged weapons
+
+Firearms, crossbows and bows share one system. Each shot follows a **ballistic trajectory computed by the server**:
+the projectile moves in small steps, with a raycast per step, and gravity bends its path. Damage lands when the
+simulated projectile reaches a target. The projectile players see is only a visual following the same path, so what
+they see matches what hits.
+
+### How a shot works
+
+1. **Owner.** The attack input is pressed with a ranged weapon held. The owner finds the point under the crosshair and
+   sends the shot, from the muzzle towards that point, with the spread of the weapon.
+2. **Server.** The server checks the weapon held, the loaded ammo, the fire rate and that the shot starts near the
+   character, then removes one round and simulates the trajectory.
+3. **Everyone.** A visual projectile follows the same trajectory, with the muzzle and impact effects.
+
+The owner shows the shot at once and lowers its ammo counter before the server answers. A shot the server refuses is
+given back after a second.
+
+### Ranged Weapon trait
+
+**Add Trait > Combat > Ranged Weapon** on the item. Set **Max Stack** to 1 on the item.
+
+| Section | Field | Meaning |
+|---|---|---|
+| Damage | Damage | Damage carried by each hit |
+| Damage | Durability Per Shot | Wear per shot, for items with durability |
+| Firing | Automatic | Keeps firing while the attack input is held |
+| Firing | Fire Interval | Seconds between two shots |
+| Firing | Require Aim | Only fires while aiming |
+| Firing | Hip Spread, Aim Spread | Max random deviation from the crosshair in degrees, without and with aiming. 0 always hits the crosshair. |
+| Firing | Arm Alignment | See [Aiming](#aiming) |
+| Ammo | Magazine Size | Rounds per magazine. 1 for a crossbow. |
+| Ammo | Ammo Item | Item spent when reloading. Empty: unlimited ammo. |
+| Ammo | Reload Time | Seconds |
+| Ammo | Auto Reload | Reloads when firing with an empty magazine |
+| Ballistics | Muzzle Velocity | m/s. Also sets when damage lands: slower projectiles need to lead moving targets. |
+| Ballistics | Gravity Scale | 0 flies straight, 1 is the physics gravity |
+| Ballistics | Max Range | Distance after which the projectile is removed |
+| Visuals | Projectile Prefab | Visual moved along the trajectory: a model or a trail, without collider or NetworkObject |
+| Visuals | Stick Time | Seconds the projectile stays where it hit, such as a bolt in a wall |
+| Visuals | Muzzle Effect, Impact Effect | Spawned at the muzzle and where the projectile hits |
+| Visuals | Muzzle Name | Name of the muzzle child, when the model has no `HeldItemPoint` of type Muzzle |
+| Visuals | Fire Trigger, Reload Trigger | Animator triggers. Empty or missing: none. |
+
+!!! warning "Projectile prefab"
+    Remove every collider from the projectile prefab: shots would hit their own visual.
+
+### Ammo
+
+Rounds are loaded **in the weapon**: the magazine is stored in the item stack, so it follows the weapon when it is
+moved, dropped, picked up or saved. Firing empties the magazine. Reloading moves rounds from the inventory to the
+magazine, so the ammo item only decreases when reloading.
+
+Reload with **R** (or a **Reload Action**). Changing the held item cancels a reload.
+
+`AmmoCounterView`, on a TextMeshPro text, shows the ammo of the held weapon, such as `12 / 48`, and hides itself
+without a ranged weapon.
+
+| Field | Meaning |
+|---|---|
+| Root | Object shown only with a ranged weapon, such as a background panel. Must not hold this component. Empty: the label only. |
+| Format | `{0}` loaded, `{1}` magazine size, `{2}` carried |
+| Unlimited Format | Used when the weapon has no ammo item |
+| Reloading Text | Shown while reloading |
+
+### Player Ranged Weapon
+
+`PlayerRangedWeapon`, on the player root, fires the held weapon.
+
+| Field | Meaning |
+|---|---|
+| Fire Action | Usually the same Attack action as `PlayerItemUser` |
+| Reload Action, Reload Key | Reload input. Without an action, the key is read directly. |
+| Hit Layers | Layers projectiles can hit |
+| Chest Height | Height of the chest above the pivot. Shots start from the chest when the weapon has no muzzle. |
+| Origin Tolerance | Anti-cheat: max distance accepted between the shot origin and the chest |
+| Log Refused Shots | Logs why the server refused a shot, for debugging |
+
+`Fired(item)` and `ReloadStarted(item)` are raised on the owner, for sounds, recoil or camera shake. `LoadedAmmo`,
+`ReserveAmmo`, `IsReloading`, `IsAiming` and `AimPoint` can be read by your own UI or effects.
+
+### Aiming
+
+!!! note "Work in progress"
+    Aiming is still being tuned. This section lists what each part does. Recommended values will follow.
+
+| Part | Role |
+|---|---|
+| `PlayerController` > Face Aim Point | While aiming or attacking, the character turns towards the point under the crosshair |
+| `PlayerRangedWeapon` > Raise After Shot, Hip Fire Delay | A hip shot raises the weapon in the aim pose, then fires |
+| `PlayerRangedWeapon` > Weapon Alignment | Turns the weapon in the hand so the muzzle points at the crosshair |
+| Ranged Weapon trait > Arm Alignment | Turns the right arm from the shoulder towards the crosshair. Keep 0 when the aim animation already points the weapon forward. |
+| `PlayerAimIK` (on the Animator object) | Turns the chest and head towards the aim, up and down included. Needs **IK Pass** on the UpperBody layer. |
+| `PlayerHandIK` | Keeps the left hand on the weapon, see [Inventory > Left hand](inventory.md#left-hand) |
+| `AimCameraZoom` (on the CinemachineCamera) | Narrows the field of view while aiming |
+
+Aiming and sprinting exclude each other: the one started first wins.
+
+## Facing the attack
+
+Melee swings and shots turn the character towards where the camera aims, for the duration of the attack. Scripts call
+`IAimFacing.FaceAim(duration)`, implemented by `PlayerController`: your own abilities can use it too.
 
 ## Known limits
+
+- Ranged hits are validated against the positions the server knows, which are slightly late for moving players.
+  There is no lag compensation yet.
 
 - The swing is aimed from the camera: a player can hit what the crosshair shows even if the weapon model does not
   visually pass through it. This is the usual choice for third person games.

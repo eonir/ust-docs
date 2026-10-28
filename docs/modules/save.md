@@ -69,6 +69,20 @@ whether a slot has a save, for a "Continue" button.
 
 `Saved` and `Loaded` events are raised on the server.
 
+### Items placed in the scene
+
+The world file remembers which items placed in the scene were picked up. When it is loaded, only those are removed:
+an item added to the scene after the save was made, for example in an update of your game, appears with its placed
+content.
+
+!!! note "Saves made before this change"
+    They do not hold the list of picked up items, so a scene item picked up before the update comes back once.
+
+### Ammo
+
+Rounds loaded in a weapon are part of the item stack, so they are kept in the inventory, on the ground, in loot bags
+and in saves.
+
 ## Player identity
 
 The server must recognize a returning player to give back their character. The network client id changes on every

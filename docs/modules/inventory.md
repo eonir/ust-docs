@@ -167,6 +167,9 @@ model itself is a local object, so holding an item costs no network object.
 |---|---|
 | Prefab | The model prefab |
 | Position Offset, Rotation Offset, Scale | Placement in the hand |
+| Hold Type | Value of the `HoldType` Animator parameter while held: 0 empty hands, 1 one-handed, 2 rifle, 3 pistol. Add your own values. See [Player > Animator](player.md#animator). |
+| Left Hand Grip | When the left hand goes to the Grip point: **Always**, **While Aiming** (pistols held with one hand at rest), **Never** |
+| Override Grip, Grip Position, Grip Rotation | Grip placement saved with **Save Grip To Item**, used instead of the Grip point of the model |
 
 | PlayerHeldItem field | Meaning |
 |---|---|
@@ -184,6 +187,34 @@ Offsets are easier to adjust in Play Mode, with the character animated:
 2. On `PlayerHeldItem`, click **Select Held Model**, then move, rotate and scale the model in the scene.
 3. Click **Save Placement To Item**: the offsets are written to the Held Visual trait of the item and kept after
    Play Mode.
+
+### Points of the model
+
+Add an empty child to the model prefab with a `HeldItemPoint` component:
+
+| Type | Used by | Gizmo |
+|---|---|---|
+| **Muzzle** | Ranged weapons: where projectiles start. Its blue Z axis must point out of the barrel. | Red, with a line in the shot direction |
+| **Grip** | `PlayerHandIK`: where the left hand goes. The hand takes its rotation. | Cyan |
+
+Children named `Muzzle` and `Grip` work too, when there is no `HeldItemPoint`.
+
+### Left hand
+
+`PlayerHandIK`, on the player root, places the left hand on the Grip point after the animation, whatever the
+animation does. The arm bends with a two bone solver that keeps the elbow where the animation put it.
+
+| Field | Meaning |
+|---|---|
+| Grip Name | Name of the grip child, when the model has no `HeldItemPoint` of type Grip |
+| Position Weight, Rotation Weight | How much the arm reaches the grip and the hand takes its rotation |
+| Aiming Parameter | Animator bool used by items set to **While Aiming** |
+| Release Parameter | Optional Animator bool that frees the hand while true, for a reload animation |
+| Blend Speed | How fast the hand moves to the grip and back |
+
+To adjust the grip in Play Mode: on `PlayerHeldItem`, click **Select Grip**, move and rotate it until the hand looks
+right, then click **Save Grip To Item**. The values are saved in the item, in the space of the model, so two items
+can share a model with different grips.
 
 !!! warning
     Never use the world prefab as the held visual: it contains a `NetworkObject` and an error is logged.

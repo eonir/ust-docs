@@ -68,5 +68,6 @@ nav:
       - Create an item trait: guides/create-item-trait.md
       - Create a resource node: guides/create-resource-node.md
       - Use Steam ids for saves: guides/steam-identity.md
+      - Use your own character: guides/import-character.md
   - FAQ: faq.md
   - Credits: credits.md
