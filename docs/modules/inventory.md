@@ -176,6 +176,15 @@ model itself is a local object, so holding an item costs no network object.
 The colliders of the model are disabled, so it never blocks raycasts or pushes the character. Rigs exported in
 centimetres, with a scale of 100 on their bones, are compensated automatically.
 
+### Placing the item in the hand
+
+Offsets are easier to adjust in Play Mode, with the character animated:
+
+1. Press Play and select the item in the hotbar.
+2. On `PlayerHeldItem`, click **Select Held Model**, then move, rotate and scale the model in the scene.
+3. Click **Save Placement To Item**: the offsets are written to the Held Visual trait of the item and kept after
+   Play Mode.
+
 !!! warning
     Never use the world prefab as the held visual: it contains a `NetworkObject` and an error is logged.
 
@@ -198,6 +207,11 @@ Add it to the **Network Prefabs** list of the NetworkManager and assign it to **
 | Database | | The item database |
 | Placed Item, Placed Count | | Content of an object placed in the scene or spawned by an `ObjectSpawner`. Ignored for dropped items. |
 | Pickup Range | 3 | Max distance the server accepts for a pick up |
+| Prompt Format, Stack Prompt Format | Pick up {0}, Pick up {0} x{1} | Interaction text. {0} is the item name, {1} the quantity. |
+| Snap To Ground | On | Dropped items are placed on the ground below the drop point instead of floating |
+| Ground Layers | Everything | Layers the drop raycast hits |
+| Max Snap Distance | 20 | How far below the drop point the ground is searched |
+| Random Yaw | On | Dropped items get a random rotation around the vertical axis |
 
 Players pick items up with the Interact input. The server checks the distance and adds what fits: the rest stays on
 the ground.
@@ -210,6 +224,9 @@ the ground.
 ### Dropping
 
 `RequestDrop(slot, amount)` on a container drops items in front of it. The item needs a world prefab.
+
+The dropped item is placed on the ground, its collider resting on it. To make items fall and roll instead, add a
+`Rigidbody` to the world prefab: ground snapping is then skipped.
 
 ### Items placed in the scene
 

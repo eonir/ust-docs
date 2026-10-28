@@ -33,7 +33,8 @@ The child holding the `Animator` also holds:
 ## Input
 
 `PlayerInputReader` replaces a global input manager: each player reads its own input, which is what multiplayer
-needs. Assign actions from your input actions asset:
+needs. Assign actions from your input actions asset. The template uses `Assets/UST/UST_InputActions`, which never
+replaces the `InputSystem_Actions` asset of your project:
 
 | Field | Typical action | Used for |
 |---|---|---|

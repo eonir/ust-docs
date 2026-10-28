@@ -62,3 +62,10 @@ They are not: the tool only creates missing elements. To make your placement the
 
 **The camera turns while I move items.**
 Add `CameraUILock` to the Cinemachine camera, or run *Create Game UI*, which adds it.
+
+**The Asset Store validator reports a model orientation issue.**
+Run *Tools > UST > Validation > Check Model Orientation* to see which mesh is concerned, then see
+[Check Model Orientation](getting-started/editor-tools.md#check-model-orientation).
+
+**Dropped items float or sink.**
+Check **Ground Layers** on the `WorldItem` of the world prefab, and that the prefab has a collider.

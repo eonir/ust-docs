@@ -10,6 +10,7 @@
 | *Tools > UST > UI > Create Game UI* | Creates the whole game UI, see [UI](../modules/ui.md) |
 | *Tools > UST > UI > Save Layout As Default* | Saves the placement of the current UI as the default one, after a confirmation |
 | *Tools > UST > UI > Reset Default Layout* | Goes back to the original layout, after a confirmation |
+| *Tools > UST > Validation > Check Model Orientation* | Lists the meshes of the models in `Assets/UST` that the Asset Store validator reports as badly oriented |
 
 ## Create Default Vitals
 
@@ -50,6 +51,7 @@ Run it after adding items, spawners or prefabs, and restart the Multiplayer Play
 | Inventory Container | In Play Mode, the live content of each slot and the total weight |
 | World Item | In Play Mode, the live stack |
 | Save Manager | Save path, **Open Save Folder**, **Delete This Slot**, **Save Now** |
+| Player Held Item | In Play Mode, **Select Held Model** and **Save Placement To Item**, see [Item in the hand](../modules/inventory.md#item-in-the-hand) |
 
 UI sprites placed in `Assets/UST/UI/Sprites` are imported as sprites automatically, with a 9-slice border taken from a
 `_b12` suffix in their name.
@@ -59,3 +61,27 @@ UI sprites placed in `Assets/UST/UI/Sprites` are imported as sprites automatical
 If you build your own package on top of UST, Unity's *Asset Store Publishing Tools* validator reports common issues
 early: Mixamo content, JPG textures, models with a wrong orientation, prefabs not at the origin, missing
 documentation. Run it regularly rather than only before submitting.
+
+### Check Model Orientation
+
+The validator reports a model when one of its meshes has a rotation inside the imported model, even if the object
+looks right in the scene. *Tools > UST > Validation > Check Model Orientation* applies the same rule and logs each
+mesh with its path inside the model and its rotation. Click a message to select the model.
+
+| Logged rotation | Cause | Fix |
+|---|---|---|
+| (270, 0, 0) on every mesh | Blender's axis conversion, written as a rotation | Enable **Bake Axis Conversion** in the model import settings, or export from Blender with **Apply Transform** |
+| A mesh under a bone (eyes, hair, props) | The mesh is parented to a bone instead of being skinned | In Blender, unparent it, weight it to the bone with a vertex group of the same name, then parent it with **Armature Deform** |
+
+After a re-export of a humanoid character, apply **Humanoid** again in the Rig tab, or the character collapses.
+
+### Static variables
+
+The validator lists every script with static fields or events. This check does not detect whether they are reset.
+UST resets all of them when Play Mode starts, so the template works with *Enter Play Mode Options* without domain
+reload, which is the default from Unity 6.6. Do the same in your own scripts:
+
+```csharp
+[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+private static void ResetStatics() => Instance = null;
+```
