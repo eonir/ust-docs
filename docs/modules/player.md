@@ -134,6 +134,11 @@ to its **Camera Target**, for example a child at shoulder height) and assigns th
 
 To invert the vertical axis, set a negative **Gain** on the vertical axis of the input axis controller.
 
+`CameraUILock`, on the Cinemachine camera, stops the orbit while a UI is open, so moving the mouse over the inventory
+does not turn the camera. *Create Game UI* adds it automatically.
+
+While a UI is open, `PlayerInputReader` also ignores aim and interact. Movement, jump, sprint and crouch keep working.
+
 ## Multiplayer setup
 
 `PlayerNetworkSetup` disables the components listed in **Owner Only** on every copy of the player that is not

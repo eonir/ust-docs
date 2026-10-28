@@ -7,6 +7,23 @@
 | *Tools > UST > Create Player Animator Controller* | Creates an Animator Controller with every parameter the scripts use, the IK pass enabled and the Locomotion and Crouch states |
 | *Tools > UST > Create Default Vitals* | Creates Health, Hunger, Thirst, Stamina and a profile using them, with sensible default values |
 | *Tools > UST > Validate Network Prefabs* | Lists the network prefabs missing from the NetworkManager and adds them in one click |
+| *Tools > UST > UI > Create Game UI* | Creates the whole game UI, see [UI](../modules/ui.md) |
+| *Tools > UST > UI > Save Layout As Default* | Saves the placement of the current UI as the default one, after a confirmation |
+| *Tools > UST > UI > Reset Default Layout* | Goes back to the original layout, after a confirmation |
+
+## Create Default Vitals
+
+Asks for a folder, then creates four vitals and a profile using them, ready to assign to `PlayerVitals`:
+
+| Asset | Settings |
+|---|---|
+| Vital_Health | Server, red, regenerates 1 every 2 s after 5 s, if hunger and thirst are at 30 % or more |
+| Vital_Hunger | Server, orange, -1 every 10 s, drains 1 health every 2 s when empty |
+| Vital_Thirst | Server, blue, -1 every 7 s, drains 1 health every 2 s when empty |
+| Vital_Stamina | Owner, yellow, regenerates 2 every 0.1 s after 1 s |
+| VitalsProfile | The four vitals, enabled |
+
+It never overwrites anything: assets with the same name get a number.
 
 ## Validate Network Prefabs
 
@@ -33,6 +50,9 @@ Run it after adding items, spawners or prefabs, and restart the Multiplayer Play
 | Inventory Container | In Play Mode, the live content of each slot and the total weight |
 | World Item | In Play Mode, the live stack |
 | Save Manager | Save path, **Open Save Folder**, **Delete This Slot**, **Save Now** |
+
+UI sprites placed in `Assets/UST/UI/Sprites` are imported as sprites automatically, with a 9-slice border taken from a
+`_b12` suffix in their name.
 
 ## Asset Store Publishing Tools
 

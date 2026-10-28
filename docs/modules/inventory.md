@@ -243,7 +243,8 @@ Root: `NetworkObject`, `InventoryContainer` (same database as the player, access
 a model. Add it to the Network Prefabs list.
 
 The bag is created with exactly as many slots as needed, and despawns when empty or at the end of its lifetime.
-Interacting with it takes everything that fits. A container UI will later let players pick items one by one.
+Interacting with it opens it in the [inventory window](ui.md#opened-containers), where items are taken one by one.
+Without an inventory window, interacting takes everything that fits.
 
 !!! note
     A bag restored from a save is no longer locked for its owner: player ids are not kept with the bag.
@@ -273,7 +274,8 @@ join. To test the starting kit again, delete the player file from the save folde
 
 ## Debug HUD
 
-`InventoryDebugHUD` draws the hotbar at the bottom of the screen.
+The real UI is described in [UI](ui.md). `InventoryDebugHUD` is an IMGUI overlay for testing: remove it when you use
+the inventory window, both use Tab.
 
 | Key | Action |
 |---|---|

@@ -49,3 +49,16 @@ by hand.
 
 **The item feed shows nothing.**
 It lists items added by `PlayerInventory.ServerAdd`. Starting kits and loaded saves are silent on purpose.
+
+**The UI is empty in Edit Mode.**
+Slots and bars are created at runtime, once the local player has spawned. Press Play, then Host.
+
+**Tab opens two inventories.**
+Remove `InventoryDebugHUD` from the player: the uGUI inventory window replaces it.
+
+**My UI changes in the scene are lost when I use Create Game UI.**
+They are not: the tool only creates missing elements. To make your placement the default for new UIs, use
+*Tools > UST > UI > Save Layout As Default*.
+
+**The camera turns while I move items.**
+Add `CameraUILock` to the Cinemachine camera, or run *Create Game UI*, which adds it.

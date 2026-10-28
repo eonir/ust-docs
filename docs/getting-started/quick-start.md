@@ -24,10 +24,11 @@
 | Interact / pick up | E |
 | Attack / gather | Left mouse button |
 | Hotbar | Mouse wheel, 1 to 0 |
-| Inventory (debug) | Tab |
-| Drop selected item (debug) | G |
-| Kill yourself (debug) | K |
+| Inventory | Tab, Escape to close |
+| Move items | Drag and drop, right drag for half, Shift + click to send to the other side |
+| Drop items | Drag out of the inventory window |
+| Kill yourself (debug HUD) | K |
 
 !!! note
-    The session menu and the inventory and vitals overlays are debug tools drawn with IMGUI. They are meant for
-    testing and should be replaced by your own UI.
+    The session menu at the top of the screen is a debug tool drawn with IMGUI, meant for testing. The rest of the
+    UI is uGUI, see [UI](../modules/ui.md).

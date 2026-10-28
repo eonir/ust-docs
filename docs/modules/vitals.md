@@ -27,6 +27,7 @@ Create one with *Create > UST > Vitals > Vital Definition*.
 |---|---|
 | Display Name | Name shown in the UI |
 | Icon | Icon shown in the UI |
+| Color | Color of the vital bar |
 | Authority | Who calculates the vital, see below |
 | Max Value | Upper limit. Values are always clamped between 0 and max. |
 | Start Value | Value on spawn and after a respawn |
@@ -209,6 +210,8 @@ Dead** are turned off for the owner, and the `Died` event is raised. `PlayerDeat
 random `PlayerSpawnPoint` (or to where it first appeared if there is none), and `Respawned` is raised.
 
 `Kill()` and `Respawn()` are public and server only, for a "Respawn now" button or a death zone.
+`RespawnRemaining` gives the seconds left before the respawn on every peer, as shown by the
+[death screen](ui.md#death-screen).
 
 ### Spawn points
 
