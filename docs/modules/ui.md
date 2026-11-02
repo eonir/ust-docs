@@ -20,6 +20,7 @@ systems, so you can restyle it, move it or replace it without touching gameplay 
 | Drag icon | Follows the cursor | `ItemDragIcon` |
 | Gathering messages | On the canvas | `GatherFeedback`, if the Gathering module is present |
 | Crafting panel | Right of the container panel | `CraftingWindow`, if the Crafting module is present |
+| Build menu and build HUD | Center, and above the hotbar | `BuildMenuWindow`, `BuildHUDView`, if the Building module is present |
 
 It also adds an `EventSystem` using the Input System (or converts an old one), and `CameraUILock` on the
 Cinemachine camera.

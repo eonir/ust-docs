@@ -15,7 +15,8 @@ The module is optional: add `UST_DISABLE_CRAFTING` to the Scripting Define Symbo
    Player**. It adds `PlayerCrafter` next to `PlayerInventory`.
 3. Create the station types you need: *Create > UST > Crafting > Station Type* (Workbench, Forge...).
 4. Open the station prefab, select its root and run **UST Tools > Crafting > Make Selected A Crafting Station**. It
-   adds a `NetworkObject`, an output `InventoryContainer` and `CraftingStation`. Assign the **Station Type**.
+   adds a `NetworkObject`, an output `InventoryContainer` in **Take Only** mode and `CraftingStation`. Assign the
+   **Station Type**.
 5. Register the station prefab in your Network Prefabs list, or place it in the scene.
 6. Give items a **Crafting > Recipe** trait, see below.
 
@@ -45,6 +46,8 @@ and an ingredient missing from the database.
 | Cancel When Away | off | On: the crafts of a player who walks away are cancelled and their ingredients given back. Off: crafts carry on without the player. |
 | Max Jobs | 8 | Jobs in the queue at once |
 | Max Count Per Job | 99 | Most crafts one request can ask for |
+
+The output is **Take Only**: players can take items out but never put their own in, so they cannot block the station.
 
 When the output has no room for the next result, the queue waits and the panel shows *Output full*. Empty it by
 dragging the items, Ctrl + click, or **Take all**. Stack limits are respected: a craft only finishes when all of its
@@ -79,5 +82,11 @@ if (refusal != null) Debug.Log(refusal);
 `CraftingQueue` is the base of `CraftingStation` and `PlayerCrafter`. Derive from it to make a queue that delivers
 elsewhere: override `CanUse` and `ServerDeliver`.
 
-!!! note "Not saved yet"
-    Queued jobs and the content of a station output are not saved. Finish or empty them before quitting.
+## Save
+
+- Crafts made by hand are saved with the player, and resume when they come back.
+- Stations placed in the scene save their queue and their output with the world, with the time already spent on the
+  current craft. No saver to add: each station saves itself.
+- A restored station job has no owner anymore: the first player in range who cancels it gets the ingredients back.
+  With **Cancel When Away**, restored jobs are never cancelled for distance.
+- Stations built with the Building module are saved with their piece, see [Building](building.md#chests-workbenches-and-other-functional-pieces).

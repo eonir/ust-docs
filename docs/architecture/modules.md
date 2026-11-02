@@ -16,10 +16,12 @@ directly, so you can remove one without breaking the others.
 | `UST.Weapons` | Core, Inventory, Player, Vitals | Melee and ranged weapons, ammo, aiming, PvP |
 | `UST.Effects` | Core, Vitals, Inventory | Buffs and debuffs, effect zones, consumables, effects bar |
 | `UST.Crafting` | Core, Inventory, UI | Recipes, crafting stations, hand crafting, crafting queue and window |
+| `UST.Building` | Core, Inventory, UI | Build pieces, build tools, preview and snapping, build menu, saving built pieces |
 | `UST.Gathering` | Core, Inventory, Player | Tools, resource nodes, object spawners, gathering feedback |
 | `UST.UI` | Core, Inventory, Vitals, Player | Item feed, screen messages |
 | `UST.Editor` | all | Inspectors and tools, editor only |
 | `UST.Crafting.Editor` | Crafting, Editor | Crafting menus and panel builder, editor only |
+| `UST.Building.Editor` | Building, Editor | Building menus, build menu builder, demo pieces, editor only |
 | `UST.Demo` | all | Demo scene scripts |
 
 ## How modules communicate
@@ -35,6 +37,11 @@ directly, so you can remove one without breaking the others.
 | `IPlayerTeleporter` | `PlayerLife` | `PlayerSaveIdentity` restores the saved position |
 | `IPlayerSaveable` | `PlayerVitals`, `PlayerInventory`, `PlayerEffects` | `PlayerSaveIdentity` |
 | `IWorldSaveable` | `WorldItemsSaver` | `SaveManager` |
+| `IObjectSaveable` | `StorageContainer`, `CraftingStation` | `BuildPiecesSaver` saves them with each built piece |
+| `IRemovalHandler` | `CraftingStation` | `PlayerBuilder` calls it before a built piece is removed |
+| `IDamageable` | `PieceHealth` | Enemies, traps and your own code damage anything without knowing its module |
+| `StationType`, `IStation`, `Stations` | `CraftingStationType`, `CraftingStation` | `PlayerBuilder` checks a station is near a piece that needs one |
+| `IProtectionZone`, `ProtectionZones` | `BuildWard` | `InventoryContainer`, `CraftingStation`, `PlayerBuilder` check who may act in a protected area |
 | `IPlayerDataSource` | `PlayerSaveIdentity` | `PlayerStartingKit` knows if the player is new |
 | `IPlayerIdentityProvider` | `LocalPlayerIdentity` or yours | `SaveManager` |
 | `IItemHitReceiver` | `ResourceNode`, `PlayerDamageReceiver` | `PlayerItemUser` calls it on the server after a validated hit |

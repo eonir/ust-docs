@@ -69,6 +69,8 @@ the bottom of the item inspector. Each trait can be added once per item.
 | Combat > Ranged Weapon | Weapons | Shots, ammo and aiming, see [Combat](combat.md#ranged-weapons) |
 | Gathering > Tool | Gathering | Tool type, tier, yield and wear for resource nodes |
 | Effects > Consumable | Effects | Instant vital changes and effects when used, see [Effects](effects.md#consumables) |
+| Building > Structure Damage | Building | Damage dealt to built pieces per hit, see [Building](building.md#piece-health) |
+| Building > Build Tool | Building | Makes the item a build tool, see [Building](building.md#build-tool) |
 | Crafting > Recipe | Crafting | Ingredients, output count, station and craft time, see [Crafting](crafting.md#recipe-trait) |
 
 An axe that both chops trees and fights has **Melee Swing**, **Tool** and **Melee Weapon**. A sword only has
@@ -85,8 +87,9 @@ loot bags and any chest you make.
 |---|---|---|
 | Database | | The item database |
 | Slot Count | 20 | Number of slots |
-| Access Range | 3 | Max distance for a player to use a world container. Player containers are owner only. |
+| Access Range | 3 | Max distance for a player to use a world container. Player containers are owner only. The host player follows the same rules as everyone, and wards can restrict world containers, see [Building](building.md#ward). |
 | Drop Distance | 1 | Distance in front of the container where dropped items appear |
+| Take Only | off | Players can only take items out, as in the output of a crafting station. Server code can still add items. |
 
 ### Moving items
 

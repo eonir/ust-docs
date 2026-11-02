@@ -12,8 +12,13 @@
 | *UST Tools > Vitals > Create Default Vitals* | Creates Health, Hunger, Thirst, Stamina and a profile using them, with sensible default values |
 | *UST Tools > Crafting > Make Selected A Crafting Station* | Adds a NetworkObject, an output container and `CraftingStation` to the selected object |
 | *UST Tools > Crafting > Add Hand Crafting To Selected Player* | Adds `PlayerCrafter` to the player, for the recipes without a station |
-| *UST Tools > UI > Create Game UI* | Creates the whole game UI, with the crafting panel when the Crafting module is present, see [UI](../modules/ui.md) |
+| *UST Tools > Building > Add Building To Selected Player* | Adds `PlayerBuilder` with the attack action and the preview material |
+| *UST Tools > Building > Add Building To Scene* | Adds `BuildingRules`, and `BuildPiecesSaver` with every Build Piece Database of the project |
+| *UST Tools > Building > Create Demo Pieces* | Creates 6 snapping pieces with health, their database and a Hammer, on the Building layer |
+| *UST Tools > Building > Put Pieces On Building Layer* | Creates the Building layer if needed and moves every build piece to it, children included |
+| *UST Tools > UI > Create Game UI* | Creates the whole game UI, with the crafting panel and the build menu when their modules are present, see [UI](../modules/ui.md) |
 | *UST Tools > UI > Add Crafting Panel* | Adds or rebuilds the crafting panel next to the container panel of an existing inventory window, see [Crafting](../modules/crafting.md) |
+| *UST Tools > UI > Add Build Menu* | Adds or rebuilds the build menu and the build HUD in an existing game UI, see [Building](../modules/building.md) |
 | *UST Tools > UI > Save Layout As Default* | Saves the placement of the current UI as the default one, after a confirmation |
 | *UST Tools > UI > Reset Default Layout* | Goes back to the original layout, after a confirmation |
 | *UST Tools > Validation > Validate Network Prefabs* | Lists the network prefabs missing from the NetworkManager and adds them in one click |
