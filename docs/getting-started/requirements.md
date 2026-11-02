@@ -9,6 +9,7 @@
 | Multiplayer Play Mode | 2.0 (editor testing) |
 | Input System | 1.19 (the project must use the new Input System only) |
 | Cinemachine | 3.1 |
+| Animation Rigging | 1.4 (left hand and upper body aim) |
 
 The packages are listed as dependencies of the template and are installed automatically.
 

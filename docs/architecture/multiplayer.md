@@ -34,7 +34,7 @@ Visual only prefabs, such as the model shown in the hand, must **not** have a `N
 list.
 
 !!! tip "Validate Network Prefabs"
-    *Tools > UST > Validate Network Prefabs* follows every reference of the open scenes, the player prefab and the
+    *UST Tools > Validation > Validate Network Prefabs* follows every reference of the open scenes, the player prefab and the
     items, lists the network prefabs missing from the NetworkManager and adds them in one click. Run it before testing
     with a client.
 

@@ -10,7 +10,7 @@ facing backwards, feet sliding, a body twisted while aiming.
 2. Click **Configure** and check that the legs, arms and spine are mapped to the right bones, not to twist or roll
    bones. If the model was not exported in a clean T-pose, use **Pose > Enforce T-Pose**.
 3. Put the model as the child of the player prefab that holds the `Animator`, and assign its **Avatar**.
-4. Run *Tools > UST > Validation > Check Model Orientation*: no mesh of the model should be listed.
+4. Run *UST Tools > Validation > Check Model Orientation*: no mesh of the model should be listed.
 
 !!! tip "Re-apply Humanoid after each export"
     After a new export of the model, apply **Humanoid** again in the Rig tab, or the character collapses on itself.

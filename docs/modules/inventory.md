@@ -25,8 +25,24 @@ The item id used by saves is the asset GUID: renaming or moving the asset does n
 
 ### Item database
 
-`ItemDatabase` (*Create > UST > Inventory > Item Database*) lists every item of the game. Right click it and choose
-**Collect All Items In Project** to fill it.
+`ItemDatabase` (*Create > UST > Inventory > Item Database*) lists every item of the game. Items created or
+duplicated from the **Item Database window** are added to it automatically. To fill it from existing assets, right
+click it and choose **Collect All Items In Project**.
+
+### Item Database window
+
+*UST Tools > Item Database* shows every item of the project:
+
+- search by name, filter by category, or show only the items with issues,
+- **+ New Item**, **Duplicate** (the copy gets its own id) and **Delete** (to the system trash, after a confirmation),
+- the item inspector on the right, traits included,
+- a warning icon in the list and the details at the top of the item: not in the database, no icon, no display name,
+  weapon or tool without Held Visual, no world prefab, same display name as another item, and the warnings of each
+  trait (a recipe ingredient missing from the database, for example),
+- a right click on an item to add it to the database or remove it.
+
+The window remembers the selected database. The status bar counts the items, those in the database and those with
+issues.
 
 !!! warning "One database for everyone"
     Items travel over the network as their index in the database, so every peer must use the same database. Saves
@@ -36,7 +52,7 @@ The item id used by saves is the asset GUID: renaming or moving the asset does n
 
 `ItemCategory` (*Create > UST > Inventory > Item Category*) is a tag with a name, an icon and a color: Weapon,
 Resource, Ammo, Tool, Food... An item can have several. Categories are used by the death drop and will be used by UI
-filters, chests and crafting recipes.
+filters and chests.
 
 A category is only a label: it never changes what the item does. That is the job of traits.
 
@@ -53,6 +69,7 @@ the bottom of the item inspector. Each trait can be added once per item.
 | Combat > Ranged Weapon | Weapons | Shots, ammo and aiming, see [Combat](combat.md#ranged-weapons) |
 | Gathering > Tool | Gathering | Tool type, tier, yield and wear for resource nodes |
 | Effects > Consumable | Effects | Instant vital changes and effects when used, see [Effects](effects.md#consumables) |
+| Crafting > Recipe | Crafting | Ingredients, output count, station and craft time, see [Crafting](crafting.md#recipe-trait) |
 
 An axe that both chops trees and fights has **Melee Swing**, **Tool** and **Melee Weapon**. A sword only has
 **Melee Swing** and **Melee Weapon**.
@@ -177,7 +194,8 @@ model itself is a local object, so holding an item costs no network object.
 | Position Offset, Rotation Offset, Scale | Placement in the hand |
 | Hold Type | Value of the `HoldType` Animator parameter while held: 0 empty hands, 1 one-handed, 2 rifle, 3 pistol. Add your own values. See [Player > Animator](player.md#animator). |
 | Left Hand Grip | When the left hand goes to the Grip point: **Always**, **While Aiming** (pistols held with one hand at rest), **Never** |
-| Override Grip, Grip Position, Grip Rotation | Grip placement saved with **Save Grip To Item**, used instead of the Grip point of the model |
+| Override Grip, Grip Position, Grip Rotation | Grip placement saved with **Save Grip** in the Held Item Tuning window, used instead of the Grip point of the model |
+| Aim Yaw Offset, Aim Pitch Offset | Correction of the upper body aim with this item, for aim poses that do not point straight ahead |
 
 | PlayerHeldItem field | Meaning |
 |---|---|
@@ -189,12 +207,21 @@ centimetres, with a scale of 100 on their bones, are compensated automatically.
 
 ### Placing the item in the hand
 
-Offsets are easier to adjust in Play Mode, with the character animated:
+Everything is tuned in Play Mode, with the character animated, in one window: *UST Tools > Held Item Tuning* (or
+**Open Held Item Tuning** on `PlayerHeldItem`).
 
-1. Press Play and select the item in the hotbar.
-2. On `PlayerHeldItem`, click **Select Held Model**, then move, rotate and scale the model in the scene.
-3. Click **Save Placement To Item**: the offsets are written to the Held Visual trait of the item and kept after
-   Play Mode.
+1. Press Play and select the item in the hotbar. **Freeze Animation** stops the character on its current pose, so the
+   hand does not move while you place things.
+2. **Placement in the hand**: click **Move** or **Rotate**, adjust the model in the Scene view, then **Save Placement**.
+3. **Left hand**: choose when the left hand grips, then **Move** or **Rotate** the grip until the hand looks right,
+   and **Save Grip**. Without a grip on the model, **Create Grip** adds one. **Use Model Grip** goes back to the Grip
+   point of the model prefab.
+4. **Aim**: tick **Preview Aim** to play the aim pose without holding the aim input (tick it before freezing the
+   animation, so the pose has time to blend in), then correct it with **Yaw Offset** and **Pitch Offset**.
+5. **Weapon pose** (ranged and two-handed weapons): see [Weapon pose](#weapon-pose).
+
+Every change is written to the Held Visual trait of the item and kept after Play Mode. The grip is saved in the space
+of the model, so two items can share a model with different grips.
 
 ### Points of the model
 
@@ -203,26 +230,68 @@ Add an empty child to the model prefab with a `HeldItemPoint` component:
 | Type | Used by | Gizmo |
 |---|---|---|
 | **Muzzle** | Ranged weapons: where projectiles start. Its blue Z axis must point out of the barrel. | Red, with a line in the shot direction |
-| **Grip** | `PlayerHandIK`: where the left hand goes. The hand takes its rotation. | Cyan |
+| **Grip** | `PlayerItemRig`: where the left hand goes. The hand takes its rotation. | Cyan |
 
 Children named `Muzzle` and `Grip` work too, when there is no `HeldItemPoint`.
 
-### Left hand
+### Item rig
 
-`PlayerHandIK`, on the player root, places the left hand on the Grip point after the animation, whatever the
-animation does. The arm bends with a two bone solver that keeps the elbow where the animation put it.
+The left hand and the upper body aim use the **Animation Rigging** package (`com.unity.animation.rigging`).
+`PlayerItemRig` drives the rig:
 
-| Field | Meaning |
+- the left hand holds the Grip point of the item (rifles, two-handed tools, crossbows), following **Left Hand Grip**,
+- while aiming, the spine, chest and head turn towards the point under the crosshair, up, down and sideways, but
+  never roll. The upper body keeps facing the aim whatever the legs do, strafes included. If the aim pose has a
+  shoulder stance (a rifle held across the chest), restore it with the **Aim Yaw Offset** of the item. The weapon
+  itself is then turned to the crosshair by `PlayerRangedWeapon` (**Weapon Alignment** at 1). The aim is
+  synchronized, so every player sees the others aim.
+
+**Setup**: select the player prefab (or its model) and run *UST Tools > Player > Setup Item Rig On Selected Character*. The
+tool adds a `RigBuilder` and `PlayerItemRig` on the Animator object, and a child **Item Rig** holding:
+
+| Object | Constraint |
+|---|---|
+| Aim Target | Point the upper body aims at, placed by `PlayerItemRig` |
+| Weapon Pivot > Weapon Pose | Where the item goes with a Weapon Pose, in front of the chest |
+| Right Hand IK | Two Bone IK on the right arm, with **Right Hand Target** and **Right Elbow Hint**, used by the Weapon Pose |
+| Aim Spine, Aim Chest, Aim Head | Multi-Aim constraints, weights 0.3, 0.5 and 0.8 |
+| Left Hand IK | Two Bone IK on the left arm, with **Left Hand Rest** (target when no grip) and **Left Elbow Hint** |
+
+The aim axes are measured on your character, so any humanoid works. The two elbow hints are placed under the chest bone,
+so they turn with the upper body: move them to change where the elbows point. Running the tool again rebuilds the rig
+and keeps the hints where you put them.
+
+| PlayerItemRig field | Meaning |
 |---|---|
 | Grip Name | Name of the grip child, when the model has no `HeldItemPoint` of type Grip |
-| Position Weight, Rotation Weight | How much the arm reaches the grip and the hand takes its rotation |
-| Aiming Parameter | Animator bool used by items set to **While Aiming** |
-| Release Parameter | Optional Animator bool that frees the hand while true, for a reload animation |
-| Blend Speed | How fast the hand moves to the grip and back |
+| Release Tag | Animator state tag that frees the left hand, on any layer. Default **Reload**: give this tag to your reload states. *Create Player Animator Controller* already does. |
+| Release Parameter | Optional Animator bool that frees the hand while true |
+| Blend Speed | How fast the hand and the aim blend in and out |
 
-To adjust the grip in Play Mode: on `PlayerHeldItem`, click **Select Grip**, move and rotate it until the hand looks
-right, then click **Save Grip To Item**. The values are saved in the item, in the space of the model, so two items
-can share a model with different grips.
+### Weapon pose
+
+By default the animation moves the right hand and the item follows it (**Follow Hand**). For ranged and two-handed
+weapons, the **Weapon Pose** of the Held Visual trait turns this around: the item is placed in front of the chest and
+both arms bend to hold it. Move or rotate the item and the hands follow, the left hand on its grip.
+
+| Weapon Pose | Item placed by |
+|---|---|
+| Follow Hand | The animation, through the right hand |
+| While Aiming | The rig while aiming, towards the point under the crosshair. The animation at rest. |
+| Always | The rig, with an aim pose while aiming and a rest pose otherwise |
+
+To set it up in the Held Item Tuning window, step 4:
+
+1. Tick **Preview Aim**, then **Capture Aim Pose**: the current animated placement becomes the aim pose, and the
+   mode switches to While Aiming. For a rest pose, untick Preview Aim and **Capture Rest Pose** (mode Always).
+2. Tick **Edit Pose**, then **Move** or **Rotate** the Weapon Pose in the Scene view: the item, both hands and arms
+   follow. **Save As Aim Pose** (with Preview Aim) or **Save As Rest Pose**.
+
+The reload states (tag **Reload**) free both hands, so the reload animation plays as authored.
+
+The left hand targets the grip itself, so it never lags one frame behind the item. The aim is read from any
+`IAimState` of the player, implemented by `PlayerRangedWeapon`: two-handed tools keep their grip even without the
+Weapons module.
 
 !!! warning
     Never use the world prefab as the held visual: it contains a `NetworkObject` and an error is logged.

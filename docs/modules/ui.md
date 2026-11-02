@@ -6,7 +6,7 @@ systems, so you can restyle it, move it or replace it without touching gameplay 
 
 ## Creating the UI
 
-*Tools > UST > UI > Create Game UI* builds everything in a canvas named **UST UI**:
+*UST Tools > UI > Create Game UI* builds everything in a canvas named **UST UI**:
 
 | Element | Default place | Component |
 |---|---|---|
@@ -19,6 +19,7 @@ systems, so you can restyle it, move it or replace it without touching gameplay 
 | Death screen | Full screen | `DeathScreenView` |
 | Drag icon | Follows the cursor | `ItemDragIcon` |
 | Gathering messages | On the canvas | `GatherFeedback`, if the Gathering module is present |
+| Crafting panel | Right of the container panel | `CraftingWindow`, if the Crafting module is present |
 
 It also adds an `EventSystem` using the Input System (or converts an old one), and `CameraUILock` on the
 Cinemachine camera.
@@ -51,11 +52,11 @@ and get their color from the Image, so one sprite serves every color.
 
 ### Saving your layout as the default
 
-*Tools > UST > UI > Save Layout As Default* stores the placement of every element of the **UST UI** canvas (anchors,
+*UST Tools > UI > Save Layout As Default* stores the placement of every element of the **UST UI** canvas (anchors,
 pivot, position, size, scale and active state) in `Assets/UST/UI/UILayoutDefault.asset`. A confirmation tells you
 what will be replaced. From then on, **Create Game UI** places the elements it creates with your layout.
 
-*Tools > UST > UI > Reset Default Layout* deletes the saved layout, after a confirmation: **Create Game UI** goes
+*UST Tools > UI > Reset Default Layout* deletes the saved layout, after a confirmation: **Create Game UI** goes
 back to the original layout. The UI already in your scene is not changed: delete the canvas and create it again to
 rebuild it with the original layout.
 

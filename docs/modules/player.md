@@ -1,6 +1,6 @@
 # Player
 
-The Player module moves the character, reads the input, drives the camera feedback and lets the player interact
+The Player module moves the character, reads the input, drives the camera zoom and lets the player interact
 with the world. It does not depend on any other gameplay module: stamina, death or inventory plug into it through
 small interfaces, and everything keeps working without them.
 
@@ -15,7 +15,6 @@ The root of the player prefab holds:
 | `CharacterController` | Collision capsule. Set **Center Y** to half the height so the bottom of the capsule sits at the feet. |
 | `PlayerController` | Movement, crouch, jump, stamina use. |
 | `PlayerInputReader` | Reads the Input System actions. |
-| `CameraJuice` + `CinemachineImpulseSource` | Camera feedback: speed field of view, landing shake, hit shake. |
 | `CameraZoom` | Camera distance with the mouse wheel, and closer while aiming. |
 | `PlayerInteractor` | Pick up and interact. |
 | `PlayerNetworkSetup` | Owner only components and camera binding. |
@@ -108,9 +107,9 @@ a sitting animation or a stun.
 
 ## Animator
 
-*Tools > UST > Create Player Animator Controller* creates a controller with every parameter UST uses, the IK pass
+*UST Tools > Player > Create Animator Controller* creates a controller with every parameter UST uses, the IK pass
 enabled, two empty states, **Locomotion** and **Crouch**, and the **UpperBody** layer described below.
-*Tools > UST > Add Upper Body Layer To Selected Controller* adds the missing parameters and the layer to an existing
+*UST Tools > Player > Add Upper Body Layer To Selected Controller* adds the missing parameters and the layer to an existing
 controller.
 
 | Parameter | Type | Set by | Value |
@@ -165,8 +164,7 @@ Visual trait.
 The scene holds one `CinemachineCamera` with:
 
 - `CinemachineOrbitalFollow` for the third person orbit,
-- `CinemachineInputAxisController` with the Look action on each axis,
-- `CinemachineImpulseListener` so `CameraJuice` shakes are felt.
+- `CinemachineInputAxisController` with the Look action on each axis.
 
 Leave its **Tracking Target** empty. When the local player spawns, `PlayerNetworkSetup` binds the camera to it (or
 to its **Camera Target**, for example a child at shoulder height) and assigns the main camera to `PlayerController`.
@@ -193,10 +191,6 @@ While aiming with a ranged weapon, `AimCameraZoom` moves the camera to the aim d
 on release. The wheel is ignored while aiming, so the zoom distance is kept. Scripts can set `CameraZoom.Aiming`
 themselves for other aims.
 
-With `CameraJuice` on the player, the zoom becomes its base distance: the juice still pulls back while running and
-closes in while crouched, never closer than its **Minimum Radius**. Without it, `CameraZoom` sets the distance
-directly.
-
 ### Mouse cursor
 
 `PlayerCursorLock` locks and hides the cursor for the local player once spawned. The cursor is freed while a UI is
@@ -211,8 +205,8 @@ While a UI is open, `PlayerInputReader` also ignores aim and interact. Movement,
 ## Multiplayer setup
 
 `PlayerNetworkSetup` disables the components listed in **Owner Only** on every copy of the player that is not
-controlled locally. When the component is added, the list is filled with `PlayerController`, `PlayerInputReader`,
-`CameraJuice` and `CameraZoom`. Remote copies are then moved by their `NetworkTransform` and animated by their `NetworkAnimator`.
+controlled locally. When the component is added, the list is filled with `PlayerController`, `PlayerInputReader`
+and `CameraZoom`. Remote copies are then moved by their `NetworkTransform` and animated by their `NetworkAnimator`.
 
 ## Interaction
 

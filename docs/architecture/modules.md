@@ -8,16 +8,18 @@ directly, so you can remove one without breaking the others.
 | Assembly | Depends on | Role |
 |---|---|---|
 | `UST.Core` | - | Interfaces shared by every module, spawn points |
-| `UST.Player` | Core | Controller, input, camera zoom and feedback, interaction |
+| `UST.Player` | Core | Controller, input, camera zoom, interaction |
 | `UST.Vitals` | Core | Vitals, death, respawn |
 | `UST.Inventory` | Core | Items, containers, hotbar, world items, loot bags |
 | `UST.Save` | Core | Save manager, player identity |
 | `UST.Net` | Core | Network helpers, debug session menu |
 | `UST.Weapons` | Core, Inventory, Player, Vitals | Melee and ranged weapons, ammo, aiming, PvP |
 | `UST.Effects` | Core, Vitals, Inventory | Buffs and debuffs, effect zones, consumables, effects bar |
+| `UST.Crafting` | Core, Inventory, UI | Recipes, crafting stations, hand crafting, crafting queue and window |
 | `UST.Gathering` | Core, Inventory, Player | Tools, resource nodes, object spawners, gathering feedback |
 | `UST.UI` | Core, Inventory, Vitals, Player | Item feed, screen messages |
 | `UST.Editor` | all | Inspectors and tools, editor only |
+| `UST.Crafting.Editor` | Crafting, Editor | Crafting menus and panel builder, editor only |
 | `UST.Demo` | all | Demo scene scripts |
 
 ## How modules communicate

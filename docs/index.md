@@ -14,6 +14,7 @@ networked with Netcode for GameObjects, so you can focus on your own game.
 | **Save** | World and player saves in JSON, autosave, pluggable player identity (Steam, Unity Authentication...) |
 | **Combat** | Melee swings and ranged weapons validated by the server, ammo, aiming, optional PvP |
 | **Effects** | Buffs and debuffs, effect zones, consumables (food, drinks, medicine) |
+| **Crafting** | Recipes on items, crafting stations and hand crafting, queued crafts with timers |
 | **Gathering** | Tools with tiers, resource nodes, area spawners that respawn objects at random places |
 
 ## Design principles

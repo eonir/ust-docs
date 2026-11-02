@@ -61,6 +61,7 @@ nav:
       - Save: modules/save.md
       - Combat: modules/combat.md
       - Effects: modules/effects.md
+      - Crafting: modules/crafting.md
       - Gathering: modules/gathering.md
       - UI: modules/ui.md
   - Guides:
