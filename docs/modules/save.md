@@ -23,6 +23,7 @@ Object spawners save themselves, nothing to add for them.
 | Autosave Interval | 300 | Seconds between two automatic saves. 0 disables autosave. |
 | Load On Server Start | on | Loads the slot when the server starts |
 | Identity Provider | empty | Component that identifies players, see below. Empty: local id. |
+| Clear Slot In Editor | off | Editor only, for tests. Deletes the slot right before Play Mode starts and right after it stops, once the quit save is written. Ignored in builds. Only Save Managers of the scenes open in the editor are cleared. |
 
 The inspector also shows:
 

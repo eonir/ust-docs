@@ -51,7 +51,10 @@ Run it after adding items, spawners or prefabs, and restart the Multiplayer Play
 | Item Definition | **Add Trait** menu, listing every trait of the project, and a foldout per trait |
 | Inventory Container | In Play Mode, the live content of each slot and the total weight |
 | World Item | In Play Mode, the live stack |
-| Save Manager | Save path, **Open Save Folder**, **Delete This Slot**, **Save Now** |
+| Save Manager | Save path, **Open Save Folder**, **Delete This Slot**, **Save Now**. With **Clear Slot In Editor**, the slot is deleted on every Play and Stop. |
+| Effect Definition | **Add Modifier** menu, listing every modifier of the project |
+| Effect Database | Context menu **Collect All Effects In Project** |
+| Player Effects | In Play Mode, the active effects with **Remove**, and **Apply** to give any effect |
 | Player Held Item | In Play Mode, **Select Held Model**, **Save Placement To Item**, **Select Grip** and **Save Grip To Item**, see [Item in the hand](../modules/inventory.md#item-in-the-hand) |
 
 UI sprites placed in `Assets/UST/UI/Sprites` are imported as sprites automatically, with a 9-slice border taken from a

@@ -191,7 +191,7 @@ without a ranged weapon.
 | Ranged Weapon trait > Arm Alignment | Turns the right arm from the shoulder towards the crosshair. Keep 0 when the aim animation already points the weapon forward. |
 | `PlayerAimIK` (on the Animator object) | Turns the chest and head towards the aim, up and down included. Needs **IK Pass** on the UpperBody layer. |
 | `PlayerHandIK` | Keeps the left hand on the weapon, see [Inventory > Left hand](inventory.md#left-hand) |
-| `AimCameraZoom` (on the CinemachineCamera) | Narrows the field of view while aiming |
+| `AimCameraZoom` (on the CinemachineCamera) | Narrows the field of view while aiming, and moves the camera to the aim distance of `CameraZoom`, see [Player > Camera zoom](player.md#camera-zoom) |
 
 Aiming and sprinting exclude each other: the one started first wins.
 

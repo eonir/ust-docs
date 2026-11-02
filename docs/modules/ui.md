@@ -93,7 +93,7 @@ While the window is open:
 - the cursor is free,
 - the camera does not orbit (`CameraUILock`),
 - attacking, aiming and interacting are ignored,
-- moving, jumping, sprinting, crouching and selecting the hotbar still work.
+- moving, jumping, sprinting, crouching and the hotbar keys still work.
 
 ### Slot interactions
 
@@ -103,6 +103,7 @@ While the window is open:
 | Right drag, or Shift + drag | Move half the stack |
 | Drop outside any UI | Drop the items in the world |
 | Shift + click | Send the stack to the other side: the opened container, otherwise between inventory and hotbar |
+| Right click | Use the item, for example a consumable, from the inventory or the hotbar. While a split stack follows the cursor, a right click cancels it instead. |
 
 Every action is a request validated by the server, see [Inventory](inventory.md#moving-items).
 

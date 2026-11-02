@@ -16,6 +16,7 @@ The root of the player prefab holds:
 | `PlayerController` | Movement, crouch, jump, stamina use. |
 | `PlayerInputReader` | Reads the Input System actions. |
 | `CameraJuice` + `CinemachineImpulseSource` | Camera feedback: speed field of view, landing shake, hit shake. |
+| `CameraZoom` | Camera distance with the mouse wheel, and closer while aiming. |
 | `PlayerInteractor` | Pick up and interact. |
 | `PlayerNetworkSetup` | Owner only components and camera binding. |
 | `PlayerCursorLock` | Locks and hides the mouse cursor while playing. |
@@ -172,6 +173,30 @@ to its **Camera Target**, for example a child at shoulder height) and assigns th
 
 To invert the vertical axis, set a negative **Gain** on the vertical axis of the input axis controller.
 
+### Camera zoom
+
+`CameraZoom`, on the player root, changes the distance of the `CinemachineOrbitalFollow` with the mouse wheel. The
+wheel is ignored while a UI is open.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Zoom Action | | Mouse wheel (Vector2). Empty reads the mouse directly. |
+| Min Distance, Max Distance | 2, 8 | Closest and furthest distance |
+| Step | 0.75 | Distance changed by one notch of the wheel |
+| Invert | off | Reverses the wheel direction |
+| Scroll Threshold | 0.1 | Minimum wheel movement |
+| Response | 10 | How fast the distance follows the wheel |
+| Aim Distance | 0 | Distance while aiming, clamped between Min and Max Distance. 0 uses Min Distance. |
+| Aim Response | 14 | How fast the distance changes when aiming starts or stops |
+
+While aiming with a ranged weapon, `AimCameraZoom` moves the camera to the aim distance, and back to the zoom distance
+on release. The wheel is ignored while aiming, so the zoom distance is kept. Scripts can set `CameraZoom.Aiming`
+themselves for other aims.
+
+With `CameraJuice` on the player, the zoom becomes its base distance: the juice still pulls back while running and
+closes in while crouched, never closer than its **Minimum Radius**. Without it, `CameraZoom` sets the distance
+directly.
+
 ### Mouse cursor
 
 `PlayerCursorLock` locks and hides the cursor for the local player once spawned. The cursor is freed while a UI is
@@ -186,8 +211,8 @@ While a UI is open, `PlayerInputReader` also ignores aim and interact. Movement,
 ## Multiplayer setup
 
 `PlayerNetworkSetup` disables the components listed in **Owner Only** on every copy of the player that is not
-controlled locally. When the component is added, the list is filled with `PlayerController`, `PlayerInputReader` and
-`CameraJuice`. Remote copies are then moved by their `NetworkTransform` and animated by their `NetworkAnimator`.
+controlled locally. When the component is added, the list is filled with `PlayerController`, `PlayerInputReader`,
+`CameraJuice` and `CameraZoom`. Remote copies are then moved by their `NetworkTransform` and animated by their `NetworkAnimator`.
 
 ## Interaction
 

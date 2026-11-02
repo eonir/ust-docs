@@ -60,6 +60,7 @@ nav:
       - Inventory: modules/inventory.md
       - Save: modules/save.md
       - Combat: modules/combat.md
+      - Effects: modules/effects.md
       - Gathering: modules/gathering.md
       - UI: modules/ui.md
   - Guides:

@@ -50,7 +50,9 @@ the bottom of the item inspector. Each trait can be added once per item.
 | Visual > Held Visual | Inventory | Model shown in the hand |
 | Combat > Melee Swing | Inventory | Lets the item be swung with the attack input |
 | Combat > Melee Weapon | Weapons | Damage dealt to characters |
+| Combat > Ranged Weapon | Weapons | Shots, ammo and aiming, see [Combat](combat.md#ranged-weapons) |
 | Gathering > Tool | Gathering | Tool type, tier, yield and wear for resource nodes |
+| Effects > Consumable | Effects | Instant vital changes and effects when used, see [Effects](effects.md#consumables) |
 
 An axe that both chops trees and fights has **Melee Swing**, **Tool** and **Melee Weapon**. A sword only has
 **Melee Swing** and **Melee Weapon**.
@@ -143,14 +145,20 @@ Enable **Use Weight** on `PlayerInventory`.
 
 ### Hotbar
 
-`HotbarInput` selects the hotbar slot:
+`HotbarInput` selects the hotbar slot with the number keys, like Valheim. By default the mouse wheel zooms the
+camera instead, see [Player > Camera zoom](player.md#camera-zoom).
 
 | Field | Default | Meaning |
 |---|---|---|
+| Scroll Selects | off | Lets the mouse wheel change the selected slot. Leave it off when the wheel zooms the camera. |
 | Scroll Action | | Optional. Without it, the mouse wheel is read directly. |
 | Invert Scroll | off | Reverses the wheel direction |
 | Number Keys | on | Keys 1 to 0 select the first 10 slots. Keys are physical, so the top row works on any layout. |
 | Scroll Threshold | 0.1 | Minimum wheel movement |
+
+A key on an item that an `IItemUseHandler` of the player accepts uses it instead of selecting it, and the held item
+stays in hand. With the Effects module, a key on a consumable eats or drinks it, see
+[Effects > Consumables](effects.md#consumables).
 
 The selection is synchronized: other players see which item you hold. Read it with `SelectedIndex`,
 `SelectedStack` and `SelectedItem`.

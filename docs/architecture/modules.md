@@ -8,12 +8,13 @@ directly, so you can remove one without breaking the others.
 | Assembly | Depends on | Role |
 |---|---|---|
 | `UST.Core` | - | Interfaces shared by every module, spawn points |
-| `UST.Player` | Core | Controller, input, camera feedback, interaction |
+| `UST.Player` | Core | Controller, input, camera zoom and feedback, interaction |
 | `UST.Vitals` | Core | Vitals, death, respawn |
 | `UST.Inventory` | Core | Items, containers, hotbar, world items, loot bags |
 | `UST.Save` | Core | Save manager, player identity |
 | `UST.Net` | Core | Network helpers, debug session menu |
-| `UST.Weapons` | Core, Inventory, Player, Vitals | Melee weapon damage, PvP |
+| `UST.Weapons` | Core, Inventory, Player, Vitals | Melee and ranged weapons, ammo, aiming, PvP |
+| `UST.Effects` | Core, Vitals, Inventory | Buffs and debuffs, effect zones, consumables, effects bar |
 | `UST.Gathering` | Core, Inventory, Player | Tools, resource nodes, object spawners, gathering feedback |
 | `UST.UI` | Core, Inventory, Vitals, Player | Item feed, screen messages |
 | `UST.Editor` | all | Inspectors and tools, editor only |
@@ -25,14 +26,17 @@ directly, so you can remove one without breaking the others.
 |---|---|---|
 | `IStaminaSource` | `VitalStaminaSource` | `PlayerController` spends stamina without knowing the Vitals module |
 | `IMovementState` | `PlayerController` | `SprintDecayModifier` makes vitals decay faster while running |
+| `IMovementSpeedModifiers` | `PlayerController` | The Speed modifier of effects slows down or speeds up the character |
+| `IAimFacing` | `PlayerController` | `PlayerItemUser` and `PlayerRangedWeapon` turn the character towards the aim |
 | `IInteractable` | `WorldItem`, `LootBag` | `PlayerInteractor` |
-| `IDeathSource` | `PlayerLife` | `PlayerDeathDrop`, `PlayerStartingKit` |
+| `IDeathSource` | `PlayerLife` | `PlayerDeathDrop`, `PlayerStartingKit`, `PlayerEffects` clears effects on death |
 | `IPlayerTeleporter` | `PlayerLife` | `PlayerSaveIdentity` restores the saved position |
-| `IPlayerSaveable` | `PlayerVitals`, `PlayerInventory` | `PlayerSaveIdentity` |
+| `IPlayerSaveable` | `PlayerVitals`, `PlayerInventory`, `PlayerEffects` | `PlayerSaveIdentity` |
 | `IWorldSaveable` | `WorldItemsSaver` | `SaveManager` |
 | `IPlayerDataSource` | `PlayerSaveIdentity` | `PlayerStartingKit` knows if the player is new |
 | `IPlayerIdentityProvider` | `LocalPlayerIdentity` or yours | `SaveManager` |
 | `IItemHitReceiver` | `ResourceNode`, `PlayerDamageReceiver` | `PlayerItemUser` calls it on the server after a validated hit |
+| `IItemUseHandler` (Inventory) | `PlayerConsumer` | `HotbarInput` and `InventoryWindow` use an item before selecting or moving it |
 | `UIInputFocus` | Your UI | `PlayerItemUser` ignores attacks while a UI is open |
 | `SpawnerManagedObject` | Added by `ObjectSpawner` | `WorldItemsSaver` and `ResourceNodesSaver` skip objects a spawner saves itself |
 | `LocalMessages` | `GatherFeedback`, your systems | `ScreenMessageView` |
@@ -47,6 +51,7 @@ Optional modules in `Assets/UST/Modules` are compiled only when their define is 
 
 | Module | Define |
 |---|---|
+| Effects | `UST_DISABLE_EFFECTS` |
 | Equipment | `UST_DISABLE_EQUIPMENT` |
 | Weapons | `UST_DISABLE_WEAPONS` |
 | Crafting | `UST_DISABLE_CRAFTING` |
@@ -58,5 +63,5 @@ Optional modules in `Assets/UST/Modules` are compiled only when their define is 
 | Vehicle | `UST_DISABLE_VEHICLE` |
 
 !!! warning "Shared assets"
-    Items, vitals, categories and kits are shared ScriptableObjects. Never modify them from code at runtime: the
+    Items, vitals, effects, categories and kits are shared ScriptableObjects. Never modify them from code at runtime: the
     change would apply to every player and would be lost in a build. Runtime values always live in components.
