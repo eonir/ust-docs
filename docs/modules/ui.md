@@ -31,6 +31,59 @@ The tool only creates what is missing: running it again never moves or duplicate
     Slots and bars are created at runtime, once the local player has spawned: there is nothing to show before. The
     inventory window and the death screen are disabled until they are needed.
 
+
+## Character stats panel
+
+A **Stats** button in the corner of the inventory panel opens the character stats, alone at the left edge of the
+screen, so it never pushes the other panels. Move it freely: it is outside any layout group. *Create Game UI* adds it; for a UI built before, run *UST Tools > UI > Add Stats Panel*.
+
+The panel lists what the game has, by section:
+
+| Section | Lines | From |
+|---|---|---|
+| Vitals | Every vital, current / max | `PlayerVitals` |
+| Defense | Armor, then each damage type resisted or weak: *Cold 50 % resist*, *Fire 30 % weak*, *Poison Immune* | `PlayerEquipment`, and the resistances of every `IResistanceSource` multiplied by type (natural resistances of `PlayerDamageReceiver`, worn items) |
+| Movement | Speed from equipment, when not 100 % | `PlayerEquipment` |
+| Inventory | Weight, when the weight limit is used | `PlayerInventory` |
+| Environment | Weather where the player stands, felt temperature and stage: *Snow*, *4 °C Cold* | `WeatherExposure`, `PlayerTemperature` |
+
+| Field | Default | Meaning |
+|---|---|---|
+| Open By Default | off | Shows the panel when the inventory opens, until the player hides it |
+| Refresh Interval | 0.5 | Seconds between two updates while open |
+| Section Order | Vitals, Environment, Defense, Movement, Inventory | Display order of the sections. Sections not listed come after, by name. Removing an entry does not hide its section |
+| Panel, Toggle Button, Body | | The panel shown and hidden, the **Stats** button of the inventory that toggles it, and the text that lists the stats. Filled by *Add Stats Panel* |
+| Section Color, Resist Color, Weak Color | gold, green, red | Section titles, resistances above 0 % and weaknesses below 0 % |
+| Value Column | 60 | Position of the values, in percent of the width |
+
+Add your own lines from any component of the player: implement `IStatProvider` (UST.Core) and add `StatLine`s with a
+section, a label, a value and an order. A level module adds a "Level" section, a skill module its skills.
+
+The sections are plain names, given by the modules:
+
+| Section | Filled by |
+|---|---|
+| Vitals | Health, hunger, thirst, stamina… |
+| Environment | `WeatherExposure` (weather where the player stands), `PlayerTemperature` (felt temperature and stage) |
+| Defense | Armor and resistances: `PlayerEquipment`, `PlayerDamageReceiver` |
+| Movement | Speed: `PlayerEquipment` |
+| Inventory | Weight: `PlayerInventory` |
+
+The names are constants of `StatSections` (UST.Core). A section of your own just needs a new name; add it to
+Section Order to place it.
+
+```csharp
+public class PlayerLevel : MonoBehaviour, IStatProvider
+{
+    public int level = 1;
+
+    public void CollectStats(List<StatLine> lines)
+    {
+        lines.Add(new StatLine("Level", "Level", level.ToString()));
+    }
+}
+```
+
 ## Where to change what
 
 | What | Where |
@@ -44,6 +97,15 @@ The tool only creates what is missing: running it again never moves or duplicate
 
 Slots, bars and feed lines are created from their prefab at runtime, so changing them in the scene would have no
 effect: change the prefab.
+
+`ItemSlotView`, on the slot prefab:
+
+| Field | Meaning |
+|---|---|
+| Icon, Count | Item icon, and the stack count (hidden for 1) |
+| Durability Root, Durability Fill | Bar shown for items with durability, and its filled image |
+| Durability Full, Durability Empty | Colors of the bar, blended by the durability left: green when new, red when about to break |
+| Selection | Shown on the selected hotbar slot |
 
 ### Sprites
 
@@ -142,6 +204,7 @@ size of the container.
 | Field | Default | Meaning |
 |---|---|---|
 | Bar Prefab | VitalBar | Look of a bar |
+| Bar Sprite, Default Bar Size, Default Font Size | , 240 × 22, 14 | Used only without a Bar Prefab, to build a plain bar by code |
 | Show Values | on | "74 / 100" on the bar |
 | Smoothing | 8 | How fast bars follow their value. 0 snaps. |
 | Hidden | | Vitals not shown |
@@ -169,6 +232,7 @@ together merge into one line, with a small scale punch on each gain.
 | Field | Default | Meaning |
 |---|---|---|
 | Entry Prefab | ItemFeedEntry | Look of a line |
+| Default Icon Size, Default Font Size | 32, 24 | Used only without an Entry Prefab, to build a plain line by code |
 | Max Entries | 6 | Lines at once, the oldest goes first |
 | Visible Time, Fade Time | 3, 0.5 | Duration of a line after its last gain |
 | Punch Scale, Punch Time | 1.2, 0.15 | Effect on each gain |
@@ -181,11 +245,14 @@ It listens to `PlayerInventory.LocalItemsReceived`: picking up, looting, gatheri
 `ScreenMessageView` shows short messages such as "Tool too weak". Warnings are red and shake. The same message posted
 again shakes again instead of restarting.
 
-| Field | Default |
-|---|---|
-| Info Color, Warning Color | white, red |
-| Visible Time, Fade Time | 1.5, 0.4 |
-| Shake Amplitude, Frequency, Time | 12, 40, 0.35 |
+| Field | Default | Meaning |
+|---|---|---|
+| Label, Canvas Group | | The text and the group faded in and out |
+| Info Color, Warning Color | white, red | Text color of each message type |
+| Visible Time, Fade Time | 1.5, 0.4 | Seconds fully visible, then fading |
+| Shake Amplitude | 12 | Horizontal shake of a warning, in pixels |
+| Shake Frequency | 40 | Speed of the shake |
+| Shake Time | 0.35 | Duration of the shake |
 
 Post messages from any system, locally:
 
@@ -198,6 +265,11 @@ LocalMessages.Post("Game saved");
 
 `DeathScreenView` fades in a full screen panel when the local player dies, with the respawn countdown from
 `PlayerLife.RespawnRemaining`, and fades out on respawn. **Countdown Format** is `Respawn in {0}`.
+
+!!! warning "HUD elements and clicks"
+    Untick **Raycast Target** on every text and image of the HUD: crosshair, ammo counter, compass, boss bar. A HUD
+    element that catches raycasts silently blocks the buttons of the windows under it, for example the Stats button
+    while a weapon is held. `AmmoCounterView` turns them off by itself; elements you add are up to you.
 
 ## Your own UI
 
@@ -220,4 +292,17 @@ is true, attacks, aiming, interaction and the camera orbit are ignored.
 ## Debug overlays
 
 `VitalsDebugHUD`, `InventoryDebugHUD` and `NetworkSessionMenu` are drawn with IMGUI for testing and are not meant to
-ship. `InventoryDebugHUD` also uses Tab: remove it from the player when you use the inventory window.
+ship. `InventoryDebugHUD` also uses Tab: remove it from the player when you use the inventory window. See
+[Vitals > Debug HUD](vitals.md#debug-hud) and [Inventory > Debug HUD](inventory.md#debug-hud).
+
+`NetworkSessionMenu`, the Host / Client / Server menu at the top of the screen:
+
+| Field | Default | Meaning |
+|---|---|---|
+| Address | 127.0.0.1 | Address a client connects to. Use the local IP of the host to join from another computer of the network |
+| Port | 7777 | Port of the host or server |
+| Listen Address | 0.0.0.0 | Address the host and the server listen on. 0.0.0.0 accepts connections from the local network; 127.0.0.1 only from this computer |
+| Width | 260 | Width of the menu, in pixels |
+
+Joining over the internet needs port forwarding on the host, or a relay: replace the menu by your own, with Unity
+Relay or Steam networking for example.

@@ -15,6 +15,10 @@ networked with Netcode for GameObjects, so you can focus on your own game.
 | **Combat** | Melee swings and ranged weapons validated by the server, ammo, aiming, optional PvP |
 | **Effects** | Buffs and debuffs, effect zones, consumables (food, drinks, medicine) |
 | **Crafting** | Recipes on items, crafting stations and hand crafting, queued crafts with timers |
+| **Weather** | Day and night cycle with its own day and night lengths, colors and sky |
+| **Temperature** | Felt temperature from zones, fires, roofs and clothes, with cold and heat stages |
+| **Equipment** | Flexible slots from a layout, armor and resistances, effects and models while worn |
+| **AI** | Melee enemies that chase, attack and break walls, spawned around players |
 | **Building** | Build tools, snapping pieces with a live preview, build menu, built chests and workbenches, saved |
 | **Gathering** | Tools with tiers, resource nodes, area spawners that respawn objects at random places |
 

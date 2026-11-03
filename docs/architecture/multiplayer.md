@@ -36,7 +36,7 @@ list.
 !!! tip "Validate Network Prefabs"
     *UST Tools > Validation > Validate Network Prefabs* follows every reference of the open scenes, the player prefab and the
     items, lists the network prefabs missing from the NetworkManager and adds them in one click. Run it before testing
-    with a client.
+    with a client. [Validate Scene](../getting-started/validate-scene.md) runs the same check with all the others.
 
 ## Testing
 

@@ -69,6 +69,7 @@ the bottom of the item inspector. Each trait can be added once per item.
 | Combat > Ranged Weapon | Weapons | Shots, ammo and aiming, see [Combat](combat.md#ranged-weapons) |
 | Gathering > Tool | Gathering | Tool type, tier, yield and wear for resource nodes |
 | Effects > Consumable | Effects | Instant vital changes and effects when used, see [Effects](effects.md#consumables) |
+| Equipment > Equippable | Equipment | Wearable in a slot: armor, resistances, effects, model, see [Equipment](equipment.md) |
 | Building > Structure Damage | Building | Damage dealt to built pieces per hit, see [Building](building.md#piece-health) |
 | Building > Build Tool | Building | Makes the item a build tool, see [Building](building.md#build-tool) |
 | Crafting > Recipe | Crafting | Ingredients, output count, station and craft time, see [Crafting](crafting.md#recipe-trait) |
@@ -198,12 +199,19 @@ model itself is a local object, so holding an item costs no network object.
 | Hold Type | Value of the `HoldType` Animator parameter while held: 0 empty hands, 1 one-handed, 2 rifle, 3 pistol. Add your own values. See [Player > Animator](player.md#animator). |
 | Left Hand Grip | When the left hand goes to the Grip point: **Always**, **While Aiming** (pistols held with one hand at rest), **Never** |
 | Override Grip, Grip Position, Grip Rotation | Grip placement saved with **Save Grip** in the Held Item Tuning window, used instead of the Grip point of the model |
+| Weapon Pose | Who places the item: the animation (**Follow Hand**) or the rig (**While Aiming**, **Always**), see [Weapon pose](#weapon-pose) |
+| Aim Pose Position, Aim Pose Rotation | Placement of the item while aiming, from the chest, towards the crosshair. Default position (0.15, -0.05, 0.35). Set by **Capture Aim Pose** or **Save As Aim Pose** |
+| Rest Pose Position, Rest Pose Rotation | Placement of the item at rest, from the chest, along the character, used with **Always**. Default position (0.15, -0.25, 0.3). Set by **Capture Rest Pose** or **Save As Rest Pose** |
 | Aim Yaw Offset, Aim Pitch Offset | Correction of the upper body aim with this item, for aim poses that do not point straight ahead |
+
+The fields marked as tuned in Play Mode are written by the Held Item Tuning window: you rarely type them by hand.
 
 | PlayerHeldItem field | Meaning |
 |---|---|
+| Inventory | The `PlayerInventory` whose selected hotbar slot is shown |
 | Hand Socket | Where the model is attached. Empty: the right hand bone of the humanoid Animator. |
 | Animator | Found automatically if empty |
+| Hold Type Parameter | Animator int set to the **Hold Type** of the held item, 0 with empty hands. Default `HoldType`. Empty: no parameter is set, for an Animator without upper body layer |
 
 The colliders of the model are disabled, so it never blocks raycasts or pushes the character. Rigs exported in
 centimetres, with a scale of 100 on their bones, are compensated automatically.
@@ -262,10 +270,16 @@ tool adds a `RigBuilder` and `PlayerItemRig` on the Animator object, and a child
 
 The aim axes are measured on your character, so any humanoid works. The two elbow hints are placed under the chest bone,
 so they turn with the upper body: move them to change where the elbows point. Running the tool again rebuilds the rig
-and keeps the hints where you put them.
+and keeps the hints where you put them. Every reference of `PlayerItemRig` is filled by the tool: set them by hand only
+for a rig built yourself.
 
 | PlayerItemRig field | Meaning |
 |---|---|
+| Held Item, Rig Builder | The `PlayerHeldItem` of the player and the `RigBuilder` of the character. Filled by *Setup Item Rig* |
+| Left Hand, Left Hand Rest | Two Bone IK of the left arm, and its target when the item has no grip |
+| Right Hand, Right Hand Target | Two Bone IK of the right arm and its target, used by the Weapon Pose |
+| Weapon Pivot, Weapon Pose | The pivot in front of the chest, turned towards the aim, and its child where the item goes |
+| Aim Bones, Aim Target | The Multi-Aim constraints of the spine, chest and head, and the point they aim at. Their weights are kept as set in the constraints |
 | Grip Name | Name of the grip child, when the model has no `HeldItemPoint` of type Grip |
 | Release Tag | Animator state tag that frees the left hand, on any layer. Default **Reload**: give this tag to your reload states. *Create Player Animator Controller* already does. |
 | Release Parameter | Optional Animator bool that frees the hand while true |
@@ -370,6 +384,12 @@ and the save remembers it. For items that come back, use an [object spawner](gat
 Root: `NetworkObject`, `InventoryContainer` (same database as the player, access range 3), `LootBag`, a collider and
 a model. Add it to the Network Prefabs list.
 
+| LootBag field | Default | Meaning |
+|---|---|---|
+| Container | | The `InventoryContainer` of the bag |
+| Prompt | Loot | Interaction text |
+| Empty Check Interval | 1 | Seconds between two checks on the server: an empty bag despawns at the next one |
+
 The bag is created with exactly as many slots as needed, and despawns when empty or at the end of its lifetime.
 Interacting with it opens it in the [inventory window](ui.md#opened-containers), where items are taken one by one.
 Without an inventory window, interacting takes everything that fits.
@@ -411,6 +431,13 @@ the inventory window, both use Tab.
 | Click a slot, then another | Move the stack |
 | Shift + click | Move half the stack |
 | G | Drop one item of the selected hotbar slot |
+
+| Field | Default | Meaning |
+|---|---|---|
+| Inventory | | The `PlayerInventory` shown |
+| Toggle Key | Tab | Opens and closes the overlay |
+| Drop Key | G | Drops one item of the selected hotbar slot |
+| Slot Size, Columns | 64, 5 | Size of a slot in pixels and slots per row |
 
 A **Give** panel lists every item of the database, in the editor and development builds only. The HUD is drawn with
 IMGUI and is not meant to ship.

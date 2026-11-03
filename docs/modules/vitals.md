@@ -225,4 +225,12 @@ direction. A random enabled one is picked on join and on respawn.
 - **K** kills the local player: assign the health vital to **Kill Vital**.
 - **-10 / +10** buttons appear next to each bar when the cursor is free, for example with the inventory open.
 
+| Field | Default | Meaning |
+|---|---|---|
+| Vitals | | The `PlayerVitals` shown |
+| Position, Bar Size, Spacing | (16, 16), 220 × 20, 4 | Placement of the bars, in pixels |
+| Empty Color, Full Color | red, green | Bar color, blended by the value |
+| Kill Vital, Kill Key | , K | The vital set to 0 by the kill key, usually health |
+| Button Step | 10 | Amount added or removed by the buttons |
+
 It is drawn with IMGUI and is not meant to ship.

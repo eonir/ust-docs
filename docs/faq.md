@@ -1,5 +1,9 @@
 # FAQ
 
+**Something does nothing and I do not know why.**
+Run *UST Tools > Validation > [Validate Scene](getting-started/validate-scene.md)*. It lists the setup problems of the
+scene and the player module by module, and fixes most of them in one click.
+
 **The player falls through the ground when it spawns.**
 Set the `CharacterController` Center Y to half its height, and keep **Spawn Height Offset** on `PlayerLife` above 0.
 

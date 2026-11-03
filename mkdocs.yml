@@ -51,6 +51,7 @@ nav:
       - Installation: getting-started/installation.md
       - Quick Start: getting-started/quick-start.md
       - Editor Tools: getting-started/editor-tools.md
+      - Validate Scene: getting-started/validate-scene.md
   - Architecture:
       - Modules: architecture/modules.md
       - Multiplayer: architecture/multiplayer.md
@@ -61,11 +62,16 @@ nav:
       - Save: modules/save.md
       - Combat: modules/combat.md
       - Effects: modules/effects.md
+      - Equipment: modules/equipment.md
+      - Temperature: modules/temperature.md
+      - Weather: modules/weather.md
       - Crafting: modules/crafting.md
       - Building: modules/building.md
+      - AI: modules/ai.md
       - Gathering: modules/gathering.md
       - UI: modules/ui.md
   - Guides:
+      - Build the demo scene: guides/demo-scene.md
       - Create an item: guides/create-item.md
       - Add a vital: guides/add-vital.md
       - Create an item trait: guides/create-item-trait.md

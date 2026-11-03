@@ -150,6 +150,13 @@ the prefab.
 | **Sphere** | Random point in the sphere, snapped to the ground the same way |
 | **Points** | One of the transforms of the **Points** list, snapped to the ground when there is ground right below |
 
+| Field | Default | Meaning |
+|---|---|---|
+| Shape | Box | One of the shapes above |
+| Box Size | 20 × 10 × 20 | Size of the box, centered on the spawner. Make it tall enough to reach the ground from its top |
+| Radius | 10 | Radius of the sphere |
+| Points | | Transforms used by the Points shape |
+
 The area is drawn in green when the spawner is selected. Use **Points** for complex places, such as caves or bridges,
 where a raycast from above could land on the wrong floor.
 

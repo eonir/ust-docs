@@ -16,6 +16,10 @@ directly, so you can remove one without breaking the others.
 | `UST.Weapons` | Core, Inventory, Player, Vitals | Melee and ranged weapons, ammo, aiming, PvP |
 | `UST.Effects` | Core, Vitals, Inventory | Buffs and debuffs, effect zones, consumables, effects bar |
 | `UST.Crafting` | Core, Inventory, UI | Recipes, crafting stations, hand crafting, crafting queue and window |
+| `UST.Weather` | Core | Day and night cycle, weather states and zones, synchronized and saved |
+| `UST.Temperature` | Core, UI | Felt temperature, zones, heat sources, shelter, cold and heat stages |
+| `UST.Equipment` | Core, Inventory, UI | Equipment slots and layout, armor, resistances, worn effects and models |
+| `UST.AI` | Core, Inventory | Melee enemies, spawn director, demo island tool |
 | `UST.Building` | Core, Inventory, UI | Build pieces, build tools, preview and snapping, build menu, saving built pieces |
 | `UST.Gathering` | Core, Inventory, Player | Tools, resource nodes, object spawners, gathering feedback |
 | `UST.UI` | Core, Inventory, Vitals, Player | Item feed, screen messages |
@@ -39,7 +43,13 @@ directly, so you can remove one without breaking the others.
 | `IWorldSaveable` | `WorldItemsSaver` | `SaveManager` |
 | `IObjectSaveable` | `StorageContainer`, `CraftingStation` | `BuildPiecesSaver` saves them with each built piece |
 | `IRemovalHandler` | `CraftingStation` | `PlayerBuilder` calls it before a built piece is removed |
-| `IDamageable` | `PieceHealth` | Enemies, traps and your own code damage anything without knowing its module |
+| `DamageType`, `Resistance`, `IDamageModifier` | Weapons, `EnemyDefinition`, `PieceHealth`, `PlayerDamageReceiver` | Every damage receiver applies resistances by type, then the modifiers of its object (armor) |
+| `EffectAsset`, `IEffectReceiver` | `EffectDefinition`, `PlayerEffects` | Equipment keeps effects active while worn, without depending on the Effects module |
+| `WorldWeather` | `WeatherDirector` | `PlayerTemperature` adds the temperature of the weather; your code reads the wind |
+| `IWorldClock`, `WorldClock` | `DayNightCycle` | `AmbientTemperature` cools the nights, `EnemySpawnDirector` spawns more at night |
+| `IInsulationSource` | `PlayerEquipment` | `PlayerTemperature` reads the cold and heat insulation of the clothes |
+| `IStatProvider`, `IResistanceSource`, `StatLine` | `PlayerVitals`, `PlayerInventory`, `PlayerEquipment`, `PlayerDamageReceiver` | The character stats panel lists the lines of every module |
+| `IDamageable` | `PieceHealth`, `PlayerDamageReceiver`, `EnemyHealth` | Enemies, traps and your own code damage anything without knowing its module |
 | `StationType`, `IStation`, `Stations` | `CraftingStationType`, `CraftingStation` | `PlayerBuilder` checks a station is near a piece that needs one |
 | `IProtectionZone`, `ProtectionZones` | `BuildWard` | `InventoryContainer`, `CraftingStation`, `PlayerBuilder` check who may act in a protected area |
 | `IPlayerDataSource` | `PlayerSaveIdentity` | `PlayerStartingKit` knows if the player is new |
@@ -69,6 +79,7 @@ Optional modules in `Assets/UST/Modules` are compiled only when their define is 
 | Shop | `UST_DISABLE_SHOP` |
 | AI | `UST_DISABLE_AI` |
 | Weather | `UST_DISABLE_WEATHER` |
+| Temperature | `UST_DISABLE_TEMPERATURE` |
 | Vehicle | `UST_DISABLE_VEHICLE` |
 
 !!! warning "Shared assets"

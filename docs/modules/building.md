@@ -37,6 +37,45 @@ The module is optional: add `UST_DISABLE_BUILDING` to the Scripting Define Symbo
 The HUD shows the selected piece, its cost as owned / needed, why it cannot be built here (*Too far*, *Something is
 in the way*, *Missing materials*, *Nothing to build on*) and the controls.
 
+### Build menu and HUD
+
+*Create Game UI* or *UST Tools > UI > Add Build Menu* builds both. Every text can be translated or restyled from the
+inspector.
+
+`BuildMenuWindow`, the menu opened with the right click:
+
+| Field | Default | Meaning |
+|---|---|---|
+| Window | | Object shown and hidden |
+| Tab List, Tab Prefab | | Parent of the category tabs, and the button created for each one |
+| Piece List, Piece Button Prefab | | Parent of the piece buttons of the open tab, and the `BuildPieceButton` created for each piece |
+| Piece Name, Piece Description, Piece Cost | | Texts of the selected piece. The cost lists each item as owned / needed |
+| Enough Color, Missing Color | green, red | Color of a cost line the player can or cannot pay |
+| Active Tab Color, Tab Color | orange, dark grey | Color of the open tab and of the others |
+| Close Key | Escape | Closes the menu, as the right click does |
+| Other Tab Name | Other | Tab of the pieces without a category, shown last |
+
+`BuildPieceButton`, on the piece button prefab: **Button**, **Icon**, **Label**, an optional **Selection** object shown
+on the selected piece, and an optional **Canvas Group** dimmed to **Unavailable Alpha** (0.45) when the player cannot
+afford the piece.
+
+`BuildHUDView`, the line above the hotbar while a build tool is held:
+
+| Field | Default | Meaning |
+|---|---|---|
+| Root | | Object shown while building |
+| Piece Text, Cost Text, Hint Text | | Selected piece, its cost, and the controls or the reason it cannot be built |
+| Enough Color, Missing Color, Problem Color | green, red, red | Cost lines the player can or cannot pay, and the reason a piece cannot be built |
+| Controls | LMB build   RMB menu   Q/E rotate | Fixed controls, shown after the snap mode |
+| Snap Format | Snap: {0} ({1} to switch, hold {2} for free) | {0} the snap mode, {1} its key, {2} the free placement key |
+| Remove Format | MMB remove {0} | Shown when the aimed piece can be removed. {0} its name |
+| Repair Format | {0} repair | Shown when the aimed piece is damaged and can be repaired. {0} the repair key |
+| Health Format | {0}  {1}/{2} | Health of the aimed piece: {0} name, {1} health, {2} max health |
+| Support Format | Support {0}% | Support of the preview or of the aimed piece, in percent |
+
+The snap, free placement and repair keys shown come from `PlayerBuilder`: change a key there and the HUD follows.
+**Controls** is plain text: update it if you change the rotate keys or the mouse buttons.
+
 ## Build piece
 
 Add `BuildPiece` to the root of a network prefab.
@@ -125,6 +164,7 @@ Add `PieceHealth` to a build piece to make it destructible. The demo pieces have
 |---|---|---|
 | Max Health | 200 | |
 | Damage Multiplier | 1 | Multiplies all damage taken: 0.5 for stone, 2 for thatch |
+| Resistances | | By damage type, on top of the multiplier: stone takes little from Slash, a lot from Blunt. See [Damage types](combat.md#damage-types). |
 
 ### How much damage a hit does
 
@@ -138,6 +178,7 @@ base damage
 
 x Projectile Damage Multiplier (Building Rules)   projectiles only
 x Damage Multiplier (Piece Health)                 the material of the piece
+x Resistance to the damage type (Piece Health)     the type of the weapon or the attack
 ```
 
 | Setting | Where | Scope |
@@ -332,7 +373,9 @@ ward*. Building inside a ward you are not part of shows *Protected by a ward*.
 |---|---|---|
 | Radius | 15 | Size of the protected sphere |
 | Active Visual | | Optional object shown while the ward is on |
-| Prompts | | Interaction texts |
+| Turn On Prompt, Turn Off Prompt | Turn on ward, Turn off ward | Interaction text for the owner, or anyone while the ward is off |
+| Join Prompt, Leave Prompt | Join ward, Leave ward | Interaction text for a player who is not, or is, part of the ward |
+| Protected Prompt | Ward: turn it off to join | Shown to other players while the ward is on |
 
 The owner and the joined players are remembered by their save id (`IPlayerDataSource.PlayerKey`), so the ward keeps
 them across sessions. Without the Save module, the session client id is used and is lost on restart.

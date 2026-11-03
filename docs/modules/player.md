@@ -49,6 +49,19 @@ replaces the `InputSystem_Actions` asset of your project:
 
 Missing actions are simply ignored. The reader enables its actions itself, so no `PlayerInput` component is needed.
 
+Your own scripts can read the input of the local player from the reader, instead of reading the devices:
+
+| Member | Value |
+|---|---|
+| `move`, `look` | Vector2 of the Move and Look actions. `lookMove` is true while Look is not zero |
+| `useButtonDown`, `useButtonHeld`, `useButtonUp` | Use action. Down and Held are false while a UI is open |
+| `jumpButtonDown`, `jumpButtonHeld`, `jumpButtonUp` | Jump action |
+| `RunDown`, `runButtonHeld`, `RunUp` | Run action |
+| `crouchButtonDown`, `crouchButtonHeld` | Crouch action |
+| `AimClickDown`, `AimHeld`, `AimUp` | Aim action. Down and Held are false while a UI is open |
+
+*Down* is true on the frame the button is pressed, *Up* on the frame it is released, *Held* while it is down.
+
 !!! warning "Legacy input"
     The project must use the Input System only. `Input.GetAxis` and other legacy calls throw an exception in that
     mode.
@@ -79,6 +92,9 @@ Missing actions are simply ignored. The reader enables its actions itself, so no
 
 | Section | Field | Default | Meaning |
 |---|---|---|---|
+| | Animator | | Animator of the character model, driven by the controller |
+| | Player Camera | | Camera the movement and the aim are relative to: the main camera of the scene, where the CinemachineBrain is. Required |
+| | Input Reader, Movement Settings | | The `PlayerInputReader` of the player and the [movement settings](#movement-settings) asset |
 | | Gravity | | Downward acceleration while airborne |
 | Move | Locomotion Smooth Time | 0.2 | Smoothing of the animator Velocity, MoveX and MoveY parameters |
 | Move | Strafe Movement | On | The character faces the camera while moving and walks sideways and backwards. Off: it turns towards the movement. |
@@ -103,7 +119,10 @@ and the standing height is checked against **Headroom Layers**.
 ### Locking movement
 
 `canMove`, `canRotate`, `canRun` and `canJump` are public flags you can switch from your own code, for a cutscene,
-a sitting animation or a stun.
+a sitting animation or a stun. They show in the inspector and can be ticked in Play Mode to test.
+
+`isCrouching`, `isRunning` and `isJumping` show the current state, in the inspector too. Read them, or `IsRunning`,
+`IsAiming` and `IsFeetPlanted`, from your scripts; do not set them, the controller does.
 
 ## Animator
 
@@ -159,6 +178,38 @@ Visual trait.
     A single static pose per weapon type works: the legs come from the locomotion, and the aim parts align the weapon
     with the crosshair.
 
+### Foot IK
+
+`PlayerFootIK` keeps the feet on steps and slopes the animation does not know about. It goes on the object that
+carries the **Animator**, not on the player root: Unity only calls the IK there. The animator layer needs **IK Pass**
+on (*Create Animator Controller* enables it).
+
+- **Up a step**: a foot that would sink into the step is lifted onto it.
+- **Down a step**: a leg cannot stretch a whole tread lower, so the hips drop, but only for the foot the animation is
+  putting down, and only as far as that foot needs. On flat ground the hips never move, so the walk does not bob.
+- **Slopes**: the soles tilt to match the ground.
+- In the air, when jumping or rolling, the effect fades out.
+
+| Section | Field | Default | Meaning |
+|---|---|---|---|
+| Ground | Ground Layers | Everything | What counts as ground. Leave out the player layer and trigger volumes |
+| Ground | Foot Bone Height | 0.056 | Height of the foot bone above the sole when planted, in metres. Measure it on the idle pose of your character |
+| Ground | Probe Above | 0.6 | How far above the animated foot the ground probe starts |
+| Ground | Probe Below | 0.9 | How far below the animated foot the probe reaches |
+| Stepping down | Reach Down | On | Also lowers the feet onto ground below them, with the hips. Off: feet are only lifted |
+| Stepping down | Max Hip Drop | 0.32 | Deepest the hips drop to reach a lower step, in metres |
+| Stepping down | Plant Height | 0.10 | Below this height above the ground, the animation counts as putting the foot down. The swinging foot reaches about 0.21 walking and 0.36 running |
+| Stepping down | Hip Response | 6 | How fast the hips follow. Low enough that a single step does not snap them |
+| Correction | Dead Zone | 0.02 | Corrections smaller than this are ignored, so flat ground never jitters |
+| Correction | Max Foot Lift | 0.35 | Largest lift accepted on one foot. Beyond, the animation is left alone rather than stretching the leg |
+| Correction | Weight Response | 12 | How fast the effect fades in and out |
+| Correction | Align To Slope | On | Tilts the soles to match the slope |
+
+!!! tip "Tuning for another character"
+    Start with **Foot Bone Height**: with the character idle on flat ground, it is the height of the foot bone above
+    the ground. If the feet float or sink on flat ground, it is wrong. Then raise **Plant Height** if the hips drop
+    late on stairs, or lower it if they bob while walking.
+
 ## Camera
 
 The scene holds one `CinemachineCamera` with:
@@ -190,6 +241,13 @@ wheel is ignored while a UI is open.
 While aiming with a ranged weapon, `AimCameraZoom` moves the camera to the aim distance, and back to the zoom distance
 on release. The wheel is ignored while aiming, so the zoom distance is kept. Scripts can set `CameraZoom.Aiming`
 themselves for other aims.
+
+`AimCameraZoom` goes on the CinemachineCamera that follows the player. It also narrows the field of view while aiming:
+
+| Field | Default | Meaning |
+|---|---|---|
+| Aim Field Of View | 45 | Field of view while aiming, in degrees |
+| Zoom Speed | 10 | How fast the field of view changes |
 
 ### Mouse cursor
 

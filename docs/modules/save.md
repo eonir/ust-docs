@@ -43,6 +43,9 @@ The inspector also shows:
 | Items placed in the scene: picked up or partially picked up | `WorldItemsSaver` |
 | Resource nodes placed in the scene: health, depletion, regrow time | `ResourceNodesSaver` |
 | Objects of each spawner and their pending respawns | `ObjectSpawner` |
+| Worn equipment | `PlayerEquipment` |
+| Time of day and day number | `DayNightCycle` |
+| Weather of the world and of each zone, with the time left | `WeatherDirector` |
 | Crafts made by hand in progress | `PlayerCrafter` |
 | Crafting stations placed in the scene: queue and output | `CraftingStation`, each station saves itself |
 | Pieces built at runtime, with their health and the content of built chests and workbenches | `BuildPiecesSaver` |

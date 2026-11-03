@@ -68,6 +68,35 @@ Recipes the player cannot afford are dimmed. The selected recipe shows each ingr
 for the chosen quantity. **-** and **+** change the quantity, by 10 with Shift, **Max** picks the most the player can
 afford. The queue shows each job with its progress and a cancel button.
 
+*Create Game UI* or *UST Tools > UI > Add Crafting Panel* builds it and fills every reference. The texts can be
+translated or restyled from the inspector.
+
+| Section | Field | Default | Meaning |
+|---|---|---|---|
+| | Inventory Window | | The inventory window the panel opens with |
+| | Panel, Title | | Object shown and hidden, and its title: the station name, or Hand Title |
+| | Hand Crafting With Inventory | On | Shows the hand recipes when the inventory opens without a container |
+| | Hand Title | Crafting | Title of the panel for hand crafting |
+| | Close Distance Margin | 0.5 | Extra distance, on top of the station Use Range, before an opened station closes |
+| Recipes | Recipe List, Recipe Row Prefab | | Parent of the recipe rows, and the `CraftingRecipeRow` created for each recipe |
+| Recipes | No Recipe Text | | Shown when no recipe is available here |
+| Selected recipe | Details | | Object shown while a recipe is selected |
+| Selected recipe | Selected Icon, Selected Name, Ingredients Text, Quantity Text | | Texts and icon of the selected recipe |
+| Selected recipe | Less Button, More Button, Max Button, Craft Button | | Quantity buttons and craft button |
+| Selected recipe | Enough Color, Missing Color | green, red | Ingredient lines the player can or cannot pay |
+| Queue | Queue List, Queue Row Prefab | | Parent of the queued jobs, and the `CraftingQueueRow` created for each one |
+| Queue | Status Text | | Shows Empty Queue Text, Output Full Text, or nothing |
+| Queue | Empty Queue Text | Nothing in progress | Shown when the queue is empty |
+| Queue | Output Full Text | Output full: take the items out | Shown when a finished job waits for room in the station output |
+| Queue | Take All Button | | Moves the whole station output to the player inventory |
+
+`CraftingRecipeRow`, on the recipe row prefab: **Button**, **Icon**, **Label**, an optional **Selection** object shown on
+the selected recipe, and an optional **Canvas Group** dimmed to **Unavailable Alpha** (0.45) when the player cannot
+afford it.
+
+`CraftingQueueRow`, on the queue row prefab: **Icon**, **Label**, **Progress Fill** (a filled image showing the progress
+of the current job) and **Cancel Button**.
+
 ## Scripting
 
 ```csharp
