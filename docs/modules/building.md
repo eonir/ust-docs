@@ -324,8 +324,7 @@ Give an item the **Building > Build Tool** trait.
 | Rotate Action | | Optional mouse wheel action (Vector2). Without it, the mouse is read directly |
 | Invert Wheel | Off | Reverses the rotation direction |
 | Wheel Threshold | 0.1 | Minimum wheel movement |
-| Rotate Left Key, Rotate Right Key | None, None | Optional keys, on top of the wheel. Avoid the interact key (E): it would also use the chest or station you aim at |
-| Rotation Step | 22.5 | Degrees per wheel notch or key press |
+| Rotation Step | 22.5 | Degrees per wheel notch |
 | Repair Key | R | Repairs the aimed piece, inside wards you are part of |
 | Repair Amount | 1 | Health given back per repair, as a part of the max health. 1 repairs fully, 0.25 needs four presses. |
 | Repair Cooldown | 0.5 | Seconds between two repairs |
