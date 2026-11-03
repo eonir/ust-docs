@@ -23,8 +23,12 @@
 | Crouch | C |
 | Interact / pick up | E |
 | Attack / gather | Left mouse button |
-| Hotbar | Mouse wheel, 1 to 0 |
-| Inventory | Tab, Escape to close |
+| Aim (ranged weapons) | Right mouse button |
+| Reload | R |
+| Camera distance | Mouse wheel |
+| Hotbar | 1 to 0. On a consumable (food, potion), the key uses it and the held item stays in hand |
+| Inventory | Tab, Escape to close. The **Stats** button opens the character stats |
+| Build (hammer in hand) | Right click opens the build menu, see [Building > Controls](../modules/building.md#controls) |
 | Move items | Drag and drop, right drag for half, Shift + click to send to the other side |
 | Drop items | Drag out of the inventory window |
 | Kill yourself (debug HUD) | K |
