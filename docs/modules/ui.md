@@ -289,6 +289,10 @@ The player is spawned by the network, so try again every frame until it succeeds
 Call `UIInputFocus.Push()` when your UI opens and `UIInputFocus.Pop()` when it closes. While `UIInputFocus.IsUIOpen`
 is true, attacks, aiming, interaction and the camera orbit are ignored.
 
+The mouse wheel has its own owner. `MouseWheelFocus.Claim(this)` takes it, `MouseWheelFocus.Release(this)` gives it
+back; while it is claimed, the camera zoom and the hotbar ignore the wheel. `PlayerBuilder` claims it while a piece is
+previewed, to rotate it. Claims are per owner, so two systems never cancel each other; release in `OnDisable` too.
+
 ## Debug overlays
 
 `VitalsDebugHUD`, `InventoryDebugHUD` and `NetworkSessionMenu` are drawn with IMGUI for testing and are not meant to

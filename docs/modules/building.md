@@ -28,7 +28,7 @@ The module is optional: add `UST_DISABLE_BUILDING` to the Scripting Define Symbo
 |---|---|
 | Attack (left click) | Build the selected piece |
 | Right click | Open or close the build menu |
-| Q / E | Rotate by **Rotation Step** |
+| Mouse wheel | Rotate by **Rotation Step**. The camera does not zoom while a piece is previewed |
 | T | Switch the snap mode: **Corners** or **Middle** |
 | Hold Left Shift | Free placement: no snapping, the piece goes exactly where you aim |
 | Middle click | Remove the built piece under the crosshair |
@@ -66,7 +66,7 @@ afford the piece.
 | Root | | Object shown while building |
 | Piece Text, Cost Text, Hint Text | | Selected piece, its cost, and the controls or the reason it cannot be built |
 | Enough Color, Missing Color, Problem Color | green, red, red | Cost lines the player can or cannot pay, and the reason a piece cannot be built |
-| Controls | LMB build   RMB menu   Q/E rotate | Fixed controls, shown after the snap mode |
+| Controls | LMB build   RMB menu   Wheel rotate | Fixed controls, shown after the snap mode |
 | Snap Format | Snap: {0} ({1} to switch, hold {2} for free) | {0} the snap mode, {1} its key, {2} the free placement key |
 | Remove Format | MMB remove {0} | Shown when the aimed piece can be removed. {0} its name |
 | Repair Format | {0} repair | Shown when the aimed piece is damaged and can be repaired. {0} the repair key |
@@ -74,7 +74,7 @@ afford the piece.
 | Support Format | Support {0}% | Support of the preview or of the aimed piece, in percent |
 
 The snap, free placement and repair keys shown come from `PlayerBuilder`: change a key there and the HUD follows.
-**Controls** is plain text: update it if you change the rotate keys or the mouse buttons.
+**Controls** is plain text: update it if you change the rotation input or the mouse buttons.
 
 ## Build piece
 
@@ -320,8 +320,12 @@ Give an item the **Building > Build Tool** trait.
 | Place Action | | Builds. Set to the attack action by the setup tool. |
 | Remove Action | | Optional. Without it, middle click. |
 | Menu Action | | Optional. Without it, right click. |
-| Rotate Left Key / Rotate Right Key | Q / E | |
-| Rotation Step | 22.5 | Degrees per key press |
+| Wheel Rotates | On | Rotates the preview with the mouse wheel. While a piece is previewed, the wheel is claimed: the camera zoom and the hotbar ignore it |
+| Rotate Action | | Optional mouse wheel action (Vector2). Without it, the mouse is read directly |
+| Invert Wheel | Off | Reverses the rotation direction |
+| Wheel Threshold | 0.1 | Minimum wheel movement |
+| Rotate Left Key, Rotate Right Key | None, None | Optional keys, on top of the wheel. Avoid the interact key (E): it would also use the chest or station you aim at |
+| Rotation Step | 22.5 | Degrees per wheel notch or key press |
 | Repair Key | R | Repairs the aimed piece, inside wards you are part of |
 | Repair Amount | 1 | Health given back per repair, as a part of the max health. 1 repairs fully, 0.25 needs four presses. |
 | Repair Cooldown | 0.5 | Seconds between two repairs |

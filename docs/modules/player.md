@@ -225,7 +225,8 @@ To invert the vertical axis, set a negative **Gain** on the vertical axis of the
 ### Camera zoom
 
 `CameraZoom`, on the player root, changes the distance of the `CinemachineOrbitalFollow` with the mouse wheel. The
-wheel is ignored while a UI is open.
+wheel is ignored while a UI is open, and while another system claims it (`MouseWheelFocus`), such as the build
+preview, which rotates with the wheel.
 
 | Field | Default | Meaning |
 |---|---|---|
