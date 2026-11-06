@@ -1,6 +1,6 @@
 # Validate Scene
 
-*UST Tools > Validation > Validate Scene* checks the open scene and the player prefab, and lists every setup problem
+*Tools > UST > Validation > Validate Scene* checks the open scene and the player prefab, and lists every setup problem
 it finds, module by module, with a button to fix it when the fix is safe.
 
 *Create Full Survival Demo* sets a **new** scene up correctly. Validate Scene checks **any** scene, at any time: a scene set up
@@ -36,7 +36,7 @@ It changes nothing until you click a fix.
 | **Select** | Selects and pings the object concerned: a scene object, the player prefab, an item, a piece prefab |
 | Fix button | Fixes this line. Its label says what it does |
 
-Fixes change the scene and prefabs, so they are disabled in Play Mode. Some fixes run a UST Tools menu, which can show
+Fixes change the scene and prefabs, so they are disabled in Play Mode. Some fixes run a Tools > UST menu, which can show
 its own dialog (for example *Put Pieces On Building Layer* reports how many prefabs it moved). Fixes on the player
 open the player prefab, change it and save it, as the *To Selected Player* menus do. Scene changes can be undone with
 Ctrl+Z; prefab changes cannot, use your version control.
@@ -101,6 +101,12 @@ A module with nothing in the scene, on the player and in the project is skipped.
 | Station without Station Type | Warning | No recipe uses it | - |
 | Fuel burners without fuel | Warning | No item has a Burnable trait: no fire can ever be lit | - |
 | Locked recipes without Recipe Book | Warning | Recipes use an Unlock mode but the player has no `RecipeBook`: every recipe stays known | **Add Recipe Book**, on the player prefab |
+
+### Effects
+
+| Check | Level | Why | Fix |
+|---|---|---|---|
+| Use animations without Use Item state | Warning | Consumables have an Animation, but the Animator Controller of the player has no Use Item state: they play no animation | **Add Use Item State** |
 
 ### Equipment
 

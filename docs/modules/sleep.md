@@ -10,8 +10,8 @@ removed with `UST_DISABLE_WEATHER`.
 
 ## Setup
 
-1. Add the day and night cycle if the scene has none: *UST Tools > Advanced > Weather > Add Day Night Cycle To Scene*.
-2. Run *UST Tools > Advanced > Sleep > Add Sleep To Scene*. It adds a `SleepDirector` to the Day Night Cycle object.
+1. Add the day and night cycle if the scene has none: *Tools > UST > Advanced > Weather > Add Day Night Cycle To Scene*.
+2. Run *Tools > UST > Advanced > Sleep > Add Sleep To Scene*. It adds a `SleepDirector` to the Day Night Cycle object.
 3. Run *right click in the Hierarchy > UST > Bed* for a test bed, or add a `Bed` to your own bed model (see [Your own bed](#your-own-bed)).
 
 Nothing goes on the player prefab: the first bed a player uses adds what it needs at runtime.
@@ -76,7 +76,7 @@ Lying down in a bed makes it the respawn point of the player (*Respawn point set
 player then respawns at its **Get Up Point**, or beside the bed. When the bed is destroyed, the spawn points of the
 scene are used again.
 
-To keep the respawn bed in the save, the player prefab needs a `Sleeper`: select it and run *UST Tools > Advanced > Sleep > Add Bed Respawn To Selected Player*. Without it, beds still set the respawn point, for the session only.
+To keep the respawn bed in the save, the player prefab needs a `Sleeper`: select it and run *Tools > UST > Advanced > Sleep > Add Bed Respawn To Selected Player*. Without it, beds still set the respawn point, for the session only.
 
 | Sleep Director field | Default | Meaning |
 |---|---|---|

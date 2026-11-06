@@ -1,6 +1,6 @@
 # Create an item
 
-1. Open *UST Tools > Item Database* and click **+ New Item**. The item is created and added to the database. Set
+1. Open *Tools > UST > Item Database* and click **+ New Item**. The item is created and added to the database. Set
    its name, icon, max stack and weight on the right.
 2. Create the **model prefab**: only the mesh, no `NetworkObject`.
 3. Create the **world prefab**: an empty root with `NetworkObject`, `WorldItem` (with the database) and a collider,

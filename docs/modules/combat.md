@@ -204,6 +204,26 @@ given back after a second.
 | Visuals | Muzzle Name | Name of the muzzle child, when the model has no `HeldItemPoint` of type Muzzle |
 | Visuals | Fire Trigger, Reload Trigger | Animator triggers. Empty or missing: none. |
 
+### Muzzle flash
+
+On the first shot of a held weapon, every peer creates its **Muzzle Effect** once, as a child of its muzzle point, at
+the position and rotation of that point. Every later shot only turns it off and on again, which restarts its particle
+systems: nothing is created or destroyed while firing. It stays on the weapon model, which the held item keeps
+hidden while another item is in the hand (see [Item in the hand](inventory.md#item-in-the-hand)).
+Any prefab works: its particle systems play by themselves (**Play On Awake** on, **Looping** off).
+
+To move the flash, move the muzzle point of the weapon model: the flash sits exactly on it.
+
+The demo weapons use `Assets/UST/VFX/Muzzle.prefab`: a flash, sparks and a light that lives as long as the
+flash, with the additive material `M_MuzzleFlash`. To change it, open the prefab and edit its particle systems:
+**Start Size** of *Flash* for its size, **Start Color** for its color, the **Lights** module for the light. For a
+weapon with its own flash, duplicate the prefab and assign the copy to the **Muzzle Effect** of that weapon, in the
+Item Database.
+
+The muzzle point is the `HeldItemPoint` of type Muzzle of the held model, or its child named **Muzzle Name**, with its
+Z axis out of the barrel. Keep it an empty object: a flash placed there would play each time the weapon is taken in
+hand. *Tools > UST > Advanced > Weapons > Build Muzzle Flash* rebuilds the default flash, after a confirmation.
+
 !!! warning "Projectile prefab"
     Remove every collider from the projectile prefab: shots would hit their own visual.
 

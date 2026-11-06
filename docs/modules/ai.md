@@ -10,12 +10,12 @@ The module is optional: add `UST_DISABLE_AI` to the Scripting Define Symbols to 
 
 ## Setup
 
-1. Bake a NavMesh in your scene: a `NavMeshSurface` on the ground, then **Bake**. *UST Tools > Advanced > Demo > Create Demo Island* builds a test map with its NavMesh, see [Demo island](#demo-island).
+1. Bake a NavMesh in your scene: a `NavMeshSurface` on the ground, then **Bake**. *Tools > UST > Advanced > Demo > Create Demo Island* builds a test map with its NavMesh, see [Demo island](#demo-island).
 2. Select a character model (an FBX with a humanoid Animator, not a full prefab with scripts) and run *right click in the Project window > UST > Create Enemy From Model*. It makes a prefab in `Modules/AI/Prefabs` with a `NetworkObject`, a
    `NetworkTransform`, a capsule, a `NavMeshAgent`, `EnemyHealth` and `EnemyAI`. Without a controller on the model, it
    uses the controller of the player, so the same animations work at once.
-3. Run *UST Tools > Validation > Validate Network Prefabs*.
-4. Run *UST Tools > Advanced > AI > Add Enemy Spawner To Scene*: a director with every enemy prefab of the project.
+3. Run *Tools > UST > Validation > Validate Network Prefabs*.
+4. Run *Tools > UST > Advanced > AI > Add Enemy Spawner To Scene*: a director with every enemy prefab of the project.
 
 !!! tip "No enemy model yet?"
     Use your player model with another material for tests. For a free model safe for the Asset Store, prefer CC0 packs
@@ -262,7 +262,7 @@ lower the caps. An AI level of detail (far enemies thinking once a second) is pl
 
 ## Demo island
 
-*UST Tools > Advanced > Demo > Create Demo Island* builds a small test map in the open scene, centered on the origin: a 300 m
+*Tools > UST > Advanced > Demo > Create Demo Island* builds a small test map in the open scene, centered on the origin: a 300 m
 island with beaches, grass and rocky slopes, a sea, 140 demo trees, and a baked NavMesh with the sea made not
 walkable. An object named *Floor* is turned off. The assets go to `Assets/UST/Demo/Island`. Rebake the
 `NavMeshSurface` on *Demo Island* after moving things.

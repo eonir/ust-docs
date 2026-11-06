@@ -2,7 +2,7 @@
 
 ## Where to start
 
-*UST Tools > Setup Window* is the entry point, and opens by itself the first time, see [Setup Window](setup-window.md). It shows each module of the
+*Tools > UST > Setup Window* is the entry point, and opens by itself the first time, see [Setup Window](setup-window.md). It shows each module of the
 project with what it has in the open scene and on the player prefab, and adds what is missing in one click. From there:
 
 - **Create Full Survival Demo** turns the open scene into a playable demo of every module, see

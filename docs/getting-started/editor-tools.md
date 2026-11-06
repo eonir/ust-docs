@@ -2,20 +2,20 @@
 
 ## Menus
 
-The **UST Tools** menu keeps what you use often. Actions on one object are in its right click menu, and the rest is
+The **Tools > UST** menu keeps what you use often. Actions on one object are in its right click menu, and the rest is
 under **Advanced**.
 
 | Menu | What it does |
 |---|---|
-| *UST Tools > Setup Window* | The entry point, see [Setup Window](setup-window.md): each module of the project with what it has in the open scene and on the player prefab, a button to add what is missing, the demo, the player setup and the main tools. Opens once on the first import. |
-| *UST Tools > Create Full Survival Demo* | Sets up a playable demo of every module in the open scene, see [Build the demo scene](../guides/demo-scene.md) |
-| *UST Tools > Setup Player Prefab* | Adds to `Player.prefab` the components of every module in the project: building, hand crafting, recipe book, equipment, temperature, weather exposure, bed respawn, vehicles. Each one only when missing. |
-| *UST Tools > Create Game UI* | Creates the whole game UI, with the stats panel, and the equipment panel, the crafting panel and the build menu when their modules are present, see [UI](../modules/ui.md) |
-| *UST Tools > Item Database* | Window to create, find and edit every item, see [Inventory](../modules/inventory.md#item-database-window) |
-| *UST Tools > Held Item Tuning* | Play Mode window to place the item in the hand, set the left hand grip and correct the aim, see [Item in the hand](../modules/inventory.md#placing-the-item-in-the-hand) |
-| *UST Tools > Validation > Validate Scene* | Lists every setup problem of the open scene and the player prefab, module by module, with a fix button when possible, see [Validate Scene](validate-scene.md) |
-| *UST Tools > Validation > Validate Network Prefabs* | Lists the network prefabs missing from the NetworkManager and adds them in one click |
-| *UST Tools > Validation > Check Model Orientation* | Lists the meshes of the models in `Assets/UST` that the Asset Store validator reports as badly oriented |
+| *Tools > UST > Setup Window* | The entry point, see [Setup Window](setup-window.md): each module of the project with what it has in the open scene and on the player prefab, a button to add what is missing, the demo, the player setup and the main tools. Opens once on the first import. |
+| *Tools > UST > Create Full Survival Demo* | Sets up a playable demo of every module in the open scene, see [Build the demo scene](../guides/demo-scene.md) |
+| *Tools > UST > Setup Player Prefab* | Adds to `Player.prefab` the components of every module in the project: building, hand crafting, recipe book, equipment, temperature, weather exposure, bed respawn, vehicles. Each one only when missing. |
+| *Tools > UST > Create Game UI* | Creates the whole game UI, with the stats panel, and the equipment panel, the crafting panel and the build menu when their modules are present, see [UI](../modules/ui.md) |
+| *Tools > UST > Item Database* | Window to create, find and edit every item, see [Inventory](../modules/inventory.md#item-database-window) |
+| *Tools > UST > Held Item Tuning* | Play Mode window to place the item in the hand, set the left hand grip and correct the aim, see [Item in the hand](../modules/inventory.md#placing-the-item-in-the-hand) |
+| *Tools > UST > Validation > Validate Scene* | Lists every setup problem of the open scene and the player prefab, module by module, with a fix button when possible, see [Validate Scene](validate-scene.md) |
+| *Tools > UST > Validation > Validate Network Prefabs* | Lists the network prefabs missing from the NetworkManager and adds them in one click |
+| *Tools > UST > Validation > Check Model Orientation* | Lists the meshes of the models in `Assets/UST` that the Asset Store validator reports as badly oriented |
 
 ### Right click menus
 
@@ -29,10 +29,11 @@ under **Advanced**.
 | A model, in the Hierarchy or the Project window | *UST > Create Enemy From Model*, *UST > Create Vehicle From Model* | Makes a network enemy or vehicle prefab from the model |
 | An enemy prefab | *UST > Create Enemy Definition* | Creates an Enemy Definition and assigns it |
 | An Animator Controller in the Project window | *UST > Add Upper Body Layer* | Adds the missing parameters, an upper body Avatar Mask and the UpperBody layer |
+| An Animator Controller in the Project window | *UST > Add Use Item State* | Adds the state that plays the use animation of consumables, see [Effects](../modules/effects.md#use-animation) |
 
 ### Advanced
 
-*UST Tools > Advanced* holds one submenu per module, with each step the Setup window and the demo run, for when you
+*Tools > UST > Advanced* holds one submenu per module, with each step the Setup window and the demo run, for when you
 want only one of them: add a module to the scene, add one component to the selected player, rebuild one panel of the
 UI, bake the map, create the default vitals, vehicles or demo pieces, the demo island, the vehicle test scene, the
 Animator Controller of the player, the default UI layout, or assign the input actions again.
@@ -53,7 +54,7 @@ It never overwrites anything: assets with the same name get a number.
 
 ## Validate Scene
 
-*UST Tools > Validation > Validate Scene* lists every setup problem of the open scene and the player prefab, module by
+*Tools > UST > Validation > Validate Scene* lists every setup problem of the open scene and the player prefab, module by
 module, with a fix button when possible. Every check, its level and its fix are described in
 [Validate Scene](validate-scene.md), with how to add your own checks.
 
@@ -103,7 +104,7 @@ documentation. Run it regularly rather than only before submitting.
 ### Check Model Orientation
 
 The validator reports a model when one of its meshes has a rotation inside the imported model, even if the object
-looks right in the scene. *UST Tools > Validation > Check Model Orientation* applies the same rule and logs each
+looks right in the scene. *Tools > UST > Validation > Check Model Orientation* applies the same rule and logs each
 mesh with its path inside the model and its rotation. Click a message to select the model.
 
 | Logged rotation | Cause | Fix |

@@ -6,7 +6,7 @@ profile. Adding a new one needs no code.
 
 ## Quick setup
 
-1. *UST Tools > Advanced > Vitals > Create Default Vitals* and pick a folder. It creates Health, Hunger, Thirst, Stamina and a profile.
+1. *Tools > UST > Advanced > Vitals > Create Default Vitals* and pick a folder. It creates Health, Hunger, Thirst, Stamina and a profile.
 2. On the player root, add `PlayerVitals` and assign the profile.
 3. Add the optional components you need:
 

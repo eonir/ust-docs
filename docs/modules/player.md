@@ -64,7 +64,7 @@ Your own scripts can read the input of the local player from the reader, instead
 
 ### Gamepad
 
-Every action of `UST_InputActions` has a keyboard and mouse binding and a gamepad binding. Players change them in the Keys tab of the [options](settings.md#changing-the-keys). Run *UST Tools > Advanced > Input > Assign Input Actions* once: it fills the empty input fields of the player prefab and of the scene with these actions,
+Every action of `UST_InputActions` has a keyboard and mouse binding and a gamepad binding. Players change them in the Keys tab of the [options](settings.md#changing-the-keys). Run *Tools > UST > Advanced > Input > Assign Input Actions* once: it fills the empty input fields of the player prefab and of the scene with these actions,
 and adds the gamepad cursor to the game UI. Fields you already set are kept. *Create Game UI* and *Add Lobby To
 Scene* run it on the scene too.
 
@@ -172,7 +172,7 @@ a sitting animation or a stun. They show in the inspector and can be ticked in P
 
 ## Animator
 
-*UST Tools > Advanced > Player > Create Animator Controller* creates a controller with every parameter UST uses, the IK pass
+*Tools > UST > Advanced > Player > Create Animator Controller* creates a controller with every parameter UST uses, the IK pass
 enabled, two empty states, **Locomotion** and **Crouch**, and the **UpperBody** layer described below.
 *right click in the Project window > UST > Add Upper Body Layer* adds the missing parameters and the layer to an existing
 controller.

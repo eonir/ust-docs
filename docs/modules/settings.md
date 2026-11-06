@@ -10,7 +10,7 @@ still apply where they are read (camera sensitivity, nameplates, chat, voice), t
 
 ## Setup
 
-Run *UST Tools > Advanced > Settings > Add Options Menu To Scene*. It adds the **UST Options UI** canvas with the `OptionsMenu`
+Run *Tools > UST > Advanced > Settings > Add Options Menu To Scene*. It adds the **UST Options UI** canvas with the `OptionsMenu`
 and the `SettingsApplier`. Rebuild the lobby (*Add Lobby To Scene* after deleting **UST Lobby UI**) to get its
 **Options** buttons; they hide themselves when the scene has no options menu.
 
@@ -105,7 +105,7 @@ Changes apply to the actions themselves: every component and every on-screen pro
 mode), so a key used elsewhere is not refused.
 
 On the options menu: **Rebind Maps** (Player) and **Rebind Excluded** (Look) choose the lines, **Input Actions** the
-asset (empty: the one of the Close Action). For a menu built before, run **UST Tools > Advanced > Settings > Add Keys Tab To Options Menu**.
+asset (empty: the one of the Close Action). For a menu built before, run **Tools > UST > Advanced > Settings > Add Keys Tab To Options Menu**.
 
 ```csharp
 InputRebinding.ResetAll();

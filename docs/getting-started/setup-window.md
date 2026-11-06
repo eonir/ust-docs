@@ -1,6 +1,6 @@
 # Setup Window
 
-*UST Tools > Setup Window* is the entry point of the template. It shows what each module of the project has in the
+*Tools > UST > Setup Window* is the entry point of the template. It shows what each module of the project has in the
 open scene and on the player prefab, and adds what is missing in one click. It opens by itself the first time the
 template is imported.
 
@@ -26,7 +26,7 @@ The line shows the components of the modules that `Assets/UST/Player/Prefabs/Pla
 
 | Button | What it does |
 |---|---|
-| **Setup Player Prefab** | Adds every missing component, each with its default setup, and saves the prefab. Same as *UST Tools > Setup Player Prefab*. |
+| **Setup Player Prefab** | Adds every missing component, each with its default setup, and saves the prefab. Same as *Tools > UST > Setup Player Prefab*. |
 | **Select Player Prefab** | Selects the prefab in the Project window. |
 
 | Module | Component added to the player |
@@ -90,12 +90,13 @@ What works on one object is in its right click menu, under **UST**, in the Hiera
 | A model, in the Hierarchy or the Project window | *Create Enemy From Model*, *Create Vehicle From Model* | A network enemy or vehicle prefab |
 | An enemy prefab | *Create Enemy Definition* | Its stats asset |
 | An Animator Controller | *Add Upper Body Layer* | The layer used to hold items while moving |
+| An Animator Controller | *Add Use Item State* | The state that plays the use animation of consumables |
 
 The same items are in the *GameObject > UST* menu at the top of the editor.
 
 ## Advanced
 
-*UST Tools > Advanced* has one submenu per module, with each step the Setup window and the demo run: add one module to
+*Tools > UST > Advanced* has one submenu per module, with each step the Setup window and the demo run: add one module to
 the scene, add one component to the selected player, rebuild one panel of the UI, bake the map, create the default
 vitals, vehicles or build pieces, the demo island, the vehicle test scene, the Animator Controller of the player, the
 default UI layout, or assign the input actions again. Use them to redo a single step, for example to rebuild the
@@ -111,8 +112,8 @@ module and the window, *Setup Player Prefab*, *Add Every Module To Scene* and th
 new SetupCatalog.Module
 {
     name = "Fishing", description = "Rods, fish, water spots", page = "modules/fishing",
-    scene = new[] { Scene("Fish spawner", "MyGame.FishSpawner, MyGame", "UST Tools/Advanced/Fishing/Add Fishing To Scene") },
-    player = new[] { Player("Fishing", "MyGame.PlayerFisher, MyGame", "UST Tools/Advanced/Fishing/Add Fishing To Selected Player") }
+    scene = new[] { Scene("Fish spawner", "MyGame.FishSpawner, MyGame", "Tools/UST/Advanced/Fishing/Add Fishing To Scene") },
+    player = new[] { Player("Fishing", "MyGame.PlayerFisher, MyGame", "Tools/UST/Advanced/Fishing/Add Fishing To Selected Player") }
 }
 ```
 

@@ -15,7 +15,7 @@ The module is optional: add `UST_DISABLE_VOICE` to the Scripting Define Symbols 
 1. Install **Vivox** from the Package Manager (Unity Registry).
 2. Link the project to Unity Cloud (*Edit > Project Settings > Services*), then open the
    [Unity Dashboard](https://cloud.unity.com), select the project, and turn on **Vivox Voice and Text Chat**.
-3. Run *UST Tools > Advanced > Voice > Add Voice To Scene*. It adds a `VoiceService` to the **Network Session** object and the
+3. Run *Tools > UST > Advanced > Voice > Add Voice To Scene*. It adds a `VoiceService` to the **Network Session** object and the
    list of speakers at the top left of the **UST UI** canvas. *Create Game UI* adds both too.
 
 Each session gets its own voice channel, picked by the server. Players join it as soon as their character spawns.

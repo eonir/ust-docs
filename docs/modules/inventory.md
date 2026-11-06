@@ -31,7 +31,7 @@ click it and choose **Collect All Items In Project**.
 
 ### Item Database window
 
-*UST Tools > Item Database* shows every item of the project:
+*Tools > UST > Item Database* shows every item of the project:
 
 - search by name, filter by category, or show only the items with issues,
 - **+ New Item**, **Duplicate** (the copy gets its own id) and **Delete** (to the system trash, after a confirmation),
@@ -189,6 +189,11 @@ The selection is synchronized: other players see which item you hold. Read it wi
 `PlayerHeldItem` shows the model of the selected hotbar item on every peer. Only the selection is synchronized: the
 model itself is a local object, so holding an item costs no network object.
 
+The models of the last items held stay on the character, hidden, and are shown again when their item comes back:
+once each item was held, changing items creates and destroys nothing. **Kept Models** (8) sets how many are kept;
+past it, the oldest is destroyed. 0 destroys each model when it leaves the hand. A model shown again gets the placement
+of its Held Visual trait back. Call `ClearKept()` after changing the Held Visual of items at runtime.
+
 1. Create a **model prefab**: only the mesh, no `NetworkObject`.
 2. On the item: **Add Trait > Visual > Held Visual**, assign the model prefab and adjust the offsets.
 
@@ -212,13 +217,14 @@ The fields marked as tuned in Play Mode are written by the Held Item Tuning wind
 | Hand Socket | Where the model is attached. Empty: the right hand bone of the humanoid Animator. |
 | Animator | Found automatically if empty |
 | Hold Type Parameter | Animator int set to the **Hold Type** of the held item, 0 with empty hands. Default `HoldType`. Empty: no parameter is set, for an Animator without upper body layer |
+| Kept Models | 8. Models of the last items held kept hidden on the character, see above |
 
 The colliders of the model are disabled, so it never blocks raycasts or pushes the character. Rigs exported in
 centimetres, with a scale of 100 on their bones, are compensated automatically.
 
 ### Placing the item in the hand
 
-Everything is tuned in Play Mode, with the character animated, in one window: *UST Tools > Held Item Tuning* (or
+Everything is tuned in Play Mode, with the character animated, in one window: *Tools > UST > Held Item Tuning* (or
 **Open Held Item Tuning** on `PlayerHeldItem`).
 
 1. Press Play and select the item in the hotbar. **Freeze Animation** stops the character on its current pose, so the

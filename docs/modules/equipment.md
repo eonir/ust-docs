@@ -9,13 +9,13 @@ The module is optional: add `UST_DISABLE_EQUIPMENT` to the Scripting Define Symb
 
 ## Setup
 
-1. Select the player prefab and run *UST Tools > Advanced > Equipment > Add Equipment To Selected Player*. It adds:
+1. Select the player prefab and run *Tools > UST > Advanced > Equipment > Add Equipment To Selected Player*. It adds:
     - an **Equipment** child with an `InventoryContainer`, using the database of the inventory;
     - `PlayerEquipment` on the root, with a default layout (Head, Chest, Legs, Hands, Feet, Back, 2 Rings) created in
       `Modules/Equipment/Data`;
     - the equipment container to the **Other Containers** of `PlayerDeathDrop`, so worn items drop on death.
-2. *UST Tools > Create Game UI* adds the equipment panel on the left of the inventory. For a UI built before, run
-   *UST Tools > Advanced > UI > Add Equipment Panel*. The panel goes just before the inventory panel in its horizontal layout group,
+2. *Tools > UST > Create Game UI* adds the equipment panel on the left of the inventory. For a UI built before, run
+   *Tools > UST > Advanced > UI > Add Equipment Panel*. The panel goes just before the inventory panel in its horizontal layout group,
    so on its left, with the look of the container panel.
 
 | Equipment Panel field | Default | Meaning |

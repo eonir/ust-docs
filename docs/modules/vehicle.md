@@ -11,7 +11,7 @@ The module is optional: add `UST_DISABLE_VEHICLE` to the Scripting Define Symbol
 ## Quick test
 
 1. Open a playable scene, for example the demo scene, and save it.
-2. Run *UST Tools > Advanced > Vehicle > Create Vehicle Test Scene*.
+2. Run *Tools > UST > Advanced > Vehicle > Create Vehicle Test Scene*.
 3. Press Play, walk to a vehicle and press **Interact**.
 
 The tool copies the open scene to `Modules/Vehicle/Demo/Vehicle Test.unity` and leaves the original as it was. In
@@ -27,11 +27,11 @@ the copy it:
 
 ## Setup in your own scene
 
-1. *UST Tools > Advanced > Vehicle > Add Vehicles To Selected Player* on the player prefab (or the fix in Validate Scene).
-2. *UST Tools > Advanced > Vehicle > Create Default Vehicles*, or *Create Vehicle From Selected Model* for your own model.
+1. *Tools > UST > Advanced > Vehicle > Add Vehicles To Selected Player* on the player prefab (or the fix in Validate Scene).
+2. *Tools > UST > Advanced > Vehicle > Create Default Vehicles*, or *Create Vehicle From Selected Model* for your own model.
 3. Place vehicles in the scene. Vehicles placed in the scene need no registration in the Network Prefabs list.
-4. *UST Tools > Advanced > UI > Add Vehicle HUD* (also added by *Create Game UI*).
-5. *UST Tools > Advanced > Vehicle > Add Vehicles Saver To Scene* if the scene is saved.
+4. *Tools > UST > Advanced > UI > Add Vehicle HUD* (also added by *Create Game UI*).
+5. *Tools > UST > Advanced > Vehicle > Add Vehicles Saver To Scene* if the scene is saved.
 6. Give players a repair tool and fuel: see [Repair](#repair) and [Fuel](#fuel).
 
 To spawn vehicles at runtime (bought in a shop, crafted, built), register their prefabs with *Validate Network

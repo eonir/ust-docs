@@ -9,9 +9,9 @@ The module is optional: add `UST_DISABLE_CRAFTING` to the Scripting Define Symbo
 
 ## Setup
 
-1. *UST Tools > Create Game UI* adds the crafting panel right after the container panel of the inventory
-   window, with the same look. For a UI built before, run **UST Tools > Advanced > UI > Add Crafting Panel**.
-2. For crafting by hand, select the player prefab and run **UST Tools > Advanced > Crafting > Add Hand Crafting To Selected Player**. It adds `PlayerCrafter` next to `PlayerInventory`.
+1. *Tools > UST > Create Game UI* adds the crafting panel right after the container panel of the inventory
+   window, with the same look. For a UI built before, run **Tools > UST > Advanced > UI > Add Crafting Panel**.
+2. For crafting by hand, select the player prefab and run **Tools > UST > Advanced > Crafting > Add Hand Crafting To Selected Player**. It adds `PlayerCrafter` next to `PlayerInventory`.
 3. Create the station types you need: *Create > UST > Crafting > Station Type* (Workbench, Forge...).
 4. Open the station prefab, select its root and run **right click in the Hierarchy > UST > Make Crafting Station**. It
    adds a `NetworkObject`, an output `InventoryContainer` in **Take Only** mode and `CraftingStation`. Assign the
@@ -42,7 +42,7 @@ combined cost before removing items.
 ## Recipe unlock
 
 Recipes a player does not know are hidden from them in the crafting window, and the server refuses them. Add a
-`RecipeBook` to the player prefab with **UST Tools > Advanced > Crafting > Add Recipe Book To Selected Player**: without it, every
+`RecipeBook` to the player prefab with **Tools > UST > Advanced > Crafting > Add Recipe Book To Selected Player**: without it, every
 recipe is known.
 
 | Unlock | The player knows the recipe |
@@ -110,7 +110,7 @@ A `FuelBurner` also works alone, without a station: a brazier or a campfire only
 one fuel item. A skipped night ([Sleep](sleep.md)) burns the fuel, and a station only crafts for as long as it lasted.
 The fuel and the lit state are shared by every player and saved, for burners placed in the scene and for built ones.
 
-For a UI built before, rebuild the crafting panel (*UST Tools > Advanced > UI > Add Crafting Panel*, **Rebuild**) to get the fuel
+For a UI built before, rebuild the crafting panel (*Tools > UST > Advanced > UI > Add Crafting Panel*, **Rebuild**) to get the fuel
 line.
 
 ```csharp
@@ -136,7 +136,7 @@ Recipes the player cannot afford are dimmed. The selected recipe shows each ingr
 for the chosen quantity. **-** and **+** change the quantity, by 10 with Shift, **Max** picks the most the player can
 afford. The queue shows each job with its progress and a cancel button.
 
-*Create Game UI* or *UST Tools > Advanced > UI > Add Crafting Panel* builds it and fills every reference. The texts can be
+*Create Game UI* or *Tools > UST > Advanced > UI > Add Crafting Panel* builds it and fills every reference. The texts can be
 translated or restyled from the inspector.
 
 | Section | Field | Default | Meaning |

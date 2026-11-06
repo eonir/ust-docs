@@ -6,7 +6,7 @@ systems, so you can restyle it, move it or replace it without touching gameplay 
 
 ## Creating the UI
 
-*UST Tools > Create Game UI* builds everything in a canvas named **UST UI**:
+*Tools > UST > Create Game UI* builds everything in a canvas named **UST UI**:
 
 | Element | Default place | Component |
 |---|---|---|
@@ -35,7 +35,7 @@ The tool only creates what is missing: running it again never moves or duplicate
 ## Character stats panel
 
 A **Stats** button in the corner of the inventory panel opens the character stats, alone at the left edge of the
-screen, so it never pushes the other panels. Move it freely: it is outside any layout group. *Create Game UI* adds it; for a UI built before, run *UST Tools > Advanced > UI > Add Stats Panel*.
+screen, so it never pushes the other panels. Move it freely: it is outside any layout group. *Create Game UI* adds it; for a UI built before, run *Tools > UST > Advanced > UI > Add Stats Panel*.
 
 The panel lists what the game has, by section:
 
@@ -115,11 +115,11 @@ and get their color from the Image, so one sprite serves every color.
 
 ### Saving your layout as the default
 
-*UST Tools > Advanced > UI > Save Layout As Default* stores the placement of every element of the **UST UI** canvas (anchors,
+*Tools > UST > Advanced > UI > Save Layout As Default* stores the placement of every element of the **UST UI** canvas (anchors,
 pivot, position, size, scale and active state) in `Assets/UST/UI/UILayoutDefault.asset`. A confirmation tells you
 what will be replaced. From then on, **Create Game UI** places the elements it creates with your layout.
 
-*UST Tools > Advanced > UI > Reset Default Layout* deletes the saved layout, after a confirmation: **Create Game UI** goes
+*Tools > UST > Advanced > UI > Reset Default Layout* deletes the saved layout, after a confirmation: **Create Game UI** goes
 back to the original layout. The UI already in your scene is not changed: delete the canvas and create it again to
 rebuild it with the original layout.
 
@@ -266,7 +266,7 @@ LocalMessages.Post("Game saved");
 `GamepadCursor`, on the **UST UI** canvas, shows a cursor moved by the left stick whenever a window is open
 (`UIInputFocus`) and the player uses a gamepad. It drives a virtual mouse, so every window made for the mouse works
 with the gamepad: A clicks and drags, X right-clicks, the right stick scrolls. The character does not move meanwhile.
-*Create Game UI* and *UST Tools > Advanced > Input > Assign Input Actions* add it.
+*Create Game UI* and *Tools > UST > Advanced > Input > Assign Input Actions* add it.
 
 | Field | Default | Meaning |
 |---|---|---|
@@ -278,7 +278,7 @@ Your own window only has to call `UIInputFocus.Push()` when it opens and `Pop()`
 
 ## Player nameplates
 
-The name and the health of the other players, above their head. *Create Game UI* adds them, or *UST Tools > Advanced > UI > Add Player Nameplates*. Names come from [Player names](lobby.md#player-names), health from the health vital of `PlayerLife`.
+The name and the health of the other players, above their head. *Create Game UI* adds them, or *Tools > UST > Advanced > UI > Add Player Nameplates*. Names come from [Player names](lobby.md#player-names), health from the health vital of `PlayerLife`.
 
 | Field | Default | Meaning |
 |---|---|---|

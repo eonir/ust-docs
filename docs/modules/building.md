@@ -10,16 +10,16 @@ The module is optional: add `UST_DISABLE_BUILDING` to the Scripting Define Symbo
 
 ## Setup
 
-1. *UST Tools > Create Game UI* adds the build menu and the build HUD. For a UI built before, run
-   *UST Tools > Advanced > UI > Add Build Menu*.
-2. Select the player prefab and run *UST Tools > Advanced > Building > Add Building To Selected Player*. It adds `PlayerBuilder`,
+1. *Tools > UST > Create Game UI* adds the build menu and the build HUD. For a UI built before, run
+   *Tools > UST > Advanced > UI > Add Build Menu*.
+2. Select the player prefab and run *Tools > UST > Advanced > Building > Add Building To Selected Player*. It adds `PlayerBuilder`,
    uses the attack action to build, creates the transparent preview material, and adds `BuildRangeDisplay` and
    `SupportTint`.
-3. *UST Tools > Advanced > Building > Create Demo Pieces* creates a foundation, a floor, a wall, a half wall, a pillar and a
+3. *Tools > UST > Advanced > Building > Create Demo Pieces* creates a foundation, a floor, a wall, a half wall, a pillar and a
    ward, their database and a **Hammer** item added to the Item Database. They cost wood when an item with "wood" in its name
    exists.
-4. Run *UST Tools > Validation > Validate Network Prefabs*: every piece prefab must be a network prefab.
-5. Run *UST Tools > Advanced > Building > Add Building To Scene*: it adds the **Building Rules** and the saver of built pieces.
+4. Run *Tools > UST > Validation > Validate Network Prefabs*: every piece prefab must be a network prefab.
+5. Run *Tools > UST > Advanced > Building > Add Building To Scene*: it adds the **Building Rules** and the saver of built pieces.
 6. Give yourself the Hammer, hold it and build.
 
 ## Controls
@@ -39,7 +39,7 @@ in the way*, *Missing materials*, *Nothing to build on*) and the controls.
 
 ### Build menu and HUD
 
-*Create Game UI* or *UST Tools > Advanced > UI > Add Build Menu* builds both. Every text can be translated or restyled from the
+*Create Game UI* or *Tools > UST > Advanced > UI > Add Build Menu* builds both. Every text can be translated or restyled from the
 inspector.
 
 `BuildMenuWindow`, the menu opened with the right click:
@@ -121,7 +121,7 @@ Anything solid inside that box blocks the piece, except the terrain and triggers
 ### Layers
 
 Building does not depend on a layer: pieces are found by their `BuildPiece` component, and the preview has no
-collider. You can put pieces on their own layer, for example for the camera Deoccluder. *UST Tools > Advanced > Building > Put Pieces On Building Layer* creates a **Building** layer when missing and moves every piece of every Build Piece Database to it,
+collider. You can put pieces on their own layer, for example for the camera Deoccluder. *Tools > UST > Advanced > Building > Put Pieces On Building Layer* creates a **Building** layer when missing and moves every piece of every Build Piece Database to it,
 children included. *Create Demo Pieces* does the same for the demo pieces. Then check these masks:
 
 | Mask | Why |

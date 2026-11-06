@@ -11,7 +11,7 @@ The module is optional: add `UST_DISABLE_WEATHER` to the Scripting Define Symbol
 
 ## Setup
 
-Run *UST Tools > Advanced > Weather > Add Day Night Cycle To Scene*. It adds a **Day Night Cycle** object with a `NetworkObject`
+Run *Tools > UST > Advanced > Weather > Add Day Night Cycle To Scene*. It adds a **Day Night Cycle** object with a `NetworkObject`
 and `DayNightCycle`, and uses the directional light of the scene as the sun. Optionally, add a second directional
 light for the moon and assign it.
 
@@ -78,12 +78,12 @@ The **Time Of Day** slider, at the top of the Day Night Cycle inspector, shows t
 
 ### Setup
 
-1. Run *UST Tools > Advanced > Weather > Add Weather To Scene*. It adds a **Weather Director** with a `NetworkObject`, and
+1. Run *Tools > UST > Advanced > Weather > Add Weather To Scene*. It adds a **Weather Director** with a `NetworkObject`, and
    creates five weather states in `Modules/Weather/Data`: Clear, Rain, Storm and Fog for the world, Snow for zones,
    with simple rain and snow particles.
 2. For zones with their own weather, run *right click in the Hierarchy > UST > Weather Zone*: a 100 m trigger box with Snow,
    added to the director. Move and resize it, and change its weathers.
-3. For effects on players out in the weather (Wet in the rain), select the player prefab and run *UST Tools > Advanced > Weather > Add Weather Exposure To Selected Player*.
+3. For effects on players out in the weather (Wet in the rain), select the player prefab and run *Tools > UST > Advanced > Weather > Add Weather Exposure To Selected Player*.
 
 The default particles are basic, made to be replaced: assign your own prefab to **Particles** of each state.
 

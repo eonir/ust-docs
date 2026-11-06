@@ -14,7 +14,7 @@ optional: add `UST_DISABLE_MARKERS` to the Scripting Define Symbols to remove it
 
 ## Setup
 
-Run *UST Tools > Advanced > Markers > Add Markers To Scene*. It adds a `MarkerService` to the **Network Session** object and the
+Run *Tools > UST > Advanced > Markers > Add Markers To Scene*. It adds a `MarkerService` to the **Network Session** object and the
 markers view to the **UST UI** canvas, and assigns the Ping input. *Create Game UI* adds both too.
 
 ## Pinging and placing
@@ -91,7 +91,7 @@ worldMarker.SetLabel("Talk to the trader");
 
 ## Map and minimap
 
-Run *UST Tools > Advanced > Map > Add Map To Scene*. It adds a **Map Area** fitted to the terrains of the scene (or to every
+Run *Tools > UST > Advanced > Map > Add Map To Scene*. It adds a **Map Area** fitted to the terrains of the scene (or to every
 renderer when there is none), bakes its picture, and adds the map window and the minimap to the **UST UI** canvas.
 *Create Game UI* adds the window and the minimap too.
 
@@ -121,7 +121,7 @@ stay on its edge. Each kind of marker follows the same options as on screen.
 | Bake Resolution | 2048 | Pixels of the longest side of the baked picture |
 | Bake Layers | all but UI | Layers drawn in the baked picture |
 
-**UST Tools > Advanced > Map > Bake Map Texture** renders the area from above with the lighting of the scene and saves
+**Tools > UST > Advanced > Map > Bake Map Texture** renders the area from above with the lighting of the scene and saves
 `<Scene>_Map.png` next to the scene. Bake it again after changing the scene; pieces built in game are not on the
 picture. **Fit Map Area To Scene** sizes the area again. The top of the map is +Z.
 

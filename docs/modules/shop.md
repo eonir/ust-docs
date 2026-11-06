@@ -13,7 +13,7 @@ The module is optional: add `UST_DISABLE_SHOP` to the Scripting Define Symbols t
 2. Run *right click in the Hierarchy > UST > Trader* for a test trader, or add a `NetworkObject` and a `Trader` to your own
    character or object. It needs a collider so that the interaction finds it.
 3. Assign the catalog and the item database to the trader.
-4. Run *UST Tools > Advanced > Shop > Add Shop Window*. *Create Game UI* adds it too.
+4. Run *Tools > UST > Advanced > Shop > Add Shop Window*. *Create Game UI* adds it too.
 
 For a currency, create an item such as **Coin**, stackable, with a small weight or none, and use it in the prices.
 

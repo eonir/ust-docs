@@ -9,7 +9,7 @@ The module is optional: add `UST_DISABLE_CHAT` to the Scripting Define Symbols t
 
 ## Setup
 
-Run *UST Tools > Advanced > Chat > Add Chat To Scene*. It adds a `ChatService` to the **Network Session** object (created with
+Run *Tools > UST > Advanced > Chat > Add Chat To Scene*. It adds a `ChatService` to the **Network Session** object (created with
 its `NetworkObject` and `PlayerNames` if missing), and the chat box at the bottom left of the **UST UI** canvas.
 *Create Game UI* adds both too.
 

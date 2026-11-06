@@ -1,6 +1,6 @@
 # Build the demo scene
 
-*UST Tools > Create Full Survival Demo* turns the open scene into a playable demo of every module in the project. It is
+*Tools > UST > Create Full Survival Demo* turns the open scene into a playable demo of every module in the project. It is
 the quickest way to see the systems working together, and a reference of how they are wired.
 
 Each step only runs when its result is missing, so the tool can run again after adding a module, and never overwrites
@@ -34,7 +34,7 @@ own dialog; a report lists what was done at the end.
 | Map | The map area fitted to the island, its picture baked, the map window and the minimap | The scene has a map area, or the scene is not saved yet |
 
 Last, **Validate Network Prefabs** opens to register every new network prefab: the pieces, the campfire, the enemy.
-Then run *UST Tools > Validation > [Validate Scene](../getting-started/validate-scene.md)* to check that
+Then run *Tools > UST > Validation > [Validate Scene](../getting-started/validate-scene.md)* to check that
 nothing is missing.
 
 ## Then

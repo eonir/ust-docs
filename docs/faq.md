@@ -1,7 +1,7 @@
 # FAQ
 
 **Something does nothing and I do not know why.**
-Run *UST Tools > Validation > [Validate Scene](getting-started/validate-scene.md)*. It lists the setup problems of the
+Run *Tools > UST > Validation > [Validate Scene](getting-started/validate-scene.md)*. It lists the setup problems of the
 scene and the player module by module, and fixes most of them in one click.
 
 **The player falls through the ground when it spawns.**
@@ -31,7 +31,7 @@ different id per player.
 The kit is only given to players without a save. Delete the player file from the save folder to test it again.
 
 **A client logs "NetworkPrefab could not be found".**
-A prefab spawned at runtime is not in the NetworkManager prefab list. Run *UST Tools > Validation > Validate Network Prefabs*,
+A prefab spawned at runtime is not in the NetworkManager prefab list. Run *Tools > UST > Validation > Validate Network Prefabs*,
 then restart the Multiplayer Play Mode players.
 
 **My swing does nothing.**
@@ -62,13 +62,13 @@ Remove `InventoryDebugHUD` from the player: the uGUI inventory window replaces i
 
 **My UI changes in the scene are lost when I use Create Game UI.**
 They are not: the tool only creates missing elements. To make your placement the default for new UIs, use
-*UST Tools > Advanced > UI > Save Layout As Default*.
+*Tools > UST > Advanced > UI > Save Layout As Default*.
 
 **The camera turns while I move items.**
 Add `CameraUILock` to the Cinemachine camera, or run *Create Game UI*, which adds it.
 
 **The Asset Store validator reports a model orientation issue.**
-Run *UST Tools > Validation > Check Model Orientation* to see which mesh is concerned, then see
+Run *Tools > UST > Validation > Check Model Orientation* to see which mesh is concerned, then see
 [Check Model Orientation](getting-started/editor-tools.md#check-model-orientation).
 
 **Dropped items float or sink.**

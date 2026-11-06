@@ -13,7 +13,7 @@ Services** package (`com.unity.services.multiplayer`) is not installed.
 
 ## Setup
 
-1. Run *UST Tools > Advanced > Lobby > Add Lobby To Scene*. It adds:
+1. Run *Tools > UST > Advanced > Lobby > Add Lobby To Scene*. It adds:
     - the **UST Lobby UI** canvas, with `LobbyMenu` and `SessionConnector`;
     - the **Network Session** object (`NetworkObject` and `PlayerNames`), shared with the [Chat](chat.md) and the
       [Voice](voice.md);

@@ -158,7 +158,33 @@ then removes one item.
 | Effects | | Effects started when the item is used, each following its own stacking rule |
 | Cooldown | 0.5 | Seconds before another consumable can be used |
 | Consume Item | on | Removes one item after the use. Off for items that are never used up. |
-| Animation Trigger | | Animator trigger played when the use starts. Empty for none. |
+| Animation | | Clip played on the upper body when the item is used, on every screen: a bandage applied, a medkit opened, food eaten. See below. |
+| Animation Speed | 1 | Speed of the clip |
+| Animation Trigger | | Animator trigger for a state of your own, used when no Animation is set. Empty for none. |
+
+### Use animation
+
+Each consumable can play its own clip: drop it in **Animation** on its trait. The legs keep walking, only the upper
+body plays it.
+
+1. The Animator Controller of the player needs the **Use Item** state, once: right click the controller in the Project
+   window > **UST > Add Use Item State**. Controllers made by *Create Animator Controller* or *Add Upper Body Layer*
+   have it. *Validate Scene* warns when consumables have an animation and the controller misses the state, with a fix
+   button.
+2. On each consumable, set **Animation**, and **Animation Speed** if needed.
+
+The Use Item state sits on the UpperBody layer, is entered from any state by the `UseItem` trigger, and goes back to
+the default state of the layer when the clip ends. Its clip, `UST_UseItem`, is a placeholder: at runtime
+`PlayerUseAnimation` replaces it by the clip of the item through an Animator Override Controller, so one state serves
+every item and the controller asset never changes. `UseSpeed` sets its speed.
+
+The player who uses the item sees the animation at once; the others see it as soon as the server accepted the use.
+`PlayerUseAnimation` is added to the player by `PlayerConsumer` when missing. Your own systems can play a use
+animation the same way:
+
+```csharp
+GetComponent<PlayerUseAnimation>().Play(clip, 1f);
+```
 
 ### Using a consumable
 
