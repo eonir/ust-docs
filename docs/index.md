@@ -20,7 +20,7 @@ networked with Netcode for GameObjects, so you can focus on your own game.
 | **Equipment** | Flexible slots from a layout, armor and resistances, effects and models while worn |
 | **AI** | Melee enemies that chase, attack and break walls, spawned around players |
 | **Building** | Build tools, snapping pieces with a live preview, build menu, built chests and workbenches, saved |
-| **Gathering** | Tools with tiers, resource nodes, area spawners that respawn objects at random places |
+| **Gathering** | Tools with tiers: a weaker tool either gathers nothing (**Blocked**) or less (**Reduced Yield**), your choice. Resource nodes, area spawners that respawn objects at random places |
 | **Vehicle** | Cars and trucks with raycast wheels, fuel, repairs, trunk, saved |
 | **Sleep** | Beds, skipping the night when the players sleep, bed respawn |
 | **Lobby** | Main menu, online sessions with codes (Unity Lobby and Relay), direct IP |
