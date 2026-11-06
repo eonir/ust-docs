@@ -31,7 +31,7 @@ theme:
         name: Light mode
 
 validation:
-  omitted_files: warn
+  omitted_files: info
   absolute_links: warn
   unrecognized_links: warn
   anchors: warn
