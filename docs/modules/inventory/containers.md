@@ -28,6 +28,12 @@ containers. The server applies these rules:
 
 The server also checks that the client is allowed to use both containers and that the weight limit allows the move.
 
+| Request | Result |
+|---|---|
+| `RequestDrop(slot, amount)` | Drops items in front of the container. 0 drops the whole stack. |
+| `RequestSort()` | Merges the stacks that can stack and orders them by Item Database index, the most durable first, without gaps. Containers with a `SlotFilter`, such as the equipment, are left as they are. |
+| `RequestTakeAll()` | Moves everything in a world container to the local player, as `ServerAdd` does: hotbar stacks first, then the inventory, within the weight limit. What does not fit stays. |
+
 ### Server side helpers
 
 | Method | Result |
@@ -38,6 +44,7 @@ The server also checks that the client is allowed to use both containers and tha
 | `SetSlot(slot, stack)` | Overwrites a slot. |
 | `ServerReduceDurability(slot, amount)` | Wears an item. A broken item disappears. |
 | `Clear()` | Empties the container. |
+| `ServerSort(clientId)`, `ServerTakeAll(clientId)` | Same as the requests above, for a given player, with the same access checks. |
 
 Reading (`Get`, `GetDefinition`, `CountOf`, `TotalWeight`, `IsEmpty`) works on every peer. `SlotChanged` is raised
 on every peer when a slot changes.

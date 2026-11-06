@@ -7,6 +7,7 @@ with an arrow when they are out of view:
 - **Placed markers**: a player leaves a marker that stays for everyone and is saved with the world.
 - **Far players**: the other players, beyond the range of their [nameplate](../ui/hud.md#player-nameplates).
 - **Places of the world**: any object with a `WorldMarker`, such as a base, a trader or a quest.
+- **Your loot bag**: where your items fell when you died, see [Marker of the bag](../inventory/world-items.md#marker-of-the-bag).
 
 Each kind can be turned off in the [options](../settings.md), with the edge arrows and the distance. The module is
 optional: add `UST_DISABLE_MARKERS` to the Scripting Define Symbols to remove it, see
@@ -16,7 +17,8 @@ optional: add `UST_DISABLE_MARKERS` to the Scripting Define Symbols to remove it
 
 In the [Setup Window](../../getting-started/setup-window.md): **Markers > Add**, which also adds the map. By hand,
 run *Tools > UST > Advanced > Markers > Add Markers To Scene*. It adds a `MarkerService` to the **Network Session**
-object and the markers view to the **UST UI** canvas, and assigns the Ping input. *Create Game UI* adds both too.
+object and the markers view to the **UST UI** canvas, assigns the Ping input, and adds a `LootBagMarker` to every
+loot bag prefab of the project. *Create Game UI* adds the service and the view too.
 
 ## Pinging and placing
 

@@ -33,7 +33,7 @@ the modules that reference it and the scene and prefab components that use it.
 | `UST.Chat` | Core, Net | Text chat over Netcode, chat box |
 | `UST.Voice` | Core, Net, Vivox | Proximity voice chat, push to talk, list of speakers |
 | `UST.Settings` | Core, Cinemachine, URP | Options menu, Keys tab, applying graphics and audio settings |
-| `UST.Markers` | Core, Net | Pings, placed markers, far players, world markers, edge arrows, map and minimap |
+| `UST.Markers` | Core, Net, Inventory | Pings, placed markers, far players, world markers, edge arrows, map and minimap |
 | `UST.Shop` | Core, Inventory, UI | Traders, catalogs of buy and sell offers, stock, shop window |
 | `UST.UI` | Core, Inventory, Vitals, Player | Item feed, screen messages |
 | `UST.Editor` | all | Inspectors and tools, editor only |

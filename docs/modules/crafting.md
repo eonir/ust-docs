@@ -83,12 +83,18 @@ RecipeBook.Unlocked += item => ShowPopup(item);   // local player, new recipe
 | Cancel When Away | off | On: the crafts of a player who walks away are cancelled and their ingredients given back. Off: crafts carry on without the player. |
 | Max Jobs | 8 | Jobs in the queue at once |
 | Max Count Per Job | 99 | Most crafts one request can ask for |
+| Can Repair | on | Players can repair here the worn items this station makes, see [Repair](#repair) |
+| Repair Cost | 0.25 | Part of the recipe paid to repair an item from broken to new. 0: repairs are free. |
+| Repaired Format, Repair Missing Format | {0} item(s) repaired, Not enough materials to repair {0} | Messages to the player. {0}: the number of items, or the item that could not be paid. |
 
 The output is **Take Only**: players can take items out but never put their own in, so they cannot block the station.
 
 When the output has no room for the next result, the queue waits and the panel shows *Output full*. Empty it by
 dragging the items, Ctrl + click, or **Take all**. Stack limits are respected: a craft only finishes when all of its
 items fit.
+
+The **Take all** button of the inventory window also empties the station output, see
+[Sort and Take All](ui/windows.md#sort-and-take-all).
 
 Several players can use the same station: jobs run one after the other, and each player can cancel only their own.
 Each job has a unique id given by the server, so a cancel always targets the job that was clicked, even if the queue
@@ -135,6 +141,36 @@ burner.ServerAddFuelSeconds(600f);  // server: free fire time, for a quest or a 
 bool canCraft = burner.HasFire;
 ```
 
+## Repair
+
+Items with durability wear out (see [Items](inventory/index.md)). A station repairs the items it makes: those whose
+recipe needs its station type. Hand crafting (`PlayerCrafter`, same fields) repairs the items made by hand, anywhere.
+An item without a recipe cannot be repaired.
+
+**Repair** in the crafting panel repairs every worn item of the player that can be repaired there: inventory, hotbar,
+and every other container of the player, such as the equipment. The line next to it shows how many items are worn
+and the total cost, green when the player has enough, red otherwise.
+
+The cost of one item is **Repair Cost** times each ingredient of its recipe, in proportion to the wear, rounded up.
+With a Repair Cost of 0.25 and a recipe of 4 Iron and 2 Wood:
+
+| Durability left | Cost |
+|---|---|
+| 50 % | 1 Iron, 1 Wood (4 × 0.25 × 0.5 = 0.5, rounded up) |
+| Nearly broken | 1 Iron, 1 Wood |
+| Nearly broken, with a Repair Cost of 1 | 4 Iron, 2 Wood |
+
+The server repairs the items one by one and takes the materials of each, until one cannot be paid: the player sees
+how many were repaired, and which item was missing materials. The station must be in range and not behind a ward,
+as for crafting. Repairs are instant.
+
+```csharp
+station.RequestRepairAll();                                          // the local player
+string message = station.ServerRepairAll(clientId, out bool refused); // server side
+bool worn = station.NeedsRepair(item, stack);
+station.GetRepairCost(item, stack, cost);                            // fills a List<Ingredient>
+```
+
 ## Crafting window
 
 `CraftingWindow` sits on the inventory window object and shows its panel:
@@ -153,6 +189,7 @@ afford. The queue shows each job with its progress and a cancel button.
 - The queue shows its first 4 lines (**Max Visible Queue Rows**) and counts the others (*+3 more in the queue*).
 - Ordering the same item again joins the last line of the queue when it is yours: repeated clicks make one line
   (*Stone Axe 0/5*) instead of filling the queue. The queue holds **Max Jobs** lines, 8 by default.
+- A **Repair** line shows the worn items the player can repair here and their cost, see [Repair](#repair).
 - At a station with a fire, a line shows the fire time left, **Add fuel** (one item, ten with Shift) and **Put out**
   or **Light**.
 
@@ -177,7 +214,7 @@ translated or restyled from the inspector.
 | Queue | Status Text | | Shows Empty Queue Text, Output Full Text, Paused Text, the crafts not shown, or nothing |
 | Queue | Empty Queue Text | Nothing in progress | Shown when the queue is empty |
 | Queue | Output Full Text | Output full: take the items out | Shown when a finished job waits for room in the station output |
-| Queue | Take All Button | | Moves the whole station output to the player inventory |
+| Queue | Take All Button | | Moves the whole station output to the player inventory. Hidden when the inventory window has its own Take All button. |
 | Queue | Max Visible Queue Rows | 4 | Queue lines shown at most |
 | Queue | More Queued Format | +{0} more in the queue | {0}: the crafts not shown |
 | Fuel | Fuel Row | | Shown for stations with a `FuelBurner` |
@@ -185,6 +222,13 @@ translated or restyled from the inspector.
 | Fuel | Add Fuel Button | | Adds one fuel item, ten with Shift |
 | Fuel | Fire Button, Fire Button Label, Light Text, Put Out Text | , , Light, Put out | Lights the fire or puts it out |
 | Fuel | Paused Text | No fire: add fuel to craft | Shown while the current craft waits for fire |
+| Repair | Repair Row | | Shown for stations and hand crafting with Can Repair on |
+| Repair | Repair Button | | Repairs every worn item of the player made here, as long as the materials last |
+| Repair | Repair Text, Repair Format | , {0} worn: {1} | {0}: the number of worn items, {1}: the total cost |
+| Repair | Free Repair Text, Nothing To Repair Text | free, Nothing to repair | |
+
+Crafting panels built before repairs have no Repair line: rebuild the panel with *Add Crafting Panel*, Validate Scene
+points to it.
 
 `CraftingRecipeRow`, on the recipe row prefab: **Button**, **Icon**, **Label**, an optional **Selection** object shown on
 the selected recipe, and an optional **Canvas Group** dimmed to **Unavailable Alpha** (0.45) when the player cannot

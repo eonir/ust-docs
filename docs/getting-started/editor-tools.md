@@ -53,7 +53,7 @@ want only one of them. Steps that add something only add what is missing, and ne
 | *Map > Add Map To Scene* | Adds the map area fitted to the scene, bakes its picture, adds the map window and the minimap, see [Map and minimap](../modules/markers/map.md) |
 | *Map > Bake Map Texture* | Renders the map area from above into `<Scene>_Map.png` |
 | *Map > Fit Map Area To Scene* | Sizes the map area again to the terrains, or to every renderer |
-| *Markers > Add Markers To Scene* | Adds the marker service and the markers view, see [Markers](../modules/markers/index.md) |
+| *Markers > Add Markers To Scene* | Adds the marker service, the markers view, and the marker of every loot bag prefab, see [Markers](../modules/markers/index.md) |
 | *Player > Create Animator Controller* | Creates an Animator Controller with every parameter the scripts use, the IK pass, the Locomotion and Crouch states, the UpperBody layer and the Use Item state |
 | *Settings > Add Options Menu To Scene* | Adds the options menu and the settings applier, see [Settings](../modules/settings.md) |
 | *Settings > Add Keys Tab To Options Menu* | Adds the Keys tab to an options menu built before |

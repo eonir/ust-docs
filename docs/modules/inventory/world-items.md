@@ -77,8 +77,25 @@ a model. Add it to the Network Prefabs list.
 | Empty Check Interval | 1 | Seconds between two checks on the server: an empty bag despawns at the next one |
 
 The bag is created with exactly as many slots as needed, and despawns when empty or at the end of its lifetime.
+The owner is followed by save id: after reconnecting, or in a world loaded from a save, the owner gets their bag,
+its lock and its marker back. The lock time left is saved with the bag.
 Interacting with it opens it in the [inventory window](../ui/windows.md#opened-containers), where items are taken one by one.
 Without an inventory window, interacting takes everything that fits.
+
+### Marker of the bag
+
+With the [Markers](../markers/index.md) module, `LootBagMarker` on the bag prefab shows the bag on screen and on the
+map to the player who dropped it, so they find their items after dying. The marker goes away with the bag.
+*Add Markers To Scene* adds it to every loot bag prefab of the project, and Validate Scene offers it when missing.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Label | Your items | Text under the icon |
+| Icon | | Optional. Empty: the default icon of the markers view. |
+| Color | Red | |
+| Height | 1.5 | Height of the icon above the bag, in metres |
+| Max Distance | 5000 | Hidden further than this, in metres. 0: the distance of the options. |
+| Show To Everyone | off | Also shown to the other players, for example to help a teammate get their items back |
 
 !!! note
     A bag restored from a save is no longer locked for its owner: player ids are not kept with the bag.

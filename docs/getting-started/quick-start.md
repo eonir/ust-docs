@@ -47,7 +47,7 @@ project with what it has in the open scene and on the player prefab, and adds wh
 | Push to talk | V |
 | Session menu, options | Escape. Keys can be changed in *Options > Keys* |
 | Build (hammer in hand) | Right click opens the build menu, see [Building > Controls](../modules/building/index.md#controls) |
-| Move items | Drag and drop, right drag for half, Shift + click to send to the other side |
+| Move items | Drag and drop, right drag for half. Ctrl + click sends the stack to the other side, Shift + click picks up half. **Sort** and **Take all** buttons in the window. |
 | Drop items | Drag out of the inventory window |
 | Kill yourself (debug HUD, host with default health authority) | K |
 

@@ -13,6 +13,9 @@ Part of [UI](index.md).
 | Hotbar Grid | Grid of the hotbar taking part in drag and drop: the gameplay hotbar |
 | Container Panel, Container Grid, Container Title | Side panel of an opened container |
 | Close Distance Margin | An opened container closes when the player walks away further than its access range plus this margin |
+| Sort Inventory Button | Optional. Merges and orders the stacks of the player inventory. The hotbar is left as it is. |
+| Sort Container Button | Optional. Merges and orders the stacks of the opened container. Hidden for containers with a slot rule, such as the equipment. |
+| Take All Button | Optional. Moves everything in the opened container to the player, within the weight limit. What does not fit stays. |
 | Toggle Action, Toggle Key, Close Key | Input |
 
 While the window is open:
@@ -29,10 +32,22 @@ While the window is open:
 | Drag to another slot | Move, merge or swap |
 | Right drag, or Shift + drag | Move half the stack |
 | Drop outside any UI | Drop the items in the world |
-| Shift + click | Send the stack to the other side: the opened container, otherwise between inventory and hotbar |
+| Ctrl + click | Send the stack to the other side: from the inventory or the hotbar to the opened container, and back. With no container open, drops the stack in the world. |
+| Shift + click | Pick up half of the stack on the cursor. The next click places it in a slot, or drops it in the world outside any UI. A right click or closing the window cancels it. |
 | Right click | Use the item, for example a consumable, from the inventory or the hotbar. While a split stack follows the cursor, a right click cancels it instead. |
 
 Every action is a request validated by the server, see [Inventory](../inventory/containers.md#moving-items).
+
+### Sort and Take All
+
+**Sort** merges the stacks that can stack (same item, same durability, same loaded rounds) and orders them like the
+Item Database, the most durable first, without gaps. The inventory and the opened container each have their own
+button. **Take All** moves everything in the opened container to the player: hotbar stacks first, then the
+inventory, as for a pick up, within the weight limit.
+
+Both are requests checked by the server like any move: range, ward, the lock of a loot bag. A loot bag emptied with
+Take All despawns at once. Inventory windows built before these buttons get them from *Tools > UST > Create Game UI*,
+or from the fix of [Validate Scene](../../getting-started/validate-scene.md).
 
 ### Opened containers
 

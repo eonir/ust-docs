@@ -68,6 +68,7 @@ A module with nothing in the scene, on the player and in the project is skipped.
 | Several Save Managers | Error | They save over each other | - |
 | UI without EventSystem | Error | No button and no slot can be clicked | **Add EventSystem**, with the Input System UI module |
 | No game UI | Warning | No inventory window in the scene | **Create Game UI** |
+| Inventory window without Sort or Take All | Info | The window was built before these buttons existed | **Add The Buttons** |
 | No stats panel | Info | The player has stats (`IStatProvider`), but the UI cannot show them | **Add Stats Panel** |
 | UI texts catching clicks | Info | A TMP text with **Raycast Target** on and nothing clickable on it or above it. Placed over a button, it swallows its clicks, as the ammo counter over the Stats button. Texts inside a button or a slot are not listed | **Turn Raycast Target off** on all of them |
 | Items in no Item Database | Error | They cannot be given, saved or sent over the network | **Open Item Database** |
@@ -97,8 +98,11 @@ A module with nothing in the scene, on the player and in the project is skipped.
 | No crafting panel | Warning | The player has hand crafting or the project has stations, but no station and no hand crafting can be opened | **Add Crafting Panel** |
 | Recipes without station, no hand crafting | Warning | Those recipes can never be crafted | **Add Hand Crafting**, on the player prefab |
 | Recipes needing a missing station | Warning | The station type is in neither the scene nor any prefab of the project | - |
-| Station without NetworkObject | Error | Its queue and output never work | Run *Make Selected A Crafting Station* on it |
+| Station without NetworkObject | Error | Its queue and output never work | Right click it > *UST > Make Crafting Station* |
 | Station without Station Type | Warning | No recipe uses it | - |
+| Locked recipes, no Recipe Book | Warning | Recipes set to unlock later stay known: the player has no `RecipeBook` | **Add Recipe Book**, on the player prefab |
+| Fuel burners, nothing Burnable | Warning | No item has a Burnable trait: no fire can ever be lit | - |
+| Crafting panel without Repair | Info | The panel was built before repairs existed | **Add Crafting Panel**, which rebuilds it |
 | Fuel burners without fuel | Warning | No item has a Burnable trait: no fire can ever be lit | - |
 | Locked recipes without Recipe Book | Warning | Recipes use an Unlock mode but the player has no `RecipeBook`: every recipe stays known | **Add Recipe Book**, on the player prefab |
 
@@ -188,6 +192,7 @@ A module with nothing in the scene, on the player and in the project is skipped.
 | Map window or minimap without Map Area | Warning | They show nothing | **Add Map To Scene** |
 | Map Area without picture | Warning | The map and the minimap stay empty | **Bake Map Texture** |
 | Map without Marker Service | Info | Pins and pings cannot be placed from it | **Add Markers To Scene** |
+| Loot bag without marker | Info | Players are not shown where their items are after dying | **Add Loot Bag Markers** |
 
 ### Shop
 
