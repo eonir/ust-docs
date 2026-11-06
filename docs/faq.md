@@ -62,7 +62,7 @@ Remove `InventoryDebugHUD` from the player: the uGUI inventory window replaces i
 
 **My UI changes in the scene are lost when I use Create Game UI.**
 They are not: the tool only creates missing elements. To make your placement the default for new UIs, use
-*UST Tools > UI > Save Layout As Default*.
+*UST Tools > Advanced > UI > Save Layout As Default*.
 
 **The camera turns while I move items.**
 Add `CameraUILock` to the Cinemachine camera, or run *Create Game UI*, which adds it.

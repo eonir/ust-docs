@@ -50,6 +50,7 @@ nav:
       - Requirements: getting-started/requirements.md
       - Installation: getting-started/installation.md
       - Quick Start: getting-started/quick-start.md
+      - Setup Window: getting-started/setup-window.md
       - Editor Tools: getting-started/editor-tools.md
       - Validate Scene: getting-started/validate-scene.md
   - Architecture:
@@ -69,6 +70,14 @@ nav:
       - Building: modules/building.md
       - AI: modules/ai.md
       - Gathering: modules/gathering.md
+      - Vehicle: modules/vehicle.md
+      - Sleep: modules/sleep.md
+      - Lobby: modules/lobby.md
+      - Chat: modules/chat.md
+      - Voice: modules/voice.md
+      - Settings: modules/settings.md
+      - Markers: modules/markers.md
+      - Shop: modules/shop.md
       - UI: modules/ui.md
   - Guides:
       - Build the demo scene: guides/demo-scene.md

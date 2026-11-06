@@ -179,7 +179,7 @@ camera instead, see [Player > Camera zoom](player.md#camera-zoom).
 
 A key on an item that an `IItemUseHandler` of the player accepts uses it instead of selecting it, and the held item
 stays in hand. With the Effects module, a key on a consumable eats or drinks it, see
-[Effects > Consumables](effects.md#consumables).
+[Effects > Consumables](effects.md#consumables). Handlers that also implement `IInventoryOnlyUseHandler` are skipped by the hotbar keys: armor in the hotbar is selected by its key and equipped only with a right click in the inventory.
 
 The selection is synchronized: other players see which item you hold. Read it with `SelectedIndex`,
 `SelectedStack` and `SelectedItem`.
@@ -257,7 +257,7 @@ The left hand and the upper body aim use the **Animation Rigging** package (`com
   itself is then turned to the crosshair by `PlayerRangedWeapon` (**Weapon Alignment** at 1). The aim is
   synchronized, so every player sees the others aim.
 
-**Setup**: select the player prefab (or its model) and run *UST Tools > Player > Setup Item Rig On Selected Character*. The
+**Setup**: select the player prefab (or its model) and run *right click in the Hierarchy > UST > Setup Item Rig*. The
 tool adds a `RigBuilder` and `PlayerItemRig` on the Animator object, and a child **Item Rig** holding:
 
 | Object | Constraint |
@@ -368,7 +368,7 @@ and the save remembers it. For items that come back, use an [object spawner](gat
 | Categories | | Categories used by Drop Only and Drop All Except |
 | Drop Inventory, Drop Hotbar | on | Containers concerned |
 | Bag Prefab | | The loot bag prefab |
-| Owner Only Duration | 60 | Seconds during which only the dead player can loot the bag. 0: anyone right away. |
+| Owner Only Duration | 60 | Seconds during which only the dead player can loot the bag. 0: anyone right away. The owner is also matched by their save id, so they keep access after reconnecting. |
 | Bag Lifetime | 600 | Seconds before the bag despawns. 0: never. |
 | Bag Offset | 0, 0.5, 0 | Position of the bag relative to the player |
 

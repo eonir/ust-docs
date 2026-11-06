@@ -120,8 +120,10 @@ which also suits translations. The messages are shown by a [Screen Message View]
 ### Saving
 
 `ResourceNodesSaver`, in the scene, saves the nodes placed in the scene: their health, whether they are depleted, and
-the time left before they regrow. On load, a node missing from the save was depleted in Despawn mode and is removed
-again. Nodes created by a spawner are saved by their spawner instead.
+the time left before they regrow, and the list of nodes removed for good (depleted in Despawn mode), which are removed
+again on load. A node that is not in the save is kept: nodes you add to the scene in an update of your game appear
+in old saves. Saves written before this list existed still treat every missing node as removed. Nodes created by a
+spawner are saved by their spawner instead.
 
 ## Object spawners
 
@@ -171,7 +173,7 @@ where a raycast from above could land on the wrong floor.
 | Min Spacing | 2 | Minimum distance between two objects of the spawner |
 | Min Player Distance | 15 | Objects never appear closer to a player, so nobody sees them pop. Ignored when the world is first filled. |
 | Placement Attempts | 10 | Random positions tried before giving up until the next retry |
-| Initial Fill Delay | 0.5 | Delay before the first fill, which leaves time for the save to be restored |
+| Initial Fill Delay | 0.5 | Delay before the first fill, which leaves time for the save to be restored. At least 0.1. A restore always replaces the objects already there, so nothing is doubled. |
 
 !!! tip
     Keep the area large enough for **Max Alive** objects at **Min Spacing**. Otherwise the spawner keeps retrying

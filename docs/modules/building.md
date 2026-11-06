@@ -10,16 +10,16 @@ The module is optional: add `UST_DISABLE_BUILDING` to the Scripting Define Symbo
 
 ## Setup
 
-1. *UST Tools > UI > Create Game UI* adds the build menu and the build HUD. For a UI built before, run
-   *UST Tools > UI > Add Build Menu*.
-2. Select the player prefab and run *UST Tools > Building > Add Building To Selected Player*. It adds `PlayerBuilder`,
+1. *UST Tools > Create Game UI* adds the build menu and the build HUD. For a UI built before, run
+   *UST Tools > Advanced > UI > Add Build Menu*.
+2. Select the player prefab and run *UST Tools > Advanced > Building > Add Building To Selected Player*. It adds `PlayerBuilder`,
    uses the attack action to build, creates the transparent preview material, and adds `BuildRangeDisplay` and
    `SupportTint`.
-3. *UST Tools > Building > Create Demo Pieces* creates a foundation, a floor, a wall, a half wall, a pillar and a
+3. *UST Tools > Advanced > Building > Create Demo Pieces* creates a foundation, a floor, a wall, a half wall, a pillar and a
    ward, their database and a **Hammer** item added to the Item Database. They cost wood when an item with "wood" in its name
    exists.
 4. Run *UST Tools > Validation > Validate Network Prefabs*: every piece prefab must be a network prefab.
-5. Run *UST Tools > Building > Add Building To Scene*: it adds the **Building Rules** and the saver of built pieces.
+5. Run *UST Tools > Advanced > Building > Add Building To Scene*: it adds the **Building Rules** and the saver of built pieces.
 6. Give yourself the Hammer, hold it and build.
 
 ## Controls
@@ -39,7 +39,7 @@ in the way*, *Missing materials*, *Nothing to build on*) and the controls.
 
 ### Build menu and HUD
 
-*Create Game UI* or *UST Tools > UI > Add Build Menu* builds both. Every text can be translated or restyled from the
+*Create Game UI* or *UST Tools > Advanced > UI > Add Build Menu* builds both. Every text can be translated or restyled from the
 inspector.
 
 `BuildMenuWindow`, the menu opened with the right click:
@@ -72,6 +72,7 @@ afford the piece.
 | Repair Format | {0} repair | Shown when the aimed piece is damaged and can be repaired. {0} the repair key |
 | Health Format | {0}  {1}/{2} | Health of the aimed piece: {0} name, {1} health, {2} max health |
 | Support Format | Support {0}% | Support of the preview or of the aimed piece, in percent |
+| Refresh Interval | 0.1 | Seconds between two refreshes of the texts while nothing changes. A new selection, target, problem or snap mode refreshes at once |
 
 The snap, free placement and repair keys shown come from `PlayerBuilder`: change a key there and the HUD follows.
 **Controls** is plain text: update it if you change the rotation input or the mouse buttons.
@@ -90,7 +91,7 @@ Add `BuildPiece` to the root of a network prefab.
 | Removable | on | Off for pieces players can never take down |
 | Required Station | | Station type needed nearby, e.g. a Workbench. Empty: anywhere. See [Stations](#stations). |
 | Snap Prefix | Snap | Children whose name starts with it are snap points |
-| Needs Support | on | Must land on something or snap to a piece. Off: can float, for lights or signs. |
+| Needs Support | on | Must land on something or snap to a piece. Off: can float, for lights or signs. The server checks it too: a piece that touches nothing is refused. |
 | Placement Offset | 0 | Added when the piece is not snapped, in its own space. A negative Y sinks a foundation into the ground. |
 | Snap Priority | 0 | Snap points of pieces with a higher priority win near the aim. The demo pillar has 1, so a pillar joins the pillar under a floor rather than the floor. |
 
@@ -120,8 +121,7 @@ Anything solid inside that box blocks the piece, except the terrain and triggers
 ### Layers
 
 Building does not depend on a layer: pieces are found by their `BuildPiece` component, and the preview has no
-collider. You can put pieces on their own layer, for example for the camera Deoccluder. *UST Tools > Building > Put Pieces On
-Building Layer* creates a **Building** layer when missing and moves every piece of every Build Piece Database to it,
+collider. You can put pieces on their own layer, for example for the camera Deoccluder. *UST Tools > Advanced > Building > Put Pieces On Building Layer* creates a **Building** layer when missing and moves every piece of every Build Piece Database to it,
 children included. *Create Demo Pieces* does the same for the demo pieces. Then check these masks:
 
 | Mask | Why |

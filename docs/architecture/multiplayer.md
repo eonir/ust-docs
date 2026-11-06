@@ -9,14 +9,19 @@ local player.
 |---|---|---|
 | Player movement | Owner | Instant response, no input latency |
 | Stamina | Owner | Must react instantly to sprint and jump |
-| Health, hunger, thirst | Server | Gameplay critical, cannot be cheated |
+| Health, hunger, thirst | Server | Gameplay values calculated by the server |
 | Inventory, items on the ground, loot bags | Server | Prevents item duplication |
-| Hits (gathering, damage) | Detected by the owner, validated by the server | Responsive aiming, no remote cheating |
+| Hits (gathering, damage) | Detected by the owner, validated by the server | Responsive aiming with server-side hit checks |
 | Death, respawn | Server | |
-| Saves | Server | Players cannot edit their own save |
+| Saves | Server | The server stores world and player data |
 
-Clients never change server data directly: they send a request, and the server validates it (distance, ownership,
-weight, access rights) before applying it.
+Clients send gameplay requests, such as moving an item or using a consumable; the receiving system checks the
+applicable ownership, range, weight or access rules. Server-authoritative vitals can only be changed by server code;
+clients cannot submit arbitrary health, hunger or thirst deltas.
+
+UST primarily targets cooperative games. These checks support consistent shared gameplay; they do not constitute
+a complete anti-cheat system. Review the validation of each action and platform authentication before adapting the
+template for untrusted competitive play.
 
 !!! note "Owner authoritative movement"
     A modified client could move faster than intended. This is the usual trade off for cooperative games. For a

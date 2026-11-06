@@ -3,7 +3,7 @@
 *UST Tools > Validation > Validate Scene* checks the open scene and the player prefab, and lists every setup problem
 it finds, module by module, with a button to fix it when the fix is safe.
 
-*Build Demo Scene* sets a **new** scene up correctly. Validate Scene checks **any** scene, at any time: a scene set up
+*Create Full Survival Demo* sets a **new** scene up correctly. Validate Scene checks **any** scene, at any time: a scene set up
 by hand, a scene where a module was added later, or a demo scene that was changed since. Most "it does nothing"
 problems are setup problems: a zone missing from a list, a mask that does not see a layer, a panel missing from the UI.
 
@@ -99,6 +99,8 @@ A module with nothing in the scene, on the player and in the project is skipped.
 | Recipes needing a missing station | Warning | The station type is in neither the scene nor any prefab of the project | - |
 | Station without NetworkObject | Error | Its queue and output never work | Run *Make Selected A Crafting Station* on it |
 | Station without Station Type | Warning | No recipe uses it | - |
+| Fuel burners without fuel | Warning | No item has a Burnable trait: no fire can ever be lit | - |
+| Locked recipes without Recipe Book | Warning | Recipes use an Unlock mode but the player has no `RecipeBook`: every recipe stays known | **Add Recipe Book**, on the player prefab |
 
 ### Equipment
 
@@ -138,7 +140,56 @@ A module with nothing in the scene, on the player and in the project is skipped.
 | Spawner without enemy, or empty entry | Warning | Nothing spawns | - |
 | Enemy without NetworkObject | Error | It cannot be spawned | - |
 | Enemy without Enemy AI | Warning | It stands still | - |
-| Enemy without Enemy Definition | Info | It uses the fallback stats | Select it, then *UST Tools > AI > Create Definition For Selected Enemy* |
+| Enemy without Enemy Definition | Info | It uses the fallback stats | Select it, then *right click in the Project window > UST > Create Enemy Definition* |
+
+### Vehicle
+
+| Check | Level | Why | Fix |
+|---|---|---|---|
+| Player without Vehicle Occupant | Error | Players cannot get in vehicles | **Add**, on the player prefab |
+| No vehicle HUD | Info | Speed, fuel and health are not shown while driving | **Add HUD** |
+| No Vehicles Saver | Warning | Vehicles go back to where they were placed on load | **Add** |
+| Vehicle setup | Error / Warning | No NetworkObject, NetworkTransform or NetworkRigidbody, Dont Destroy With Owner off, Owner authority off, fewer than 3 wheels, no seat or driver seat, no solid collider, no definition | **Fix** when possible |
+
+### Sleep
+
+| Check | Level | Why | Fix |
+|---|---|---|---|
+| Beds without Sleep Director | Warning | Sleeping skips no night | **Add Sleep To Scene** |
+| Several Sleep Directors | Error | Keep one | - |
+| Sleep Director away from the Day Night Cycle | Error | It must be on the same object | - |
+| Player without Sleeper | Info | Beds still set the respawn point, but it is not saved | - |
+| Bed without NetworkObject | Error | Nobody can sleep in it | - |
+
+### Lobby, Chat and Voice
+
+| Check | Level | Why | Fix |
+|---|---|---|---|
+| Several Lobby Menus, Chat Services or Voice Services | Error | Keep one of each | - |
+| No Session Connector | Error | The lobby cannot start a game | - |
+| No Player Names | Warning | Players have no name in the chat and the session menu | **Add Network Session** |
+| Network Session, Chat Service or Voice Service without NetworkObject | Error | Names, messages and voice are not synchronized | - |
+| Debug Network Session Menu on | Warning | It draws over the lobby | **Turn Off** |
+| Chat box without Chat Service, or the other way round | Warning | Messages are never sent, or never shown | **Add Chat To Scene** |
+
+### Markers and map
+
+| Check | Level | Why | Fix |
+|---|---|---|---|
+| Markers without Markers View | Warning | Nothing shows them | **Add Markers To Scene** |
+| Several Marker Services or Map Areas | Error | Keep one | - |
+| Marker Service without NetworkObject | Error | Pings and markers are not shared | - |
+| Map window or minimap without Map Area | Warning | They show nothing | **Add Map To Scene** |
+| Map Area without picture | Warning | The map and the minimap stay empty | **Bake Map Texture** |
+| Map without Marker Service | Info | Pins and pings cannot be placed from it | **Add Markers To Scene** |
+
+### Shop
+
+| Check | Level | Why | Fix |
+|---|---|---|---|
+| Traders without Shop Window | Warning | Nobody can trade with them | **Add Shop Window** |
+| Trader without catalog, item database or NetworkObject | Error | It cannot trade | - |
+| Offer item missing from the database | Warning | It cannot be sent over the network | - |
 
 ## Adding your own checks
 

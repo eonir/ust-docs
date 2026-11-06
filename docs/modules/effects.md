@@ -29,7 +29,7 @@ The module is optional: add `UST_DISABLE_EFFECTS` to the Scripting Define Symbol
 | Duration | 30 | Seconds. **0** lasts until removed by code, for wounds or equipment. |
 | Stacking | Refresh | What happens when the effect is applied again while active, see below |
 | Max Stacks | 1 | Highest number of stacks with the **Stack** rule. **0** means no limit. |
-| Clear On Death | on | Removed when the character dies |
+| Clear On Death | on | Removed when the character dies. Effects held by a source (equipment, temperature, weather, zone) stay while the source holds them. |
 | Saved | on | Kept in saves with its remaining time. Turn it off for effects given back by something else, such as equipment. |
 | Show In UI | on | Shown in the effects bar |
 | Modifiers | | What the effect does, added with **Add Modifier** |
@@ -83,9 +83,31 @@ effects.ServerRemove(poisoned);
 effects.ServerClear();
 ```
 
-`ServerApplyExternal` and `ServerRemoveExternal` are for effects kept alive by an outside source, such as a zone: the
-effect is permanent, is not saved, and is only removed by that source. Applying the same effect normally afterwards
-turns it back into a regular effect.
+### Effects maintained by a source
+
+Use a stable source token for each independent contribution, such as a zone component or an equipment slot:
+
+```csharp
+effects.ServerApplyExternal(warmth, this);
+effects.ServerRemoveExternal(warmth, this);
+```
+
+Both calls are server only. Registering the same source repeatedly is safe and does not add stacks. Removing one
+source keeps the effect active while another source still provides it. Equipment uses a separate token for each
+slot; weather, temperature and each zone use their component as the source. The same overloads are available through
+`IEffectReceiver` in Core, using `EffectAsset`.
+
+Several external sources provide one persistent effect, without adding stacks together. A normal application, such
+as a potion, keeps its own stacks and expiration independently. While an external source is active, the combined
+effect has no expiration; removing the last source leaves the normal application active for its remaining duration,
+if any. If the potion expires first, the external contribution remains with one stack.
+
+Only normal applications are saved; external contributions are reconstructed by equipment and the environment.
+`ServerRemove` and `ServerClear` explicitly remove normal applications and external registrations.
+
+The legacy overloads without a source remain available and use the effect asset as one shared source. Use explicit
+source tokens when several objects provide the same effect. Custom implementations of `IEffectReceiver` must also
+implement the two overloads taking `object source`.
 
 ### Reading
 
@@ -103,7 +125,12 @@ Events, raised on every peer: `Added`, `Removed`, `Changed` (stacks or duration)
 
 ### Death and saves
 
-On death, effects with **Clear On Death** are removed. `PlayerEffects` is saved with the player: each effect with
+On death, effects with **Clear On Death** that were applied directly (food, potions, timed effects) are removed.
+Effects held by a source, such as the warmth of worn equipment, a temperature stage or the weather, stay as long as
+their source holds them, because those sources do not apply them again after a respawn.
+
+Applying a timed effect over the same effect when it is permanent never makes it timed: with Refresh, Extend or
+Stack, a permanent effect stays permanent. `PlayerEffects` is saved with the player: each effect with
 **Saved** keeps its stacks and remaining time. Effects given by a zone are never saved.
 
 ## Effect zones

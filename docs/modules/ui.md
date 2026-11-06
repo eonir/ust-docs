@@ -6,7 +6,7 @@ systems, so you can restyle it, move it or replace it without touching gameplay 
 
 ## Creating the UI
 
-*UST Tools > UI > Create Game UI* builds everything in a canvas named **UST UI**:
+*UST Tools > Create Game UI* builds everything in a canvas named **UST UI**:
 
 | Element | Default place | Component |
 |---|---|---|
@@ -35,7 +35,7 @@ The tool only creates what is missing: running it again never moves or duplicate
 ## Character stats panel
 
 A **Stats** button in the corner of the inventory panel opens the character stats, alone at the left edge of the
-screen, so it never pushes the other panels. Move it freely: it is outside any layout group. *Create Game UI* adds it; for a UI built before, run *UST Tools > UI > Add Stats Panel*.
+screen, so it never pushes the other panels. Move it freely: it is outside any layout group. *Create Game UI* adds it; for a UI built before, run *UST Tools > Advanced > UI > Add Stats Panel*.
 
 The panel lists what the game has, by section:
 
@@ -49,7 +49,7 @@ The panel lists what the game has, by section:
 
 | Field | Default | Meaning |
 |---|---|---|
-| Open By Default | off | Shows the panel when the inventory opens, until the player hides it |
+| Open By Default | on | Shows the panel when the inventory opens, until the player hides it with the **Stats** button |
 | Refresh Interval | 0.5 | Seconds between two updates while open |
 | Section Order | Vitals, Environment, Defense, Movement, Inventory | Display order of the sections. Sections not listed come after, by name. Removing an entry does not hide its section |
 | Panel, Toggle Button, Body | | The panel shown and hidden, the **Stats** button of the inventory that toggles it, and the text that lists the stats. Filled by *Add Stats Panel* |
@@ -115,11 +115,11 @@ and get their color from the Image, so one sprite serves every color.
 
 ### Saving your layout as the default
 
-*UST Tools > UI > Save Layout As Default* stores the placement of every element of the **UST UI** canvas (anchors,
+*UST Tools > Advanced > UI > Save Layout As Default* stores the placement of every element of the **UST UI** canvas (anchors,
 pivot, position, size, scale and active state) in `Assets/UST/UI/UILayoutDefault.asset`. A confirmation tells you
 what will be replaced. From then on, **Create Game UI** places the elements it creates with your layout.
 
-*UST Tools > UI > Reset Default Layout* deletes the saved layout, after a confirmation: **Create Game UI** goes
+*UST Tools > Advanced > UI > Reset Default Layout* deletes the saved layout, after a confirmation: **Create Game UI** goes
 back to the original layout. The UI already in your scene is not changed: delete the canvas and create it again to
 rebuild it with the original layout.
 
@@ -260,6 +260,37 @@ Post messages from any system, locally:
 LocalMessages.Post("Inventory full", LocalMessageType.Warning);
 LocalMessages.Post("Game saved");
 ```
+
+## Gamepad cursor
+
+`GamepadCursor`, on the **UST UI** canvas, shows a cursor moved by the left stick whenever a window is open
+(`UIInputFocus`) and the player uses a gamepad. It drives a virtual mouse, so every window made for the mouse works
+with the gamepad: A clicks and drags, X right-clicks, the right stick scrolls. The character does not move meanwhile.
+*Create Game UI* and *UST Tools > Advanced > Input > Assign Input Actions* add it.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Cursor Sprite, Cursor Color, Cursor Size | dot, gold, 22 | Look of the cursor. A sprite is pointed by its top left corner. |
+| Speed | 1100 | Pixels per second at full deflection, on a 1080p screen |
+| Scroll Speed | 45 | Scrolling with the right stick |
+
+Your own window only has to call `UIInputFocus.Push()` when it opens and `Pop()` when it closes.
+
+## Player nameplates
+
+The name and the health of the other players, above their head. *Create Game UI* adds them, or *UST Tools > Advanced > UI > Add Player Nameplates*. Names come from [Player names](lobby.md#player-names), health from the health vital of `PlayerLife`.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Max Distance | 40 | Players further than this, in metres, have no nameplate |
+| Fade Share | 0.25 | The nameplate fades out over the last quarter of the distance |
+| Height | 2.1 | Height above the pivot of the player, in metres |
+| Show Health | on | The health bar under the name |
+| Hide Dead Players | on | |
+| Require Line Of Sight, Occluders | on, everything | Hides the nameplate of a player behind a wall or the ground. Your own character never hides the others. |
+| Sight Interval | 0.25 | Seconds between two checks of the line of sight, per player |
+
+Restyle the **Nameplate** child: it is copied for each player.
 
 ## Death screen
 

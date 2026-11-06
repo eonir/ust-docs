@@ -6,7 +6,7 @@ profile. Adding a new one needs no code.
 
 ## Quick setup
 
-1. *UST Tools > Vitals > Create Default Vitals* and pick a folder. It creates Health, Hunger, Thirst, Stamina and a profile.
+1. *UST Tools > Advanced > Vitals > Create Default Vitals* and pick a folder. It creates Health, Hunger, Thirst, Stamina and a profile.
 2. On the player root, add `PlayerVitals` and assign the profile.
 3. Add the optional components you need:
 
@@ -36,7 +36,7 @@ Create one with *Create > UST > Vitals > Vital Definition*.
 
 | Authority | Calculated by | Use for |
 |---|---|---|
-| **Server** | The server | Gameplay stats: health, hunger, thirst. Clients cannot cheat them. |
+| **Server** | The server | Gameplay stats: health, hunger, thirst. Changes must originate on the server. |
 | **Owner** | The owning client | Stats that must react instantly to input: stamina. |
 
 A server vital checked by a client with 100 ms of latency would let the player sprint at zero stamina and then be
@@ -90,6 +90,19 @@ twice as fast if hunger is empty too.
     Each drain restarts the regen delay of the target. Keep the **Regen Delay** of health longer than the depletion
     interval, or regeneration would squeeze in between two drains and compensate them.
 
+### Sleep
+
+How the vital changes while the night is skipped by [sleeping](sleep.md). The skipped time is counted at once, in
+ticks, so the value changes a single time.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Sleep Decay Multiplier | 0.5 | Speed of the decay while asleep. 0.5: half as fast as awake, 0: no decay. |
+| Sleep Regen Multiplier | 1 | Speed of the regeneration while asleep. The Regen Requirements are checked when the skip starts. |
+| Sleep Floor | 0.15 | Sleeping never takes the vital under this share of its max. A vital already under it stays where it is. |
+
+Depletion effects do not tick during the skip: nobody dies in their sleep.
+
 ### Default values created by the tool
 
 | Vital | Authority | Decay | Regen | At zero |
@@ -139,9 +152,13 @@ vitals.ApplyOverTime(healthVital, -15f, 5f, 0.5f);  // bleed 15 over 5 s
 vitals.ClearOverTime(healthVital);                  // bandage: stop every gradual effect
 ```
 
-Every method can be called from any peer. When the caller does not calculate the vital, the request is forwarded to
-the peer that does: the server for server vitals, the owner for owner vitals. Only the owner of a character can send
-requests for it, so a client cannot heal or kill somebody else.
+For **Server** vitals, call these methods on the server. A remote client cannot change them directly; its gameplay
+action, such as consuming an item, must first be validated and applied by the server. Calls from a remote client
+to change a server vital are ignored, and `TryConsume` returns false.
+
+For **Owner** vitals, the owning client can change the value locally. The server can also request a change, which is
+forwarded to the owner. Other clients cannot change it. `TryConsume` rejects nonpositive amounts; modifications and
+gradual effects reject nonfinite numeric inputs.
 
 ### Decay multipliers
 
@@ -218,12 +235,15 @@ random `PlayerSpawnPoint` (or to where it first appeared if there is none), and 
 Add `PlayerSpawnPoint` to empty GameObjects in the scene. They show as cyan spheres with an arrow for the facing
 direction. A random enabled one is picked on join and on respawn.
 
+A component on the player implementing `IRespawnPointOverride` comes first: the [bed](sleep.md#respawn-in-bed) of the
+Sleep module uses it.
+
 ## Debug HUD
 
 `VitalsDebugHUD` draws one bar per vital at the top left for the local player.
 
-- **K** kills the local player: assign the health vital to **Kill Vital**.
-- **-10 / +10** buttons appear next to each bar when the cursor is free, for example with the inventory open.
+- **K** kills the local player when this peer controls the health vital. With server-authoritative health, use it on the host. Assign the health vital to **Kill Vital**.
+- **-10 / +10** buttons appear next to each bar when the cursor is free, for example with the inventory open. On a remote client they only change owner-authoritative vitals; use the host for server vitals.
 
 | Field | Default | Meaning |
 |---|---|---|

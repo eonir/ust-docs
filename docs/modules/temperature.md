@@ -13,8 +13,8 @@ The module is optional: add `UST_DISABLE_TEMPERATURE` to the Scripting Define Sy
 
 ## Setup
 
-1. Run *UST Tools > Temperature > Add Temperature To Scene*: an `AmbientTemperature` with the outdoor temperature.
-2. Select the player prefab and run *UST Tools > Temperature > Add Temperature To Selected Player*. It adds
+1. Run *UST Tools > Advanced > Temperature > Add Temperature To Scene*: an `AmbientTemperature` with the outdoor temperature.
+2. Select the player prefab and run *UST Tools > Advanced > Temperature > Add Temperature To Selected Player*. It adds
    `PlayerTemperature` with four stages (Cold, Freezing, Hot, Burning) and creates the **Cold** and **Heat** damage
    types in `Modules/Temperature/Data` if the project has none.
 3. Place zones and heat sources, and give clothes insulation, see below.
@@ -125,7 +125,7 @@ off, for a fire that went out.
 | Below | On: the stage applies under the threshold (cold). Off: over it (heat). |
 | Threshold | Felt temperature where the stage starts |
 | Effect | Optional effect kept active during the stage: slower, hungrier, colder vision... |
-| Damage Per Second, Damage Type | Damage during the stage, of a type: Cold, Heat |
+| Damage Per Second, Damage Type | Damage during the stage, of a type: Cold, Heat. The first tick comes one Tick Interval after the player spawns, and a late tick never catches up more than one extra interval, so a hitch or a late join cannot deal a burst of damage. |
 | Countered At | The whole stage, effect and damage, is skipped when the player resists its damage type enough |
 
 Defaults:

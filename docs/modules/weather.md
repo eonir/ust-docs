@@ -11,7 +11,7 @@ The module is optional: add `UST_DISABLE_WEATHER` to the Scripting Define Symbol
 
 ## Setup
 
-Run *UST Tools > Weather > Add Day Night Cycle To Scene*. It adds a **Day Night Cycle** object with a `NetworkObject`
+Run *UST Tools > Advanced > Weather > Add Day Night Cycle To Scene*. It adds a **Day Night Cycle** object with a `NetworkObject`
 and `DayNightCycle`, and uses the directional light of the scene as the sun. Optionally, add a second directional
 light for the moon and assign it.
 
@@ -63,8 +63,9 @@ The time is saved with the world.
 
 The **Time Of Day** slider, at the top of the Day Night Cycle inspector, shows the light of any hour:
 
-- in Edit Mode, it previews the lighting of the scene. **Reset Preview** puts back the start hour: the preview changes
-  the sun and the render settings, so reset before saving the scene;
+- in Edit Mode, it previews the lighting of the scene. The lighting before the first drag is remembered, and
+  **Reset Preview** puts it back exactly (sun rotation, color and intensity, ambient, fog and reflections). The sun
+  changes can also be undone with Ctrl+Z. Reset before saving the scene;
 - in Play Mode, the world jumps to that hour for everyone, on the server. The inspector also shows the day number and
   the darkness.
 
@@ -77,13 +78,12 @@ The **Time Of Day** slider, at the top of the Day Night Cycle inspector, shows t
 
 ### Setup
 
-1. Run *UST Tools > Weather > Add Weather To Scene*. It adds a **Weather Director** with a `NetworkObject`, and
+1. Run *UST Tools > Advanced > Weather > Add Weather To Scene*. It adds a **Weather Director** with a `NetworkObject`, and
    creates five weather states in `Modules/Weather/Data`: Clear, Rain, Storm and Fog for the world, Snow for zones,
    with simple rain and snow particles.
-2. For zones with their own weather, run *UST Tools > Weather > Add Weather Zone*: a 100 m trigger box with Snow,
+2. For zones with their own weather, run *right click in the Hierarchy > UST > Weather Zone*: a 100 m trigger box with Snow,
    added to the director. Move and resize it, and change its weathers.
-3. For effects on players out in the weather (Wet in the rain), select the player prefab and run *UST Tools >
-   Weather > Add Weather Exposure To Selected Player*.
+3. For effects on players out in the weather (Wet in the rain), select the player prefab and run *UST Tools > Advanced > Weather > Add Weather Exposure To Selected Player*.
 
 The default particles are basic, made to be replaced: assign your own prefab to **Particles** of each state.
 
@@ -158,15 +158,19 @@ runtime:
 | Weather Director | The weather shown on this screen, then the world and every zone with its weather and the time left before it changes | One per weather of each table, to force it |
 | Weather Exposure, on the player | Whether the player is under a roof, and the region they stand in with its weather and time left | One per weather of that region |
 
-A forced weather lasts its normal duration, then the region picks again. Buttons only appear on the host or server:
+A forced weather lasts its normal duration, then the region picks again. From code, `ServerSetWeather` only accepts
+states that are in one of the director's weather tables, because clients only know those: other states are refused
+with a warning. Buttons only appear on the host or server:
 a client sees the weather but cannot change it. The current weather is greyed out.
 
 ### With the day and night cycle
 
 The director runs after the cycle every frame, and multiplies its light: a storm at noon is darker than a clear noon,
 a storm at night is darker than a clear night. Without a cycle, the director starts from the light of the scene and
-puts it back when it is removed. If the cycle does not drive the fog color (**Drive Fog** off), set the fog color of
-the scene by hand.
+puts it back when it is removed. If the cycle does not drive the fog color (**Drive Fog** off), the director blends
+from the fog color of the scene, captured when the director starts: set it by hand in the Lighting settings. The same
+applies to the sun: if the cycle moves another light than the scene sun, the director uses the scene sun intensity
+captured at start.
 
 ## Other modules and the clock
 
@@ -175,6 +179,7 @@ the scene by hand.
 | Temperature | Outdoor temperature drops at night, see [Day and night](temperature.md#day-and-night) | **Night Offset** of `AmbientTemperature`, -8 by default |
 | Temperature | Each weather adds its **Temperature Offset** where it is: rain -3, snow -10 | On the Weather State |
 | AI | More enemies at night, or only at night | **Night Count Multiplier** (1.5) and **Night Only** of `EnemySpawnDirector` |
+| Sleep | Players skip the night in a bed, and the world catches up with the skipped time | See [Sleep](sleep.md) |
 
 Your own code reads the same clock:
 
@@ -185,7 +190,7 @@ float darkness = WorldClock.Darkness;     // 0 day, 1 night, smooth at twilight
 
 DayNightCycle cycle = FindAnyObjectByType<DayNightCycle>();
 cycle.Sunrise += day => Debug.Log("Day " + day);
-cycle.ServerSkipToMorning();              // sleeping in a bed
+cycle.ServerSkipToMorning();              // sleeping: systems catch up, see Sleep
 cycle.ServerSetHour(22f);                 // a debug command
 cycle.TimeSpeed = 60f;                    // server: one minute of play is an hour of game
 ```

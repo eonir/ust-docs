@@ -9,12 +9,11 @@ The module is optional: add `UST_DISABLE_CRAFTING` to the Scripting Define Symbo
 
 ## Setup
 
-1. *UST Tools > UI > Create Game UI* adds the crafting panel right after the container panel of the inventory
-   window, with the same look. For a UI built before, run **UST Tools > UI > Add Crafting Panel**.
-2. For crafting by hand, select the player prefab and run **UST Tools > Crafting > Add Hand Crafting To Selected
-   Player**. It adds `PlayerCrafter` next to `PlayerInventory`.
+1. *UST Tools > Create Game UI* adds the crafting panel right after the container panel of the inventory
+   window, with the same look. For a UI built before, run **UST Tools > Advanced > UI > Add Crafting Panel**.
+2. For crafting by hand, select the player prefab and run **UST Tools > Advanced > Crafting > Add Hand Crafting To Selected Player**. It adds `PlayerCrafter` next to `PlayerInventory`.
 3. Create the station types you need: *Create > UST > Crafting > Station Type* (Workbench, Forge...).
-4. Open the station prefab, select its root and run **UST Tools > Crafting > Make Selected A Crafting Station**. It
+4. Open the station prefab, select its root and run **right click in the Hierarchy > UST > Make Crafting Station**. It
    adds a `NetworkObject`, an output `InventoryContainer` in **Take Only** mode and `CraftingStation`. Assign the
    **Station Type**.
 5. Register the station prefab in your Network Prefabs list, or place it in the scene.
@@ -31,9 +30,38 @@ items with their own recipe.
 | Output Count | 1 | Items made by one craft, e.g. **20** for a bundle of arrows |
 | Station | none | Station type needed. Empty: crafted by hand. |
 | Craft Time | 0 | Seconds per craft. **0** is instant. |
+| Unlock | Always | When a player knows the recipe, see below |
 
 The Item Database window warns about a recipe without ingredients, an empty ingredient, an item used in its own recipe
-and an ingredient missing from the database.
+an ingredient missing from the database, and repeated ingredient lines.
+
+Repeated lines for the same item are added together when checking affordability and taking ingredients. For example,
+two lines of 5 Wood require 10 Wood for one craft. A rejected request takes no ingredients; the server checks the
+combined cost before removing items.
+
+## Recipe unlock
+
+Recipes a player does not know are hidden from them in the crafting window, and the server refuses them. Add a
+`RecipeBook` to the player prefab with **UST Tools > Advanced > Crafting > Add Recipe Book To Selected Player**: without it, every
+recipe is known.
+
+| Unlock | The player knows the recipe |
+|---|---|
+| Always | From the start. The default, so existing recipes do not change. |
+| Any Ingredient Found | Once they have held one of its ingredients, like Valheim |
+| All Ingredients Found | Once they have held each of its ingredients |
+| Manual | Only when your code unlocks it: a recipe scroll, a quest, a skill |
+
+The player gets a *New recipe* message. Known recipes and found items are saved with the player; a recipe added to the
+game later is unlocked at the next login if the player already found its ingredients.
+
+```csharp
+// Server: a quest reward, a scroll read, a skill learned.
+player.GetComponent<RecipeBook>().ServerUnlock(cookedMeat);
+
+bool known = RecipeBook.LocalKnows(cookedMeat);   // local player
+RecipeBook.Unlocked += item => ShowPopup(item);   // local player, new recipe
+```
 
 ## Crafting station
 
@@ -54,8 +82,48 @@ dragging the items, Ctrl + click, or **Take all**. Stack limits are respected: a
 items fit.
 
 Several players can use the same station: jobs run one after the other, and each player can cancel only their own.
+Each job has a unique id given by the server, so a cancel always targets the job that was clicked, even if the queue
+moved meanwhile. Restored jobs, which have no owner, show their cancel button to every player in range.
+
+## Fire and fuel
+
+A campfire, a furnace or a forge needs fuel: add a `FuelBurner` to the station with **right click in the Hierarchy > UST > Add Fuel Burner**. It also fills **Lit Behaviours** with the Lights and the `HeatSource` of the object, and **Lit Objects**
+with its particle systems: they are on only while the fire burns.
+
+Give the fuel items a **Crafting > Burnable** trait: wood, coal, resin. **Burn Seconds** (60) is the fire time one item
+adds.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Accepted Fuel | empty | Items this burner takes. Empty: any item with a Burnable trait. |
+| Max Fuel Seconds | 1800 | Most fire time it holds |
+| Starting Fuel Seconds | 0 | Fire time when it first appears |
+| Burn While Idle | on | On: burns as long as it is lit, like a campfire that warms and lights. Off: only burns while the station crafts, like a furnace. |
+| Required To Craft | on | The station only crafts while the fire burns. Off: the fire is only for heat and light. |
+| Use Range | 3 | Distance to add fuel or put the fire out |
+
+The crafting window shows the fire time left with **Add fuel** (one item, ten with Shift) and **Put out** / **Light**.
+Adding fuel lights the fire again. When the fire goes out, the current craft is put on hold and carries on where it
+stopped once fuel is added; the panel shows *No fire: add fuel to craft*.
+
+A `FuelBurner` also works alone, without a station: a brazier or a campfire only for heat. The Interact input then adds
+one fuel item. A skipped night ([Sleep](sleep.md)) burns the fuel, and a station only crafts for as long as it lasted.
+The fuel and the lit state are shared by every player and saved, for burners placed in the scene and for built ones.
+
+For a UI built before, rebuild the crafting panel (*UST Tools > Advanced > UI > Add Crafting Panel*, **Rebuild**) to get the fuel
+line.
+
+```csharp
+burner.RequestAddFuel(1);           // local player, from their inventory
+burner.ServerAddFuelSeconds(600f);  // server: free fire time, for a quest or a debug tool
+bool canCraft = burner.HasFire;
+```
 
 ## Crafting window
+
+The output of a station sits under the crafting panel, in one column (**Stack Output Under**, on). The queue shows its
+first 4 lines (**Max Visible Queue Rows**) and counts the others. Ordering the same item again joins the last line of
+the queue when it is yours, so repeated clicks make one line (*Stone Axe 0/5*) instead of filling the queue.
 
 `CraftingWindow` sits on the inventory window object and shows its panel:
 
@@ -68,7 +136,7 @@ Recipes the player cannot afford are dimmed. The selected recipe shows each ingr
 for the chosen quantity. **-** and **+** change the quantity, by 10 with Shift, **Max** picks the most the player can
 afford. The queue shows each job with its progress and a cancel button.
 
-*Create Game UI* or *UST Tools > UI > Add Crafting Panel* builds it and fills every reference. The texts can be
+*Create Game UI* or *UST Tools > Advanced > UI > Add Crafting Panel* builds it and fills every reference. The texts can be
 translated or restyled from the inspector.
 
 | Section | Field | Default | Meaning |

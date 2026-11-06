@@ -55,18 +55,30 @@ The inspector also shows:
 ```
 persistentDataPath/Saves/<slot>/
 ├── world.json
+├── world.json.bak
 └── players/
     ├── <player id>.json
+    ├── <player id>.json.bak
     └── ...
 ```
 
 Files are readable JSON with a version number, so old saves can be migrated when the format changes. Each file is
-first written to a temporary file then copied over the old one, so a crash during a save cannot corrupt it.
+first written to a temporary `.tmp` file. The first save moves it into place; subsequent saves use `File.Replace`
+to replace the primary file atomically and retain its previous version as `.bak`.
+
+If reading or deserializing the primary file fails, or returns null, the loader tries its `.bak` file and logs a
+warning. This also works when the primary file is missing. `SlotExists` recognizes a world backup even if the
+primary world file is absent. A backup only exists after an existing save has been replaced.
+
+This protects replacement of individual files. World and player saves are separate writes, so a stopped save can
+leave them from different save attempts. Backup loading does not validate semantically incorrect but readable data;
+test recovery with disposable saves on your target platform.
 
 ## When it saves
 
 - every **Autosave Interval** seconds,
-- when a client disconnects: its own file only,
+- when a client disconnects: the world and every player, so items moved between a chest and that player cannot be
+  duplicated if the server stops before the next autosave,
 - when the server shuts down and when the application quits,
 - when you call `SaveAll()` or press **Save Now**.
 
@@ -75,6 +87,13 @@ restored. To use another slot, call `SetSlot("MyWorld")` before starting the ser
 whether a slot has a save, for a "Continue" button.
 
 `Saved` and `Loaded` events are raised on the server.
+
+The world file stores `SaveManager.Version`. After a load, `LoadedVersion` gives the version found in the file (0 when
+nothing was loaded): compare it with `Version` to migrate data written by an older build. A file newer than the
+build logs a warning.
+
+The identity of a player is sent once every behaviour of the player has spawned (`OnNetworkPostSpawn`), so the
+restore always finds the inventory, the vitals and the life components ready, the host included.
 
 ### Items placed in the scene
 
@@ -99,7 +118,7 @@ connection, so the client sends a stable id when it joins, and the server loads 
 
 | Provider | Id | Notes |
 |---|---|---|
-| `LocalPlayerIdentity` (default) | Random id created once, kept in PlayerPrefs | Works with no setup. A player who changes computer or clears PlayerPrefs starts again. Each Multiplayer Play Mode virtual player gets its own id. |
+| `LocalPlayerIdentity` (default) | Random id created once, kept in `player.json` | Works with no setup. A player who changes computer or deletes `player.json` starts again. Each Multiplayer Play Mode virtual player gets its own file, so its own id. Two builds on the same computer share the file: start each with `-ustPlayerId name` to give it its own id. |
 | Your own | Steam id, Unity Authentication id... | See [Use Steam ids for saves](../guides/steam-identity.md) |
 
 !!! warning "Trust"

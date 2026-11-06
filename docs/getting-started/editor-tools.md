@@ -2,42 +2,40 @@
 
 ## Menus
 
+The **UST Tools** menu keeps what you use often. Actions on one object are in its right click menu, and the rest is
+under **Advanced**.
+
 | Menu | What it does |
 |---|---|
+| *UST Tools > Setup Window* | The entry point, see [Setup Window](setup-window.md): each module of the project with what it has in the open scene and on the player prefab, a button to add what is missing, the demo, the player setup and the main tools. Opens once on the first import. |
+| *UST Tools > Create Full Survival Demo* | Sets up a playable demo of every module in the open scene, see [Build the demo scene](../guides/demo-scene.md) |
+| *UST Tools > Setup Player Prefab* | Adds to `Player.prefab` the components of every module in the project: building, hand crafting, recipe book, equipment, temperature, weather exposure, bed respawn, vehicles. Each one only when missing. |
+| *UST Tools > Create Game UI* | Creates the whole game UI, with the stats panel, and the equipment panel, the crafting panel and the build menu when their modules are present, see [UI](../modules/ui.md) |
 | *UST Tools > Item Database* | Window to create, find and edit every item, see [Inventory](../modules/inventory.md#item-database-window) |
 | *UST Tools > Held Item Tuning* | Play Mode window to place the item in the hand, set the left hand grip and correct the aim, see [Item in the hand](../modules/inventory.md#placing-the-item-in-the-hand) |
-| *UST Tools > Player > Create Animator Controller* | Creates an Animator Controller with every parameter the scripts use, the IK pass enabled, the Locomotion and Crouch states and the UpperBody layer |
-| *UST Tools > Player > Add Upper Body Layer To Selected Controller* | Adds the missing parameters, an upper body Avatar Mask and the UpperBody layer to the selected controller |
-| *UST Tools > Player > Setup Item Rig On Selected Character* | Creates the Animation Rigging rig for the left hand and the upper body aim, see [Item rig](../modules/inventory.md#item-rig) |
-| *UST Tools > Vitals > Create Default Vitals* | Creates Health, Hunger, Thirst, Stamina and a profile using them, with sensible default values |
-| *UST Tools > Equipment > Add Equipment To Selected Player* | Adds the equipment container, `PlayerEquipment` with a default layout, and the death drop of worn items |
-| *UST Tools > Weather > Add Weather To Scene* | Adds the Weather Director and creates Clear, Rain, Storm, Fog and Snow |
-| *UST Tools > Weather > Add Weather Zone* | Adds a zone with its own weather, registered on the director |
-| *UST Tools > Weather > Add Weather Exposure To Selected Player* | Adds `WeatherExposure`, for effects like Wet in the rain |
-| *UST Tools > Weather > Add Day Night Cycle To Scene* | Adds the day and night cycle, using the directional light as the sun |
-| *UST Tools > Temperature > Add Temperature To Selected Player* | Adds `PlayerTemperature` with Cold, Freezing, Hot and Burning stages, and the Cold and Heat damage types |
-| *UST Tools > Temperature > Add Temperature To Scene* | Adds the `AmbientTemperature` of the scene |
-| *UST Tools > Crafting > Make Selected A Crafting Station* | Adds a NetworkObject, an output container and `CraftingStation` to the selected object |
-| *UST Tools > Crafting > Add Hand Crafting To Selected Player* | Adds `PlayerCrafter` to the player, for the recipes without a station |
-| *UST Tools > Building > Add Building To Selected Player* | Adds `PlayerBuilder` with the attack action and the preview material |
-| *UST Tools > Building > Add Building To Scene* | Adds `BuildingRules`, and `BuildPiecesSaver` with every Build Piece Database of the project |
-| *UST Tools > Building > Create Demo Pieces* | Creates 6 snapping pieces with health, their database and a Hammer, on the Building layer |
-| *UST Tools > Building > Put Pieces On Building Layer* | Creates the Building layer if needed and moves every build piece to it, children included |
-| *UST Tools > AI > Create Enemy From Selected Model* | Makes a network enemy prefab from a humanoid model |
-| *UST Tools > AI > Create Definition For Selected Enemy* | Creates an Enemy Definition and assigns it to the selected enemy prefab |
-| *UST Tools > AI > Add Enemy Spawner To Scene* | Adds an `EnemySpawnDirector` with every enemy prefab |
-| *UST Tools > Demo > Build Demo Scene* | Sets up a playable demo of every module in the open scene, see [Build the demo scene](../guides/demo-scene.md) |
-| *UST Tools > Demo > Create Demo Island* | Builds a 300 m test island with trees, sea and a baked NavMesh |
-| *UST Tools > UI > Create Game UI* | Creates the whole game UI, with the stats panel, and the equipment panel, the crafting panel and the build menu when their modules are present, see [UI](../modules/ui.md) |
-| *UST Tools > UI > Add Crafting Panel* | Adds or rebuilds the crafting panel next to the container panel of an existing inventory window, see [Crafting](../modules/crafting.md) |
-| *UST Tools > UI > Add Stats Panel* | Adds or rebuilds the character stats panel and its Stats button |
-| *UST Tools > UI > Add Equipment Panel* | Adds or rebuilds the equipment panel on the left of the inventory |
-| *UST Tools > UI > Add Build Menu* | Adds or rebuilds the build menu and the build HUD in an existing game UI, see [Building](../modules/building.md) |
-| *UST Tools > UI > Save Layout As Default* | Saves the placement of the current UI as the default one, after a confirmation |
-| *UST Tools > UI > Reset Default Layout* | Goes back to the original layout, after a confirmation |
 | *UST Tools > Validation > Validate Scene* | Lists every setup problem of the open scene and the player prefab, module by module, with a fix button when possible, see [Validate Scene](validate-scene.md) |
 | *UST Tools > Validation > Validate Network Prefabs* | Lists the network prefabs missing from the NetworkManager and adds them in one click |
 | *UST Tools > Validation > Check Model Orientation* | Lists the meshes of the models in `Assets/UST` that the Asset Store validator reports as badly oriented |
+
+### Right click menus
+
+| Right click | Menu | What it does |
+|---|---|---|
+| An object in the Hierarchy | *UST > Make Crafting Station* | Adds a NetworkObject, an output container and `CraftingStation`, see [Crafting](../modules/crafting.md) |
+| An object in the Hierarchy | *UST > Add Fuel Burner* | Adds a `FuelBurner` (campfire, furnace, brazier) and links the lights, heat source and particles shown while it burns, see [Fire and fuel](../modules/crafting.md#fire-and-fuel) |
+| An object in the Hierarchy | *UST > Add World Marker* | Shows the object on screen with an icon and its distance, see [Markers](../modules/markers.md) |
+| A character in the Hierarchy | *UST > Setup Item Rig* | Creates the Animation Rigging rig for the left hand and the upper body aim, see [Item rig](../modules/inventory.md#item-rig) |
+| Anywhere in the Hierarchy | *UST > Bed*, *UST > Trader*, *UST > Weather Zone* | Places a bed, a trader with the first Shop Catalog of the project, or a weather zone registered on the director |
+| A model, in the Hierarchy or the Project window | *UST > Create Enemy From Model*, *UST > Create Vehicle From Model* | Makes a network enemy or vehicle prefab from the model |
+| An enemy prefab | *UST > Create Enemy Definition* | Creates an Enemy Definition and assigns it |
+| An Animator Controller in the Project window | *UST > Add Upper Body Layer* | Adds the missing parameters, an upper body Avatar Mask and the UpperBody layer |
+
+### Advanced
+
+*UST Tools > Advanced* holds one submenu per module, with each step the Setup window and the demo run, for when you
+want only one of them: add a module to the scene, add one component to the selected player, rebuild one panel of the
+UI, bake the map, create the default vitals, vehicles or demo pieces, the demo island, the vehicle test scene, the
+Animator Controller of the player, the default UI layout, or assign the input actions again.
 
 ## Create Default Vitals
 
