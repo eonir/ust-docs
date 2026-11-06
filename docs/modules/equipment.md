@@ -9,7 +9,10 @@ The module is optional: add `UST_DISABLE_EQUIPMENT` to the Scripting Define Symb
 
 ## Setup
 
-1. Select the player prefab and run *Tools > UST > Advanced > Equipment > Add Equipment To Selected Player*. It adds:
+In the [Setup Window](../getting-started/setup-window.md), **Equipment > Add** does steps 1 and 2. By hand:
+
+1. *Tools > UST > Setup Player Prefab*, or *Tools > UST > Advanced > Equipment > Add Equipment To Selected Player* on
+   the player prefab. It adds:
     - an **Equipment** child with an `InventoryContainer`, using the database of the inventory;
     - `PlayerEquipment` on the root, with a default layout (Head, Chest, Legs, Hands, Feet, Back, 2 Rings) created in
       `Modules/Equipment/Data`;
@@ -44,7 +47,7 @@ runtime, so the panel always matches the layout, whatever its size. Assign it on
 |---|---|---|
 | Slot | | Kind of slot the item goes in |
 | Armor | 0 | Flat protection, see below. Armor of every worn item adds up. |
-| Resistances | | By damage type, while worn, see [Damage types](combat.md#damage-types) |
+| Resistances | | By damage type, while worn, see [Damage types](combat/index.md#damage-types) |
 | Wear Per Hit | 1 | Durability lost each time the wearer takes damage, for items with durability. Damage from the world (cold, gas) does not wear. |
 | Cold Insulation, Heat Insulation | 0 | Degrees of cold or heat kept away while worn, see [Temperature](temperature.md#countering-with-resistances) |
 | Speed Multiplier | 1 | 0.9 for heavy armor. Worn items multiply together. |
@@ -83,7 +86,7 @@ and Heat damage from the felt temperature, and adds insulation to the clothes.
 - Right click an equippable item in the inventory to wear it: in an empty slot of its kind, or in place of the worn one.
 - Right click, or Ctrl + click, a worn item to put it back in the inventory.
 
-The armor, the resistances and the speed of the worn items show in the [character stats panel](ui.md#character-stats-panel).
+The armor, the resistances and the speed of the worn items show in the [character stats panel](ui/windows.md#character-stats-panel).
 
 Worn items are saved with the player, synchronized to everyone, and dropped in the loot bag on death. Their weight is
 not counted while worn.
@@ -92,7 +95,7 @@ not counted while worn.
 
 Armor has no field on the player: it is the sum of the worn items, so it only exists in Play Mode. Select the player
 in Play Mode: the `PlayerEquipment` inspector lists what each slot wears, the total armor, and the total resistances
-by damage type, natural ones of `PlayerDamageReceiver` included. The [character stats panel](ui.md#character-stats-panel)
+by damage type, natural ones of `PlayerDamageReceiver` included. The [character stats panel](ui/windows.md#character-stats-panel)
 shows the same in game.
 
 ## Scripting

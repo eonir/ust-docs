@@ -10,11 +10,17 @@ removed with `UST_DISABLE_WEATHER`.
 
 ## Setup
 
+The [Setup Window](../getting-started/setup-window.md) does steps 1 and 2: **Weather > Add**, then **Sleep > Add**.
+
 1. Add the day and night cycle if the scene has none: *Tools > UST > Advanced > Weather > Add Day Night Cycle To Scene*.
 2. Run *Tools > UST > Advanced > Sleep > Add Sleep To Scene*. It adds a `SleepDirector` to the Day Night Cycle object.
-3. Run *right click in the Hierarchy > UST > Bed* for a test bed, or add a `Bed` to your own bed model (see [Your own bed](#your-own-bed)).
+3. Right click in the Hierarchy > **UST > Bed** for a test bed, placed where the scene view looks, or add a `Bed` to
+   your own bed model (see [Your own bed](#your-own-bed)).
+4. *Tools > UST > Setup Player Prefab* adds `Sleeper` to the player prefab, so the bed respawn point is saved with
+   the player.
 
-Nothing goes on the player prefab: the first bed a player uses adds what it needs at runtime.
+Without `Sleeper` on the prefab, the first bed a player uses adds it at runtime: sleeping and the bed respawn work,
+but the respawn bed is forgotten when the player leaves.
 
 ## Sleeping
 
@@ -61,7 +67,7 @@ The bed needs a `NetworkObject`. One player per bed.
    so its blue axis points along the bed.
 3. Optionally, add an empty child on the ground next to the bed as **Get Up Point**.
 
-To let players build it, make it a [build piece](building.md): a `BuildPiece` and a `Bed` on the same prefab work
+To let players build it, make it a [build piece](building/index.md): a `BuildPiece` and a `Bed` on the same prefab work
 together.
 
 ### Lying animation
@@ -144,6 +150,7 @@ stays as it was during the skip, so remember it for every new system that runs o
 | `SleepDirector.Current` | The director of the scene |
 | `SleepDirector.Fading` | Static event raised on every peer when the screen fades to black (true) or back (false) |
 | `SleepDirector.IsSkipping` | True on every peer from the fade to black until the fade back |
+| `SleepFade.FadeTo(alpha, seconds)`, `SleepFade.Clear()` | The black screen of the skip, made at runtime above every UI and local to each peer. Usable for your own fades: 1 is black, 0 is clear |
 | `Bed.Occupant`, `Bed.IsFree` | Client id of the player in the bed, synchronized |
 | `Sleeper.IsSleeping` | On a player that has used a bed: true while it is in one |
 

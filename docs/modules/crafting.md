@@ -9,15 +9,19 @@ The module is optional: add `UST_DISABLE_CRAFTING` to the Scripting Define Symbo
 
 ## Setup
 
-1. *Tools > UST > Create Game UI* adds the crafting panel right after the container panel of the inventory
-   window, with the same look. For a UI built before, run **Tools > UST > Advanced > UI > Add Crafting Panel**.
-2. For crafting by hand, select the player prefab and run **Tools > UST > Advanced > Crafting > Add Hand Crafting To Selected Player**. It adds `PlayerCrafter` next to `PlayerInventory`.
-3. Create the station types you need: *Create > UST > Crafting > Station Type* (Workbench, Forge...).
-4. Open the station prefab, select its root and run **right click in the Hierarchy > UST > Make Crafting Station**. It
-   adds a `NetworkObject`, an output `InventoryContainer` in **Take Only** mode and `CraftingStation`. Assign the
-   **Station Type**.
-5. Register the station prefab in your Network Prefabs list, or place it in the scene.
-6. Give items a **Crafting > Recipe** trait, see below.
+1. In the [Setup Window](../getting-started/setup-window.md), **Crafting > Add** adds the crafting panel, and hand crafting and the recipe book to the
+   player prefab. By hand:
+    - *Tools > UST > Create Game UI* adds the crafting panel right after the container panel of the inventory window,
+      with the same look. For a UI built before, run *Tools > UST > Advanced > UI > Add Crafting Panel*.
+    - *Tools > UST > Setup Player Prefab* adds `PlayerCrafter` (crafting by hand) and `RecipeBook` (recipe unlocks)
+      next to `PlayerInventory`.
+2. Create the station types you need: *Create > UST > Crafting > Station Type* (Workbench, Forge, Campfire...).
+3. Open the station prefab, right click its root in the Hierarchy > **UST > Make Crafting Station**. It adds a
+   `NetworkObject`, an output `InventoryContainer` in **Take Only** mode and `CraftingStation`. Assign the
+   **Station Type**. For a station that needs fire, right click it again > **UST > Add Fuel Burner**, see
+   [Fire and fuel](#fire-and-fuel).
+4. Register the station prefab in your Network Prefabs list, or place it in the scene.
+5. Give items a **Crafting > Recipe** trait, see below.
 
 ## Recipe trait
 
@@ -42,8 +46,9 @@ combined cost before removing items.
 ## Recipe unlock
 
 Recipes a player does not know are hidden from them in the crafting window, and the server refuses them. Add a
-`RecipeBook` to the player prefab with **Tools > UST > Advanced > Crafting > Add Recipe Book To Selected Player**: without it, every
-recipe is known.
+`RecipeBook` to the player prefab with *Tools > UST > Setup Player Prefab*, or alone with
+*Tools > UST > Advanced > Crafting > Add Recipe Book To Selected Player*: without it, every recipe is known. Recipes
+with **Always** never need it.
 
 | Unlock | The player knows the recipe |
 |---|---|
@@ -52,8 +57,12 @@ recipe is known.
 | All Ingredients Found | Once they have held each of its ingredients |
 | Manual | Only when your code unlocks it: a recipe scroll, a quest, a skill |
 
-The player gets a *New recipe* message. Known recipes and found items are saved with the player; a recipe added to the
-game later is unlocked at the next login if the player already found its ingredients.
+The player gets a *New recipe* message (**Unlocked Format** on the `RecipeBook`, `{0}` being the item), except for the
+recipes restored from the save when joining. Known recipes and found items are saved with the player; a recipe added
+to the game later is unlocked at the next login if the player already found its ingredients.
+
+An item counts as found once it is in the inventory or the hotbar of the player, however it got there: picked up,
+crafted, bought, given by code.
 
 ```csharp
 // Server: a quest reward, a scroll read, a skill learned.
@@ -87,8 +96,10 @@ moved meanwhile. Restored jobs, which have no owner, show their cancel button to
 
 ## Fire and fuel
 
-A campfire, a furnace or a forge needs fuel: add a `FuelBurner` to the station with **right click in the Hierarchy > UST > Add Fuel Burner**. It also fills **Lit Behaviours** with the Lights and the `HeatSource` of the object, and **Lit Objects**
-with its particle systems: they are on only while the fire burns.
+A campfire, a furnace or a forge needs fuel: right click the station in the Hierarchy > **UST > Add Fuel Burner**.
+It adds a `FuelBurner`, fills **Lit Behaviours** with the Lights and the `HeatSource` of the object, and **Lit
+Objects** with its particle systems: they are on only while the fire burns. Keep the particles on child objects: an
+object cannot turn itself off.
 
 Give the fuel items a **Crafting > Burnable** trait: wood, coal, resin. **Burn Seconds** (60) is the fire time one item
 adds.
@@ -100,7 +111,12 @@ adds.
 | Starting Fuel Seconds | 0 | Fire time when it first appears |
 | Burn While Idle | on | On: burns as long as it is lit, like a campfire that warms and lights. Off: only burns while the station crafts, like a furnace. |
 | Required To Craft | on | The station only crafts while the fire burns. Off: the fire is only for heat and light. |
-| Use Range | 3 | Distance to add fuel or put the fire out |
+| Use Range | 3 | Distance to add fuel or put the fire out, checked on the server |
+| Lit Objects | | Shown while the fire burns: flames, embers, smoke |
+| Lit Behaviours | | Enabled while the fire burns: a Light, a HeatSource, an AudioSource |
+| Prompt Format | Add fuel ({0}) | Interaction text of a burner without station. {0}: the fire time left. |
+| No Fuel Message | No fuel in the inventory. | Shown when the player has no accepted fuel |
+| Full Message | The fire is full. | Shown when the burner holds Max Fuel Seconds |
 
 The crafting window shows the fire time left with **Add fuel** (one item, ten with Shift) and **Put out** / **Light**.
 Adding fuel lights the fire again. When the fire goes out, the current craft is put on hold and carries on where it
@@ -121,10 +137,6 @@ bool canCraft = burner.HasFire;
 
 ## Crafting window
 
-The output of a station sits under the crafting panel, in one column (**Stack Output Under**, on). The queue shows its
-first 4 lines (**Max Visible Queue Rows**) and counts the others. Ordering the same item again joins the last line of
-the queue when it is yours, so repeated clicks make one line (*Stone Axe 0/5*) instead of filling the queue.
-
 `CraftingWindow` sits on the inventory window object and shows its panel:
 
 - next to the inventory, with the recipes made by hand, when the inventory opens without a container
@@ -136,6 +148,14 @@ Recipes the player cannot afford are dimmed. The selected recipe shows each ingr
 for the chosen quantity. **-** and **+** change the quantity, by 10 with Shift, **Max** picks the most the player can
 afford. The queue shows each job with its progress and a cancel button.
 
+- The output of a station sits **under** the crafting panel, in one column (**Stack Output Under**), so the row of
+  panels stays narrow. A chest alone opens as before.
+- The queue shows its first 4 lines (**Max Visible Queue Rows**) and counts the others (*+3 more in the queue*).
+- Ordering the same item again joins the last line of the queue when it is yours: repeated clicks make one line
+  (*Stone Axe 0/5*) instead of filling the queue. The queue holds **Max Jobs** lines, 8 by default.
+- At a station with a fire, a line shows the fire time left, **Add fuel** (one item, ten with Shift) and **Put out**
+  or **Light**.
+
 *Create Game UI* or *Tools > UST > Advanced > UI > Add Crafting Panel* builds it and fills every reference. The texts can be
 translated or restyled from the inspector.
 
@@ -145,6 +165,7 @@ translated or restyled from the inspector.
 | | Panel, Title | | Object shown and hidden, and its title: the station name, or Hand Title |
 | | Hand Crafting With Inventory | On | Shows the hand recipes when the inventory opens without a container |
 | | Hand Title | Crafting | Title of the panel for hand crafting |
+| | Stack Output Under | On | Puts the output of a station under the crafting panel when both sit side by side in the same row |
 | | Close Distance Margin | 0.5 | Extra distance, on top of the station Use Range, before an opened station closes |
 | Recipes | Recipe List, Recipe Row Prefab | | Parent of the recipe rows, and the `CraftingRecipeRow` created for each recipe |
 | Recipes | No Recipe Text | | Shown when no recipe is available here |
@@ -153,10 +174,17 @@ translated or restyled from the inspector.
 | Selected recipe | Less Button, More Button, Max Button, Craft Button | | Quantity buttons and craft button |
 | Selected recipe | Enough Color, Missing Color | green, red | Ingredient lines the player can or cannot pay |
 | Queue | Queue List, Queue Row Prefab | | Parent of the queued jobs, and the `CraftingQueueRow` created for each one |
-| Queue | Status Text | | Shows Empty Queue Text, Output Full Text, or nothing |
+| Queue | Status Text | | Shows Empty Queue Text, Output Full Text, Paused Text, the crafts not shown, or nothing |
 | Queue | Empty Queue Text | Nothing in progress | Shown when the queue is empty |
 | Queue | Output Full Text | Output full: take the items out | Shown when a finished job waits for room in the station output |
 | Queue | Take All Button | | Moves the whole station output to the player inventory |
+| Queue | Max Visible Queue Rows | 4 | Queue lines shown at most |
+| Queue | More Queued Format | +{0} more in the queue | {0}: the crafts not shown |
+| Fuel | Fuel Row | | Shown for stations with a `FuelBurner` |
+| Fuel | Fuel Text, Fuel Format, No Fire Text | , Fire {0}, Out | Fire time left. {0}: the time, or No Fire Text |
+| Fuel | Add Fuel Button | | Adds one fuel item, ten with Shift |
+| Fuel | Fire Button, Fire Button Label, Light Text, Put Out Text | , , Light, Put out | Lights the fire or puts it out |
+| Fuel | Paused Text | No fire: add fuel to craft | Shown while the current craft waits for fire |
 
 `CraftingRecipeRow`, on the recipe row prefab: **Button**, **Icon**, **Label**, an optional **Selection** object shown on
 the selected recipe, and an optional **Canvas Group** dimmed to **Unavailable Alpha** (0.45) when the player cannot
@@ -186,4 +214,4 @@ elsewhere: override `CanUse` and `ServerDeliver`.
   current craft. No saver to add: each station saves itself.
 - A restored station job has no owner anymore: the first player in range who cancels it gets the ingredients back.
   With **Cancel When Away**, restored jobs are never cancelled for distance.
-- Stations built with the Building module are saved with their piece, see [Building](building.md#chests-workbenches-and-other-functional-pieces).
+- Stations built with the Building module are saved with their piece, see [Building](building/pieces.md#chests-workbenches-and-other-functional-pieces).

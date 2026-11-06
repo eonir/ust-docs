@@ -11,7 +11,8 @@ The module is optional: add `UST_DISABLE_WEATHER` to the Scripting Define Symbol
 
 ## Setup
 
-Run *Tools > UST > Advanced > Weather > Add Day Night Cycle To Scene*. It adds a **Day Night Cycle** object with a `NetworkObject`
+In the [Setup Window](../getting-started/setup-window.md), **Weather > Add** adds the day and night cycle, the weather and the weather exposure of the
+player. By hand, run *Tools > UST > Advanced > Weather > Add Day Night Cycle To Scene*. It adds a **Day Night Cycle** object with a `NetworkObject`
 and `DayNightCycle`, and uses the directional light of the scene as the sun. Optionally, add a second directional
 light for the moon and assign it.
 
@@ -81,7 +82,7 @@ The **Time Of Day** slider, at the top of the Day Night Cycle inspector, shows t
 1. Run *Tools > UST > Advanced > Weather > Add Weather To Scene*. It adds a **Weather Director** with a `NetworkObject`, and
    creates five weather states in `Modules/Weather/Data`: Clear, Rain, Storm and Fog for the world, Snow for zones,
    with simple rain and snow particles.
-2. For zones with their own weather, run *right click in the Hierarchy > UST > Weather Zone*: a 100 m trigger box with Snow,
+2. For zones with their own weather, right click in the Hierarchy > **UST > Weather Zone**: a 100 m trigger box with Snow,
    added to the director. Move and resize it, and change its weathers.
 3. For effects on players out in the weather (Wet in the rain), select the player prefab and run *Tools > UST > Advanced > Weather > Add Weather Exposure To Selected Player*.
 
@@ -149,7 +150,7 @@ slow the player or drain stamina.
 
 ### Testing a weather
 
-In game, the [character stats panel](ui.md#character-stats-panel) shows the weather where the player stands, with
+In game, the [character stats panel](ui/windows.md#character-stats-panel) shows the weather where the player stands, with
 `WeatherExposure` on the player. In Play Mode, two inspectors show the current weather and let you change it at
 runtime:
 

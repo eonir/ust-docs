@@ -10,9 +10,9 @@ under **Advanced**.
 | *Tools > UST > Setup Window* | The entry point, see [Setup Window](setup-window.md): each module of the project with what it has in the open scene and on the player prefab, a button to add what is missing, the demo, the player setup and the main tools. Opens once on the first import. |
 | *Tools > UST > Create Full Survival Demo* | Sets up a playable demo of every module in the open scene, see [Build the demo scene](../guides/demo-scene.md) |
 | *Tools > UST > Setup Player Prefab* | Adds to `Player.prefab` the components of every module in the project: building, hand crafting, recipe book, equipment, temperature, weather exposure, bed respawn, vehicles. Each one only when missing. |
-| *Tools > UST > Create Game UI* | Creates the whole game UI, with the stats panel, and the equipment panel, the crafting panel and the build menu when their modules are present, see [UI](../modules/ui.md) |
-| *Tools > UST > Item Database* | Window to create, find and edit every item, see [Inventory](../modules/inventory.md#item-database-window) |
-| *Tools > UST > Held Item Tuning* | Play Mode window to place the item in the hand, set the left hand grip and correct the aim, see [Item in the hand](../modules/inventory.md#placing-the-item-in-the-hand) |
+| *Tools > UST > Create Game UI* | Creates the whole game UI, with the stats panel, and the equipment panel, the crafting panel and the build menu when their modules are present, see [UI](../modules/ui/index.md) |
+| *Tools > UST > Item Database* | Window to create, find and edit every item, see [Inventory](../modules/inventory/index.md#item-database-window) |
+| *Tools > UST > Held Item Tuning* | Play Mode window to place the item in the hand, set the left hand grip and correct the aim, see [Item in the hand](../modules/inventory/held-item.md#placing-the-item-in-the-hand) |
 | *Tools > UST > Validation > Validate Scene* | Lists every setup problem of the open scene and the player prefab, module by module, with a fix button when possible, see [Validate Scene](validate-scene.md) |
 | *Tools > UST > Validation > Validate Network Prefabs* | Lists the network prefabs missing from the NetworkManager and adds them in one click |
 | *Tools > UST > Validation > Check Model Orientation* | Lists the meshes of the models in `Assets/UST` that the Asset Store validator reports as badly oriented |
@@ -23,8 +23,8 @@ under **Advanced**.
 |---|---|---|
 | An object in the Hierarchy | *UST > Make Crafting Station* | Adds a NetworkObject, an output container and `CraftingStation`, see [Crafting](../modules/crafting.md) |
 | An object in the Hierarchy | *UST > Add Fuel Burner* | Adds a `FuelBurner` (campfire, furnace, brazier) and links the lights, heat source and particles shown while it burns, see [Fire and fuel](../modules/crafting.md#fire-and-fuel) |
-| An object in the Hierarchy | *UST > Add World Marker* | Shows the object on screen with an icon and its distance, see [Markers](../modules/markers.md) |
-| A character in the Hierarchy | *UST > Setup Item Rig* | Creates the Animation Rigging rig for the left hand and the upper body aim, see [Item rig](../modules/inventory.md#item-rig) |
+| An object in the Hierarchy | *UST > Add World Marker* | Shows the object on screen with an icon and its distance, see [Markers](../modules/markers/index.md) |
+| A character in the Hierarchy | *UST > Setup Item Rig* | Creates the Animation Rigging rig for the left hand and the upper body aim, see [Item rig](../modules/inventory/held-item.md#item-rig) |
 | Anywhere in the Hierarchy | *UST > Bed*, *UST > Trader*, *UST > Weather Zone* | Places a bed, a trader with the first Shop Catalog of the project, or a weather zone registered on the director |
 | A model, in the Hierarchy or the Project window | *UST > Create Enemy From Model*, *UST > Create Vehicle From Model* | Makes a network enemy or vehicle prefab from the model |
 | An enemy prefab | *UST > Create Enemy Definition* | Creates an Enemy Definition and assigns it |
@@ -34,9 +34,55 @@ under **Advanced**.
 ### Advanced
 
 *Tools > UST > Advanced* holds one submenu per module, with each step the Setup window and the demo run, for when you
-want only one of them: add a module to the scene, add one component to the selected player, rebuild one panel of the
-UI, bake the map, create the default vitals, vehicles or demo pieces, the demo island, the vehicle test scene, the
-Animator Controller of the player, the default UI layout, or assign the input actions again.
+want only one of them. Steps that add something only add what is missing, and never overwrite your settings.
+
+| Menu | What it does |
+|---|---|
+| *AI > Add Enemy Spawner To Scene* | Adds an `EnemySpawnDirector` with every enemy prefab, see [AI](../modules/ai.md) |
+| *Building > Add Building To Scene* | Adds `BuildingRules`, and `BuildPiecesSaver` with every Build Piece Database of the project |
+| *Building > Add Building To Selected Player* | Adds `PlayerBuilder` with the attack action, the preview material, `BuildRangeDisplay` and `SupportTint` |
+| *Building > Create Demo Pieces* | Creates 6 snapping pieces with health, their database and a Hammer, on the Building layer |
+| *Building > Put Pieces On Building Layer* | Creates the Building layer if needed and moves every build piece to it, children included |
+| *Chat > Add Chat To Scene* | Adds the chat service and the chat box, see [Chat](../modules/chat.md) |
+| *Crafting > Add Hand Crafting To Selected Player* | Adds `PlayerCrafter`, for the recipes without a station |
+| *Crafting > Add Recipe Book To Selected Player* | Adds `RecipeBook`, for the recipes unlocked as they are found |
+| *Demo > Create Demo Island* | Builds a 300 m test island with trees, sea and a baked NavMesh |
+| *Equipment > Add Equipment To Selected Player* | Adds the equipment container, `PlayerEquipment` with a default layout, and the death drop of worn items |
+| *Input > Assign Input Actions* | Fills the empty input fields of the player prefab and of the scene with `UST_InputActions`, and adds the gamepad cursor |
+| *Lobby > Add Lobby To Scene* | Adds the main menu, the session connector and the session menu, see [Lobby](../modules/lobby.md) |
+| *Map > Add Map To Scene* | Adds the map area fitted to the scene, bakes its picture, adds the map window and the minimap, see [Map and minimap](../modules/markers/map.md) |
+| *Map > Bake Map Texture* | Renders the map area from above into `<Scene>_Map.png` |
+| *Map > Fit Map Area To Scene* | Sizes the map area again to the terrains, or to every renderer |
+| *Markers > Add Markers To Scene* | Adds the marker service and the markers view, see [Markers](../modules/markers/index.md) |
+| *Player > Create Animator Controller* | Creates an Animator Controller with every parameter the scripts use, the IK pass, the Locomotion and Crouch states, the UpperBody layer and the Use Item state |
+| *Settings > Add Options Menu To Scene* | Adds the options menu and the settings applier, see [Settings](../modules/settings.md) |
+| *Settings > Add Keys Tab To Options Menu* | Adds the Keys tab to an options menu built before |
+| *Shop > Add Shop Window* | Adds the shop window to the game UI, see [Shop](../modules/shop.md) |
+| *Sleep > Add Sleep To Scene* | Adds the Sleep Director to the Day Night Cycle, see [Sleep](../modules/sleep.md) |
+| *Sleep > Add Bed Respawn To Selected Player* | Adds `Sleeper`, so the bed respawn point is saved |
+| *Temperature > Add Temperature To Scene* | Adds the `AmbientTemperature` of the scene |
+| *Temperature > Add Temperature To Selected Player* | Adds `PlayerTemperature` with Cold, Freezing, Hot and Burning stages, and the Cold and Heat damage types |
+| *UI > Add Build Menu* | Adds or rebuilds the build menu and the build HUD, see [Building](../modules/building/index.md) |
+| *UI > Add Crafting Panel* | Adds or rebuilds the crafting panel next to the container panel, see [Crafting](../modules/crafting.md) |
+| *UI > Add Equipment Panel* | Adds or rebuilds the equipment panel on the left of the inventory |
+| *UI > Add Player Nameplates* | Adds the names and health above the other players |
+| *UI > Add Stats Panel* | Adds or rebuilds the character stats panel and its Stats button |
+| *UI > Add Vehicle HUD* | Adds the vehicle HUD: speed, fuel, health and controls while seated |
+| *UI > Save Layout As Default* | Saves the placement of the current UI as the default one, after a confirmation |
+| *UI > Reset Default Layout* | Goes back to the original layout, after a confirmation |
+| *Vehicle > Add Vehicles Saver To Scene* | Adds a `VehiclesSaver` with every vehicle prefab of the project |
+| *Vehicle > Add Vehicles To Selected Player* | Adds `VehicleOccupant`, with the components to turn off while seated, see [Vehicle](../modules/vehicle/index.md) |
+| *Vehicle > Create Default Vehicles* | Creates the Sport Car, Family Car and Truck prefabs with their Vehicle Definitions |
+| *Vehicle > Create Vehicle Test Scene* | Copies the open scene with a test track, the default vehicles, the vehicle HUD and test items |
+| *Vitals > Create Default Vitals* | Creates Health, Hunger, Thirst, Stamina and a profile using them, see below |
+| *Voice > Add Voice To Scene* | Adds the proximity voice service and the list of speakers, see [Voice](../modules/voice.md) |
+| *Weapons > Build Muzzle Flash* | Rebuilds the default muzzle flash of the demo weapons, after a confirmation, see [Muzzle flash](../modules/combat/ranged.md#muzzle-flash) |
+| *Weather > Add Day Night Cycle To Scene* | Adds the day and night cycle, using the directional light as the sun |
+| *Weather > Add Weather To Scene* | Adds the Weather Director and creates Clear, Rain, Storm, Fog and Snow |
+| *Weather > Add Weather Exposure To Selected Player* | Adds `WeatherExposure`, for effects like Wet in the rain |
+
+The menus *To Selected Player* work on the player prefab selected in the Project window, or open in Prefab Mode.
+*Tools > UST > Setup Player Prefab* runs all of them at once.
 
 ## Create Default Vitals
 

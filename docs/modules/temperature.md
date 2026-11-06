@@ -13,13 +13,16 @@ The module is optional: add `UST_DISABLE_TEMPERATURE` to the Scripting Define Sy
 
 ## Setup
 
+In the [Setup Window](../getting-started/setup-window.md), **Temperature > Add** does steps 1 and 2. By hand:
+
 1. Run *Tools > UST > Advanced > Temperature > Add Temperature To Scene*: an `AmbientTemperature` with the outdoor temperature.
-2. Select the player prefab and run *Tools > UST > Advanced > Temperature > Add Temperature To Selected Player*. It adds
+2. *Tools > UST > Setup Player Prefab*, or *Tools > UST > Advanced > Temperature > Add Temperature To Selected Player*
+   on the player prefab. It adds
    `PlayerTemperature` with four stages (Cold, Freezing, Hot, Burning) and creates the **Cold** and **Heat** damage
    types in `Modules/Temperature/Data` if the project has none.
 3. Place zones and heat sources, and give clothes insulation, see below.
 
-The felt temperature and the current stage show in the [character stats panel](ui.md#character-stats-panel).
+The felt temperature and the current stage show in the [character stats panel](ui/windows.md#character-stats-panel).
 
 ## How the felt temperature is made
 

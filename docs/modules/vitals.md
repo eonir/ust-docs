@@ -228,7 +228,7 @@ random `PlayerSpawnPoint` (or to where it first appeared if there is none), and 
 
 `Kill()` and `Respawn()` are public and server only, for a "Respawn now" button or a death zone.
 `RespawnRemaining` gives the seconds left before the respawn on every peer, as shown by the
-[death screen](ui.md#death-screen).
+[death screen](ui/hud.md#death-screen).
 
 ### Spawn points
 

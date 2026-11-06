@@ -10,9 +10,10 @@ still apply where they are read (camera sensitivity, nameplates, chat, voice), t
 
 ## Setup
 
-Run *Tools > UST > Advanced > Settings > Add Options Menu To Scene*. It adds the **UST Options UI** canvas with the `OptionsMenu`
-and the `SettingsApplier`. Rebuild the lobby (*Add Lobby To Scene* after deleting **UST Lobby UI**) to get its
-**Options** buttons; they hide themselves when the scene has no options menu.
+The [Setup Window](../getting-started/setup-window.md) adds it: **Settings > Add**. By hand, run
+*Tools > UST > Advanced > Settings > Add Options Menu To Scene*. It adds the **UST Options UI** canvas with the
+`OptionsMenu` and the `SettingsApplier`, with the Keys tab. Rebuild the lobby (*Add Lobby To Scene* after deleting
+**UST Lobby UI**) to get its **Options** buttons; they hide themselves when the scene has no options menu.
 
 Without the lobby, set **Open Key** on the options menu, or call `OptionsMenu.Open()` from your own menu.
 
@@ -22,8 +23,8 @@ Without the lobby, set **Open Key** on the options menu, or call `OptionsMenu.Op
 |---|---|---|
 | Display | Names of the players, health of the players, names visible up to | on, on, 40 m |
 | Display | Chat messages on screen ([Chat](chat.md)) | on |
-| Display | Pings, placed markers, markers on far players, places of the world, markers on the edges, markers visible up to ([Markers](markers.md)) | on, 500 m |
-| Display | Minimap, minimap zoom ([Markers](markers.md#map-and-minimap)) | on, 150 m |
+| Display | Pings, placed markers, markers on far players, places of the world, markers on the edges, markers visible up to ([Markers](markers/index.md)) | on, 500 m |
+| Display | Minimap, minimap zoom ([Map and minimap](markers/map.md#minimap)) | on, 150 m |
 | Controls | Mouse sensitivity, gamepad sensitivity | 1x |
 | Controls | Invert vertical look | off |
 | Keys | One line per action of the Player map, with a keyboard slot and a gamepad slot | `UST_InputActions` |
@@ -54,6 +55,47 @@ those parameters, in decibels, instead.
 ### Field of view
 
 The aim zoom of ranged weapons (`AimCameraZoom`) zooms from the field of view of the options and comes back to it.
+
+## Options Menu
+
+`OptionsMenu` builds its lines from the options registered in `OptionsCatalog`, with one copy of a template line per
+option. *Add Options Menu To Scene* builds it and fills every reference.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Root | | Object shown and hidden |
+| Tab Bar, Tab Template | | Parent of the tab buttons, and the button copied for each tab |
+| Content | | Parent of the option lines, in a scroll view |
+| Toggle Template, Slider Template, Choice Template | | `OptionRow` copied for each kind of option |
+| Binding Template | | `OptionRow` of the Keys tab, with a keyboard and a gamepad button. Empty: no Keys tab. |
+| Input Actions | | Actions listed in the Keys tab. Empty: the asset of the Close Action. |
+| Rebind Maps | Player | Action maps listed in the Keys tab |
+| Rebind Excluded | Look | Actions not listed in the Keys tab |
+| Waiting Text | Press a key... | Shown on a key slot while waiting for the new key |
+| Changed Binding Color | orange | Color of the keys changed by the player |
+| Reset Button, Close Button | | **Reset this tab** and **Close** |
+| Tab Color, Active Tab Color | grey, orange | Color of the tabs |
+| Open Key | None | Opens and closes the menu. None: only the lobby buttons and code open it. |
+| Close Action, Close Key | UI/Cancel, Escape | Closes the menu |
+
+`OptionRow`, on each template line: **Label**, **Group** (a `CanvasGroup` faded while the option cannot be changed),
+and the control of its kind: **Toggle**, **Slider** with its **Value Label**, **Dropdown**, or for a key line
+**Primary Button**, **Primary Label** (keyboard) and **Secondary Button**, **Secondary Label** (gamepad).
+
+The menu blocks the gameplay input while open and saves `settings.json` when it closes.
+
+## Settings Applier
+
+`SettingsApplier` applies the Audio and Graphics options, and registers the options of the Controls, Audio and
+Graphics tabs. Saved settings apply when the game starts.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Mixer | | Optional `AudioMixer`. With one, the volumes set its exposed parameters in decibels. |
+| Master Parameter, Music Parameter, Effects Parameter, Ambience Parameter | MasterVolume, MusicVolume, EffectsVolume, AmbienceVolume | Names of the exposed parameters of the mixer |
+| Frame Rates | 30, 60, 120, 144, 165, 240 | Choices of the frame rate limit, after *Unlimited* |
+| Field Of View Range | 50 to 100 | Range of the field of view slider |
+| Render Scale Range | 0.5 to 1 | Range of the render scale slider |
 
 ## Adding your own options
 

@@ -115,7 +115,7 @@ node grows, and a player joining sees the right stage at once.
 | Tier Too Low Text | `Tool too weak: {0} tier {1} required` |
 
 `{0}` is replaced by the name of the required tool type and `{1}` by the minimum tier. Both can be moved or removed,
-which also suits translations. The messages are shown by a [Screen Message View](ui.md#screen-messages).
+which also suits translations. The messages are shown by a [Screen Message View](ui/hud.md#screen-messages).
 
 ### Saving
 

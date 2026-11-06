@@ -146,7 +146,7 @@ A module with nothing in the scene, on the player and in the project is skipped.
 | Spawner without enemy, or empty entry | Warning | Nothing spawns | - |
 | Enemy without NetworkObject | Error | It cannot be spawned | - |
 | Enemy without Enemy AI | Warning | It stands still | - |
-| Enemy without Enemy Definition | Info | It uses the fallback stats | Select it, then *right click in the Project window > UST > Create Enemy Definition* |
+| Enemy without Enemy Definition | Info | It uses the fallback stats | Right click the enemy prefab > **UST > Create Enemy Definition** |
 
 ### Vehicle
 

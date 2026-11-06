@@ -13,7 +13,7 @@ Services** package (`com.unity.services.multiplayer`) is not installed.
 
 ## Setup
 
-1. Run *Tools > UST > Advanced > Lobby > Add Lobby To Scene*. It adds:
+1. In the [Setup Window](../getting-started/setup-window.md): **Lobby > Add**. By hand, run *Tools > UST > Advanced > Lobby > Add Lobby To Scene*. It adds:
     - the **UST Lobby UI** canvas, with `LobbyMenu` and `SessionConnector`;
     - the **Network Session** object (`NetworkObject` and `PlayerNames`), shared with the [Chat](chat.md) and the
       [Voice](voice.md);
@@ -53,8 +53,32 @@ the window.
 
 ## Lobby Menu
 
-Every panel, field and button is a reference: restyle, move or replace them freely. **Menu Key** (Escape) opens the
-session menu in game when no other window is open. The texts of the loading and error messages are fields too.
+Every panel, field and button is a reference filled by *Add Lobby To Scene*: restyle, move or replace them freely.
+
+| Group | Fields |
+|---|---|
+| Panels | **Root**, and one panel per screen: **Main**, **Host**, **Browse**, **Join**, **Direct**, **Loading**, **Session**. **Message Label** shows the errors. |
+| Main | **Name Input** (the name of the player), the **Host**, **Browse**, **Join**, **Direct**, **Options** and **Quit** buttons |
+| Host | **Session Name Input**, **Max Players Input**, **Password Input**, **World Input** (the save slot), **Private Toggle**, **Create Button** |
+| Browse | **Session List**, **Row Template** (a `SessionRow`), **Empty Label**, **Browse Password Input**, **Refresh Button** |
+| Join | **Code Input**, **Code Password Input**, **Join Code Button** |
+| Direct | **Address Input**, **Port Input**, **Direct World Input**, **Direct Host Button**, **Direct Join Button** |
+| Loading | **Loading Label**, **Cancel Button** |
+| In game | **Session Title**, **Code Label**, **Copy Code Button**, **Players Label**, **Resume Button**, **Session Options Button**, **Leave Button**, **Quit Game Button** |
+| | **Back Buttons**: every Back button of the panels, they go back to the main panel |
+
+| Field | Default | Meaning |
+|---|---|---|
+| Menu Key | Escape | Opens and closes the session menu in game, when no other window is open |
+| Menu Action | Player/Menu | Replaces Menu Key when assigned. Gamepad: Start. |
+| Connecting Text | Connecting... | Loading text while the session starts or is joined |
+| Loading Text | Loading the world... | Loading text while the world loads |
+| Searching Text | Searching... | Shown while sessions are listed |
+| No Session Text | No session found. Host one, or refresh. | Shown when the search finds nothing |
+| Disconnected Text | Disconnected from the session. | Shown back in the main menu after losing the session |
+
+`SessionRow`, on the row template: **Name Label**, **Players Label** (*3 / 8*), **Lock Icon** (shown for a session with
+a password) and **Join Button**.
 
 ## Player names
 

@@ -51,13 +51,13 @@ Each effect has a stable id, its asset GUID, so saves survive renames.
 
 ### Modifiers
 
-| Modifier | What it does | With stacks |
+| Modifier (class) | What it does | With stacks |
 |---|---|---|
-| Vitals > Over Time | Adds **Amount Per Tick** to a vital every **Interval** seconds. Positive heals or feeds, negative poisons or bleeds. | Amount × stacks |
-| Vitals > Max | Raises or lowers the max of a vital: **Flat**, then **Percent** (0.1 for +10 %) | Flat and percent × stacks |
-| Vitals > Decay | Multiplies the decay of a vital: 0.5 halves it, 2 doubles it, 0 stops it | Multiplier applied once per stack |
-| Vitals > Regeneration | Multiplies the regeneration of a vital: 0 stops it, for a wound | Multiplier applied once per stack |
-| Movement > Speed | Multiplies the movement speed: 0.7 for -30 %, 1.2 for +20 % | Multiplier applied once per stack |
+| Vitals > Over Time (`VitalOverTimeModifier`) | Adds **Amount Per Tick** to a vital every **Interval** seconds. Positive heals or feeds, negative poisons or bleeds. | Amount × stacks |
+| Vitals > Max (`VitalMaxModifier`) | Raises or lowers the max of a vital: **Flat**, then **Percent** (0.1 for +10 %) | Flat and percent × stacks |
+| Vitals > Decay (`VitalDecayModifier`) | Multiplies the decay of a vital: 0.5 halves it, 2 doubles it, 0 stops it | Multiplier applied once per stack |
+| Vitals > Regeneration (`VitalRegenModifier`) | Multiplies the regeneration of a vital: 0 stops it, for a wound | Multiplier applied once per stack |
+| Movement > Speed (`MoveSpeedModifier`) | Multiplies the movement speed: 0.7 for -30 %, 1.2 for +20 % | Multiplier applied once per stack |
 
 !!! warning "No stack limit with multipliers"
     Decay, Regeneration and Speed apply their multiplier once per stack. With **Max Stacks** at 0, a speed of 1.1

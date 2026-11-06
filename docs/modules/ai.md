@@ -11,11 +11,13 @@ The module is optional: add `UST_DISABLE_AI` to the Scripting Define Symbols to 
 ## Setup
 
 1. Bake a NavMesh in your scene: a `NavMeshSurface` on the ground, then **Bake**. *Tools > UST > Advanced > Demo > Create Demo Island* builds a test map with its NavMesh, see [Demo island](#demo-island).
-2. Select a character model (an FBX with a humanoid Animator, not a full prefab with scripts) and run *right click in the Project window > UST > Create Enemy From Model*. It makes a prefab in `Modules/AI/Prefabs` with a `NetworkObject`, a
+2. Right click a character model (an FBX with a humanoid Animator, not a full prefab with scripts) in the Project
+   window or the Hierarchy > **UST > Create Enemy From Model**. It makes a prefab in `Modules/AI/Prefabs` with a `NetworkObject`, a
    `NetworkTransform`, a capsule, a `NavMeshAgent`, `EnemyHealth` and `EnemyAI`. Without a controller on the model, it
    uses the controller of the player, so the same animations work at once.
 3. Run *Tools > UST > Validation > Validate Network Prefabs*.
-4. Run *Tools > UST > Advanced > AI > Add Enemy Spawner To Scene*: a director with every enemy prefab of the project.
+4. Add the spawn director: [Setup Window](../getting-started/setup-window.md) > **AI > Add**, or *Tools > UST > Advanced > AI > Add Enemy Spawner To Scene*:
+   a director with every enemy prefab of the project.
 
 !!! tip "No enemy model yet?"
     Use your player model with another material for tests. For a free model safe for the Asset Store, prefer CC0 packs
@@ -26,7 +28,7 @@ The module is optional: add `UST_DISABLE_AI` to the Scripting Define Symbols to 
 Every stat of a kind of enemy lives in an **Enemy Definition** asset (*Create > UST > AI > Enemy Definition*). Several
 prefabs can share one: a zombie with three models is three prefabs and one definition, balanced in one place. The
 prefab only holds the model, the animator and the components. *Create Enemy From Selected Model* makes the definition
-with the prefab; for an older prefab, select it and run *right click in the Project window > UST > Create Enemy Definition*.
+with the prefab; for an older prefab, right click it > **UST > Create Enemy Definition**.
 
 An enemy without a definition still works with the default values, and logs a warning.
 
@@ -36,8 +38,8 @@ An enemy without a definition still works with the default values, and logs a wa
 | **Health** | | |
 | Max Health | 50 | |
 | Default Hit Damage | 5 | Damage taken from a melee hit by an item without damage of its own |
-| Resistances | | By damage type, see [Damage types](combat.md#damage-types) |
-| Loot | | Items dropped on death: item, min, max, chance |
+| Resistances | | By damage type, see [Damage types](combat/index.md#damage-types) |
+| Loot | | Items dropped on death, see [Loot](#loot) |
 | Despawn Delay | 5 | Seconds the body stays |
 | **Senses** | | |
 | Sight Range, Sight Angle | 18, 140 | A player in this cone and in line of sight is noticed |
@@ -66,6 +68,13 @@ An enemy without a definition still works with the default values, and logs a wa
 | Obstacle Give Up Time | 6 | Seconds of attacks on the same obstacle before giving up, only for obstacles that do not implement `IBreakable` |
 | **Performance** | | |
 | Think Interval | 0.2 | Seconds between two decisions |
+
+### Loot
+
+Each **Loot** entry is rolled on its own when the enemy dies, on the server: **Chance** (0 to 1) decides whether it
+drops, then a count is picked between **Min** and **Max**, both included. The items appear as world items around the
+body, split into full stacks, at full durability. An item needs a **World Prefab** with a `WorldItem` and its Item
+Database, or it is skipped.
 
 ## Enemy AI
 
@@ -105,7 +114,7 @@ parameters from the movement it sees, and the server sends attacks and deaths by
 `NetworkAnimator`, which keeps the network traffic per enemy low.
 
 Hits go through `IDamageable` in UST.Core: players take them through `PlayerDamageReceiver`, built pieces through
-`PieceHealth`, with the source **Enemy** (see the Enemy Damage option of the [Building rules](building.md#building-rules)).
+`PieceHealth`, with the source **Enemy** (see the Enemy Damage option of the [Building rules](building/rules.md#building-rules)).
 When the path to its target is blocked, by a closed base for example, the enemy hits the damageable thing in front of
 it. Being hit by a player makes the enemy chase that player.
 

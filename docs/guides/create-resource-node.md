@@ -14,9 +14,9 @@ For a stronger tree, set its minimum tier to 2: a tier 1 axe is blocked, or gath
 
 ## Feedback
 
-- Add `GatherFeedback` to the scene and a [Screen Message View](../modules/ui.md#screen-messages) to the Canvas:
+- Add `GatherFeedback` to the scene and a [Screen Message View](../modules/ui/hud.md#screen-messages) to the Canvas:
   hitting with the wrong tool shows "Requires: Axe".
-- Add an [Item Feed View](../modules/ui.md#item-feed): every hit shows "Wood +2", merged while you keep chopping.
+- Add an [Item Feed View](../modules/ui/hud.md#item-feed): every hit shows "Wood +2", merged while you keep chopping.
 
 ## A tree that grows back in place
 

@@ -41,17 +41,17 @@ project with what it has in the open scene and on the player prefab, and adds wh
 | Camera distance | Mouse wheel (rotates the piece while building) |
 | Hotbar | 1 to 0. On a consumable (food, potion), the key uses it and the held item stays in hand. Armor is equipped with a right click in the inventory. |
 | Inventory | Tab, Escape to close. The character stats show next to it; the **Stats** button hides them |
-| Map | M (d-pad right on a gamepad): left click places or removes a pin, right click pings |
+| Map | M, on every keyboard layout (d-pad right on a gamepad): left click places or removes a pin, right click pings |
 | Ping | Middle mouse button, hold to place a marker |
 | Chat | Enter |
 | Push to talk | V |
 | Session menu, options | Escape. Keys can be changed in *Options > Keys* |
-| Build (hammer in hand) | Right click opens the build menu, see [Building > Controls](../modules/building.md#controls) |
+| Build (hammer in hand) | Right click opens the build menu, see [Building > Controls](../modules/building/index.md#controls) |
 | Move items | Drag and drop, right drag for half, Shift + click to send to the other side |
 | Drop items | Drag out of the inventory window |
 | Kill yourself (debug HUD, host with default health authority) | K |
 
 !!! note
     Without the Lobby module, the session menu at the top of the screen is a debug tool drawn with IMGUI, meant for
-    testing. The rest of the UI is uGUI, see [UI](../modules/ui.md). Gamepad controls are listed in
-    [Player > Gamepad](../modules/player.md#gamepad).
+    testing. The rest of the UI is uGUI, see [UI](../modules/ui/index.md). Gamepad controls are listed in
+    [Player > Gamepad](../modules/player/input.md#gamepad).

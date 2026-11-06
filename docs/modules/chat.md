@@ -9,7 +9,7 @@ The module is optional: add `UST_DISABLE_CHAT` to the Scripting Define Symbols t
 
 ## Setup
 
-Run *Tools > UST > Advanced > Chat > Add Chat To Scene*. It adds a `ChatService` to the **Network Session** object (created with
+In the [Setup Window](../getting-started/setup-window.md): **Chat > Add**. By hand, run *Tools > UST > Advanced > Chat > Add Chat To Scene*. It adds a `ChatService` to the **Network Session** object (created with
 its `NetworkObject` and `PlayerNames` if missing), and the chat box at the bottom left of the **UST UI** canvas.
 *Create Game UI* adds both too.
 
@@ -42,7 +42,13 @@ text is shown without rich text, so nobody can write in red or as huge text.
 | Command Key | None | Opens the chat with `/` typed, for commands of your own |
 | Max Lines | 12 | Lines on screen |
 | Visible Seconds, Fade Seconds | 8, 1.5 | How long a message stays when the chat is closed |
-| Name Color, Local Name Color, System Color | | Colors of the names and of the messages of the game |
+| Name Color, Local Name Color, System Color | orange, light blue, grey | Colors of the names of the others, of your own name, and of the messages of the game |
+| Line Template | | Text copied for each message, kept inactive |
+| Input Root, Input | | The input line, shown while the chat is open, and its `TMP_InputField` |
+| Open Background | | Background shown while the chat is open |
+
+Messages on screen can be turned off in *Options > Display > Chat messages on screen*: the chat still opens with
+Enter.
 
 ## Scripting
 

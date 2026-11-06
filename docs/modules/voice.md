@@ -15,7 +15,7 @@ The module is optional: add `UST_DISABLE_VOICE` to the Scripting Define Symbols 
 1. Install **Vivox** from the Package Manager (Unity Registry).
 2. Link the project to Unity Cloud (*Edit > Project Settings > Services*), then open the
    [Unity Dashboard](https://cloud.unity.com), select the project, and turn on **Vivox Voice and Text Chat**.
-3. Run *Tools > UST > Advanced > Voice > Add Voice To Scene*. It adds a `VoiceService` to the **Network Session** object and the
+3. In the [Setup Window](../getting-started/setup-window.md): **Voice > Add**. By hand, run *Tools > UST > Advanced > Voice > Add Voice To Scene*. It adds a `VoiceService` to the **Network Session** object and the
    list of speakers at the top left of the **UST UI** canvas. *Create Game UI* adds both too.
 
 Each session gets its own voice channel, picked by the server. Players join it as soon as their character spawns.
@@ -36,8 +36,13 @@ The voice comes from the head of the character and is heard from the camera.
 
 ## Voice Speakers View
 
-Lists the players speaking, and shows *Mic on* while the local microphone sends. **Line Format** sets how a line
-looks, `{0}` being the name.
+Lists the players speaking, and shows *Mic on* while the local microphone sends.
+
+| Field | Default | Meaning |
+|---|---|---|
+| Speakers Label | | Text listing the players speaking, one per line |
+| Transmitting Indicator | | Object shown while the local microphone sends |
+| Line Format | a green dot, then {0} | How a line looks. {0}: the name of the player. |
 
 ## Scripting
 

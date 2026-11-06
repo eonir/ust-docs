@@ -30,6 +30,12 @@ theme:
         icon: material/weather-sunny
         name: Light mode
 
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
 markdown_extensions:
   - admonition
   - attr_list
@@ -57,28 +63,53 @@ nav:
       - Modules: architecture/modules.md
       - Multiplayer: architecture/multiplayer.md
   - Modules:
-      - Player: modules/player.md
+      - Player:
+          - Overview: modules/player/index.md
+          - Input and gamepad: modules/player/input.md
+          - Movement: modules/player/movement.md
+          - Animator and Foot IK: modules/player/animator.md
+          - Camera: modules/player/camera.md
       - Vitals: modules/vitals.md
-      - Inventory: modules/inventory.md
+      - Inventory:
+          - Items: modules/inventory/index.md
+          - Containers and hotbar: modules/inventory/containers.md
+          - Item in the hand: modules/inventory/held-item.md
+          - Items in the world: modules/inventory/world-items.md
       - Save: modules/save.md
-      - Combat: modules/combat.md
+      - Combat:
+          - Overview: modules/combat/index.md
+          - Melee: modules/combat/melee.md
+          - Ranged weapons: modules/combat/ranged.md
       - Effects: modules/effects.md
       - Equipment: modules/equipment.md
       - Temperature: modules/temperature.md
       - Weather: modules/weather.md
       - Crafting: modules/crafting.md
-      - Building: modules/building.md
+      - Building:
+          - Overview: modules/building/index.md
+          - Build pieces: modules/building/pieces.md
+          - Rules, health and support: modules/building/rules.md
+          - Ward: modules/building/ward.md
       - AI: modules/ai.md
       - Gathering: modules/gathering.md
-      - Vehicle: modules/vehicle.md
+      - Vehicle:
+          - Overview: modules/vehicle/index.md
+          - Vehicle Definition: modules/vehicle/definition.md
+          - Vehicle prefab: modules/vehicle/prefab.md
+          - Damage, repair and fuel: modules/vehicle/damage-fuel.md
       - Sleep: modules/sleep.md
       - Lobby: modules/lobby.md
       - Chat: modules/chat.md
       - Voice: modules/voice.md
       - Settings: modules/settings.md
-      - Markers: modules/markers.md
+      - Markers:
+          - Overview: modules/markers/index.md
+          - Map and minimap: modules/markers/map.md
       - Shop: modules/shop.md
-      - UI: modules/ui.md
+      - UI:
+          - Overview: modules/ui/index.md
+          - HUD: modules/ui/hud.md
+          - Windows: modules/ui/windows.md
   - Guides:
       - Build the demo scene: guides/demo-scene.md
       - Create an item: guides/create-item.md
